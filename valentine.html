@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hey You 💖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    h1 {
+      margin-top: 40px;
+    }
+
+    .heart {
+      font-size: 60px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .heart:active {
+      transform: scale(1.3);
+    }
+
+    #game, #question {
+      display: none;
+    }
+
+    button {
+      padding: 12px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 10px;
+    }
+
+    #yesBtn {
+      background-color: #ff4d6d;
+      color: white;
+    }
+
+    #noBtn {
+      background-color: #ccc;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 id="intro">Click the heart 5 times 💖</h1>
+
+  <div id="game">
+    <div class="heart" onclick="clickHeart()">❤️</div>
+    <p id="counter">0 / 5</p>
+  </div>
+
+  <div id="question">
+    <h1>Will you be my Valentine? 💘</h1>
+    <button id="yesBtn" onclick="yes()">YES 💖</button>
+    <button id="noBtn" onmouseover="moveNo()">No 🙃</button>
+  </div>
+
+  <script>
+    let clicks = 0;
+
+    document.getElementById("game").style.display = "block";
+
+    function clickHeart() {
+      clicks++;
+      document.getElementById("counter").innerText = clicks + " / 5";
+
+      if (clicks >= 5) {
+        document.getElementById("game").style.display = "none";
+        document.getElementById("intro").style.display = "none";
+        document.getElementById("question").style.display = "block";
+      }
+    }
+
+    function moveNo() {
+      const btn = document.getElementById("noBtn");
+      const x = Math.random() * 200 - 100;
+      const y = Math.random() * 200 - 100;
+      btn.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    function yes() {
+      document.body.innerHTML = `
+        <h1>YAYYYY 💕🥹</h1>
+        <p>Best decision ever.</p>
+        <p>I love you ❤️</p>
+      `;
+    }
+  </script>
+
+</body>
+</html>
