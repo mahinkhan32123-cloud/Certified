@@ -6,6 +6,9 @@
   <title>Hey You 💖</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
+  <!-- Fancy font -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -43,7 +46,7 @@
       position: relative;
     }
 
-    #game, #lockGame, #question {
+    #game, #lockGame, #question, #ending {
       display: none;
     }
 
@@ -77,11 +80,54 @@
     #key {
       font-size: 50px;
       position: absolute;
-      left: 20px;
+      left: 50px;
       top: 120px;
       cursor: grab;
       user-select: none;
       touch-action: none;
+    }
+
+    /* Book animation */
+    #book {
+      width: 260px;
+      height: 180px;
+      margin: 100px auto;
+      position: relative;
+      perspective: 800px;
+    }
+
+    .page {
+      width: 130px;
+      height: 180px;
+      position: absolute;
+      top: 0;
+      background: #fff;
+      border: 2px solid #caa;
+      transform-origin: left;
+      animation: openBook 2s forwards;
+    }
+
+    .right {
+      left: 130px;
+      transform-origin: right;
+    }
+
+    @keyframes openBook {
+      from { transform: rotateY(0deg); }
+      to { transform: rotateY(-160deg); }
+    }
+
+    #poem {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      margin-top: 40px;
+      opacity: 0;
+      animation: fadeIn 2s forwards;
+      animation-delay: 2s;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
     }
   </style>
 </head>
@@ -112,26 +158,45 @@
     <p id="taunt"></p>
   </div>
 
+  <div id="ending">
+    <div id="book">
+      <div class="page"></div>
+      <div class="page right"></div>
+    </div>
+    <div id="poem">
+      I love you sm,<br>
+      my princess 💕
+    </div>
+  </div>
+
   <script>
     let clicks = 0;
     let dragging = false;
-    let offsetX = 0;
-    let offsetY = 0;
 
     const taunts = [
-      "damn you gotta be quicker than that!",
-      "LOL NOT AN OPTION",
-      "YOU THOUGHT THAT WAS FUNNY.. it wasnt",
-      "cmon man you can do better",
-      "no is never an option w me ;P"
+      "SIKE 😭",
+      "ABSOLUTELY NOT",
+      "NICE TRY THO",
+      "YOU REALLY THOUGHT?",
+      "NAH UH",
+      "WRONG ANSWER",
+      "TRY AGAIN BUDDY",
+      "LMAOOOO",
+      "BE SERIOUS",
+      "THAT BUTTON IS DECORATIVE",
+      "NO IS NOT A REAL OPTION",
+      "PLEASE BFFR",
+      "ALMOST HAD IT",
+      "SO CLOSE 😏",
+      "DENIED",
+      "SYSTEM SAYS NO (YOU)"
     ];
 
-    document.getElementById("game").style.display = "block";
+    game.style.display = "block";
 
     function clickHeart() {
       clicks++;
-      document.getElementById("counter").innerText = clicks + " / 5";
-
+      counter.innerText = clicks + " / 5";
       if (clicks >= 5) {
         game.style.display = "none";
         intro.style.display = "none";
@@ -144,17 +209,16 @@
 
     function startDrag(e) {
       dragging = true;
-      const rect = key.getBoundingClientRect();
       const touch = e.touches ? e.touches[0] : e;
-      offsetX = touch.clientX - rect.left;
-      offsetY = touch.clientY - rect.top;
+      key.style.left = (touch.clientX - key.offsetWidth / 2) + "px";
+      key.style.top = (touch.clientY - key.offsetHeight / 2) + "px";
     }
 
     function drag(e) {
       if (!dragging) return;
       const touch = e.touches ? e.touches[0] : e;
-      key.style.left = (touch.clientX - offsetX) + "px";
-      key.style.top = (touch.clientY - offsetY) + "px";
+      key.style.left = (touch.clientX - key.offsetWidth / 2) + "px";
+      key.style.top = (touch.clientY - key.offsetHeight / 2) + "px";
       checkUnlock();
     }
 
@@ -163,17 +227,9 @@
     }
 
     function checkUnlock() {
-      const keyRect = key.getBoundingClientRect();
-      const heartRect = heart.getBoundingClientRect();
-
-      const overlap =
-        keyRect.left < heartRect.right &&
-        keyRect.right > heartRect.left &&
-        keyRect.top < heartRect.bottom &&
-        keyRect.bottom > heartRect.top;
-
-      if (overlap) {
-        heart.innerText = "❤️";
+      const k = key.getBoundingClientRect();
+      const h = heart.getBoundingClientRect();
+      if (k.left < h.right && k.right > h.left && k.top < h.bottom && k.bottom > h.top) {
         lockGame.style.display = "none";
         question.style.display = "block";
       }
@@ -188,17 +244,14 @@
     document.addEventListener("touchend", stopDrag);
 
     function moveNo() {
-      const btn = document.getElementById("noBtn");
-      btn.style.transform = `translate(${Math.random()*250-125}px, ${Math.random()*250-125}px)`;
+      noBtn.style.transform =
+        `translate(${Math.random()*300-150}px, ${Math.random()*300-150}px)`;
       taunt.innerText = taunts[Math.floor(Math.random() * taunts.length)];
     }
 
     function yes() {
-      document.body.innerHTML = `
-        <h1>YAYYYY 💕🥹</h1>
-        <p>You’re officially my Valentine 💘</p>
-        <p>I love you ❤️</p>
-      `;
+      question.style.display = "none";
+      ending.style.display = "block";
     }
   </script>
 
