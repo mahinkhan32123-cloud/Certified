@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Hey You </title>
+  <title>Hey You 💖</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   <style>
@@ -17,9 +17,7 @@
       overflow: hidden;
     }
 
-    h1 {
-      margin-top: 40px;
-    }
+    h1 { margin-top: 40px; }
 
     .heart {
       font-size: 60px;
@@ -58,7 +56,6 @@
       font-weight: bold;
       color: #5a0f1a;
       text-align: center;
-      padding: 10px;
     }
 
     /* Lock game */
@@ -83,6 +80,8 @@
       left: 20px;
       top: 120px;
       cursor: grab;
+      user-select: none;
+      touch-action: none;
     }
   </style>
 </head>
@@ -91,24 +90,21 @@
 
   <h1 id="intro">Click the heart 5 times 💖</h1>
 
-  <!-- Click game -->
   <div id="game">
     <div class="heart" onclick="clickHeart()">❤️</div>
     <p id="counter">0 / 5</p>
   </div>
 
-  <!-- Lock game -->
   <div id="lockGame">
     <h1>Unlock the heart 🔐</h1>
     <p>Drag the key to the heart</p>
 
     <div id="lockArea">
       <div id="lockHeart">🔒❤️</div>
-      <div id="key" draggable="true">🗝️</div>
+      <div id="key">🗝️</div>
     </div>
   </div>
 
-  <!-- Valentine question -->
   <div id="question">
     <h1>Will you be my Valentine? 💘</h1>
     <button id="yesBtn" onclick="yes()">YES 💖</button>
@@ -118,6 +114,9 @@
 
   <script>
     let clicks = 0;
+    let dragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
 
     const taunts = [
       "damn you gotta be quicker than that!",
@@ -134,19 +133,38 @@
       document.getElementById("counter").innerText = clicks + " / 5";
 
       if (clicks >= 5) {
-        document.getElementById("game").style.display = "none";
-        document.getElementById("intro").style.display = "none";
-        document.getElementById("lockGame").style.display = "block";
+        game.style.display = "none";
+        intro.style.display = "none";
+        lockGame.style.display = "block";
       }
     }
 
-    // Drag key logic
     const key = document.getElementById("key");
-    const lockHeart = document.getElementById("lockHeart");
+    const heart = document.getElementById("lockHeart");
 
-    key.addEventListener("dragend", () => {
+    function startDrag(e) {
+      dragging = true;
+      const rect = key.getBoundingClientRect();
+      const touch = e.touches ? e.touches[0] : e;
+      offsetX = touch.clientX - rect.left;
+      offsetY = touch.clientY - rect.top;
+    }
+
+    function drag(e) {
+      if (!dragging) return;
+      const touch = e.touches ? e.touches[0] : e;
+      key.style.left = (touch.clientX - offsetX) + "px";
+      key.style.top = (touch.clientY - offsetY) + "px";
+      checkUnlock();
+    }
+
+    function stopDrag() {
+      dragging = false;
+    }
+
+    function checkUnlock() {
       const keyRect = key.getBoundingClientRect();
-      const heartRect = lockHeart.getBoundingClientRect();
+      const heartRect = heart.getBoundingClientRect();
 
       const overlap =
         keyRect.left < heartRect.right &&
@@ -155,20 +173,24 @@
         keyRect.bottom > heartRect.top;
 
       if (overlap) {
-        lockHeart.innerText = "❤️";
-        document.getElementById("lockGame").style.display = "none";
-        document.getElementById("question").style.display = "block";
+        heart.innerText = "❤️";
+        lockGame.style.display = "none";
+        question.style.display = "block";
       }
-    });
+    }
+
+    key.addEventListener("mousedown", startDrag);
+    document.addEventListener("mousemove", drag);
+    document.addEventListener("mouseup", stopDrag);
+
+    key.addEventListener("touchstart", startDrag);
+    document.addEventListener("touchmove", drag);
+    document.addEventListener("touchend", stopDrag);
 
     function moveNo() {
       const btn = document.getElementById("noBtn");
-      const x = Math.random() * 250 - 125;
-      const y = Math.random() * 250 - 125;
-      btn.style.transform = `translate(${x}px, ${y}px)`;
-
-      const taunt = taunts[Math.floor(Math.random() * taunts.length)];
-      document.getElementById("taunt").innerText = taunt;
+      btn.style.transform = `translate(${Math.random()*250-125}px, ${Math.random()*250-125}px)`;
+      taunt.innerText = taunts[Math.floor(Math.random() * taunts.length)];
     }
 
     function yes() {
@@ -182,3 +204,4 @@
 
 </body>
 </html>
+
