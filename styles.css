@@ -1,0 +1,552 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Orbitron', Arial, sans-serif;
+  background: linear-gradient(135deg, #0a0e27 0%, #1a1a2e 50%, #16213e 100%);
+  text-align: center;
+  color: #00d9ff;
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Animated background */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(0, 217, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(255, 107, 157, 0.1) 0%, transparent 50%);
+  animation: pulse 8s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* HZD Frame */
+.hzd-frame {
+  position: relative;
+  max-width: 800px;
+  padding: 60px 40px;
+  background: rgba(10, 14, 39, 0.8);
+  border: 3px solid #00d9ff;
+  border-radius: 10px;
+  box-shadow: 
+    0 0 30px rgba(0, 217, 255, 0.3),
+    inset 0 0 30px rgba(0, 217, 255, 0.1);
+  backdrop-filter: blur(10px);
+  z-index: 1;
+}
+
+.hzd-frame::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #00d9ff, #ff6b9d, #00d9ff);
+  border-radius: 10px;
+  z-index: -1;
+  opacity: 0.3;
+  filter: blur(10px);
+}
+
+/* Glitch effect title */
+.glitch {
+  font-size: 48px;
+  font-weight: 900;
+  text-transform: uppercase;
+  position: relative;
+  text-shadow: 
+    0 0 10px #00d9ff,
+    0 0 20px #00d9ff,
+    0 0 30px #00d9ff;
+  animation: glitch 3s infinite;
+  margin-bottom: 40px;
+  letter-spacing: 3px;
+}
+
+@keyframes glitch {
+  0%, 90%, 100% {
+    transform: translate(0);
+  }
+  92% {
+    transform: translate(-2px, 2px);
+  }
+  94% {
+    transform: translate(2px, -2px);
+  }
+  96% {
+    transform: translate(-2px, -2px);
+  }
+  98% {
+    transform: translate(2px, 2px);
+  }
+}
+
+.glitch::before {
+  content: attr(data-text);
+  position: absolute;
+  left: -2px;
+  text-shadow: 2px 0 #ff6b9d;
+  top: 0;
+  color: #00d9ff;
+  overflow: hidden;
+  animation: glitch-before 3s infinite;
+  opacity: 0.8;
+}
+
+@keyframes glitch-before {
+  0%, 90%, 100% {
+    clip-path: inset(0 0 0 0);
+  }
+  92%, 98% {
+    clip-path: inset(0 100% 0 0);
+  }
+}
+
+/* Message box */
+.message-box {
+  background: rgba(0, 217, 255, 0.05);
+  border: 2px solid rgba(0, 217, 255, 0.3);
+  padding: 30px;
+  border-radius: 10px;
+  margin-bottom: 40px;
+  font-size: 20px;
+  line-height: 1.8;
+  color: #fff;
+}
+
+/* Buttons */
+.hzd-btn {
+  padding: 15px 40px;
+  font-size: 20px;
+  font-weight: 700;
+  border: 3px solid;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Orbitron', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  overflow: hidden;
+  margin: 10px;
+}
+
+.hzd-btn::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.hzd-btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.hzd-btn.primary {
+  background: linear-gradient(135deg, #00d9ff 0%, #0077ff 100%);
+  border-color: #00d9ff;
+  color: #0a0e27;
+  box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+  animation: pulse-btn 2s infinite;
+}
+
+@keyframes pulse-btn {
+  0%, 100% { 
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+  }
+  50% { 
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(0, 217, 255, 0.8);
+  }
+}
+
+.hzd-btn.secondary {
+  background: rgba(255, 107, 157, 0.2);
+  border-color: #ff6b9d;
+  color: #ff6b9d;
+  transition: all 0.3s ease;
+}
+
+.hzd-btn.secondary:hover {
+  background: rgba(255, 107, 157, 0.4);
+  transform: scale(0.95);
+}
+
+.hzd-btn.secondary.shrink {
+  animation: shrink 0.5s forwards;
+}
+
+@keyframes shrink {
+  to {
+    transform: scale(0.7);
+    opacity: 0.6;
+  }
+}
+
+.hzd-btn.large {
+  padding: 20px 60px;
+  font-size: 26px;
+}
+
+.menu-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Stages */
+#hangmanGame, #transitionScreen, #catchGame, #keyGame, #question, #ending {
+  display: none;
+}
+
+/* Hangman specific */
+#hangmanGame h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+  color: #00d9ff;
+  text-shadow: 0 0 10px #00d9ff;
+}
+
+.question-text {
+  font-size: 24px;
+  margin: 20px 0;
+  color: #fff;
+  background: rgba(0, 217, 255, 0.1);
+  padding: 15px;
+  border-radius: 8px;
+  border: 2px solid rgba(0, 217, 255, 0.3);
+}
+
+#hangmanWord {
+  font-size: 56px;
+  letter-spacing: 15px;
+  margin: 30px 0;
+  font-family: 'Orbitron', monospace;
+  font-weight: bold;
+  color: #00d9ff;
+  text-shadow: 0 0 10px #00d9ff;
+}
+
+#hangmanKeyboard {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  max-width: 600px;
+  margin: 30px auto;
+}
+
+.letter-btn {
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #00d9ff 0%, #0077ff 100%);
+  color: #0a0e27;
+  border: 2px solid #00d9ff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Orbitron', monospace;
+}
+
+.letter-btn:hover:not(:disabled) {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.8);
+}
+
+.letter-btn:disabled {
+  background: #2a2a4a;
+  border-color: #555;
+  color: #555;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+#hangmanMessage {
+  font-size: 22px;
+  margin-top: 20px;
+  min-height: 30px;
+  font-weight: 600;
+  color: #ff6b9d;
+  text-shadow: 0 0 10px #ff6b9d;
+}
+
+#wrongGuesses {
+  color: #ff6b9d;
+  font-size: 18px;
+}
+
+#wrongLetters {
+  letter-spacing: 5px;
+  font-weight: bold;
+}
+
+/* Transition screen */
+#transitionScreen {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Mario Catch Game */
+#catchGame {
+  display: none;
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  background: linear-gradient(180deg, #5c94fc 0%, #6ba3ff 50%, #7fb3ff 100%);
+  overflow: hidden;
+}
+
+/* Clouds background */
+#marioSky::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(ellipse 150px 80px at 20% 30%, rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(ellipse 200px 100px at 70% 50%, rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(ellipse 180px 90px at 40% 70%, rgba(255,255,255,0.8) 0%, transparent 100%);
+  animation: clouds 20s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes clouds {
+  from { transform: translateX(0); }
+  to { transform: translateX(100px); }
+}
+
+.mario-title {
+  padding: 20px;
+  font-size: 36px;
+  color: #fff;
+  text-shadow: 
+    3px 3px 0 #000,
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+  font-family: 'Arial Black', sans-serif;
+  letter-spacing: 2px;
+  position: relative;
+  z-index: 10;
+}
+
+#catchStats {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin: 20px 0;
+  font-size: 26px;
+  font-weight: bold;
+  position: relative;
+  z-index: 10;
+}
+
+.stat {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 10px 25px;
+  border-radius: 20px;
+  border: 4px solid #000;
+  color: #000;
+  box-shadow: 0 5px 0 #000;
+  font-family: 'Arial Black', sans-serif;
+}
+
+#catchArea {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 150px);
+  overflow: hidden;
+}
+
+.falling-item {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  user-select: none;
+  animation: fall linear;
+  z-index: 5;
+}
+
+.falling-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.4));
+}
+
+@keyframes fall {
+  to { top: 100%; }
+}
+
+/* Key Game */
+#keyGame {
+  animation: fadeIn 0.5s ease-in;
+}
+
+#lockArea { 
+  position: relative; 
+  width: 100%; 
+  height: 300px; 
+  margin-top: 50px; 
+}
+
+#lockHeart { 
+  font-size: 80px; 
+  position: absolute; 
+  top: 100px; 
+  left: 50%; 
+  transform: translateX(-50%);
+  filter: drop-shadow(0 0 10px #00d9ff);
+}
+
+#key { 
+  font-size: 60px; 
+  position: fixed;
+  cursor: grab; 
+  user-select: none; 
+  touch-action: none;
+  z-index: 10;
+  filter: drop-shadow(0 0 10px #ff6b9d);
+  transition: filter 0.2s;
+}
+
+#key:active {
+  cursor: grabbing;
+  filter: drop-shadow(0 0 20px #ff6b9d);
+}
+
+/* Question stage */
+#question {
+  animation: fadeIn 0.5s ease-in;
+}
+
+#yesBtn {
+  background: linear-gradient(135deg, #ff6b9d 0%, #ff1744 100%);
+  color: white;
+  border-color: #ff6b9d;
+  box-shadow: 0 0 20px rgba(255, 107, 157, 0.5);
+}
+
+#noBtn {
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+#taunt {
+  position: fixed;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: #00d9ff;
+  text-shadow: 
+    0 0 10px #00d9ff,
+    2px 2px 5px rgba(0,0,0,0.8);
+  animation: fadeIn 0.3s ease-in;
+}
+
+/* Ending */
+#ending {
+  animation: fadeIn 1s ease-in;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 50%, #16213e 100%);
+}
+
+#message {
+  font-family: 'Great Vibes', cursive;
+  font-size: 80px;
+  color: #fff;
+  text-shadow: 
+    0 0 20px #00d9ff,
+    0 0 40px #00d9ff,
+    3px 3px 15px rgba(0,0,0,0.8);
+  animation: scaleIn 1.5s ease-out;
+  padding: 40px;
+}
+
+@keyframes scaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(-5deg);
+  }
+  50% {
+    transform: scale(1.1) rotate(2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .glitch {
+    font-size: 32px;
+  }
+  
+  .message-box {
+    font-size: 16px;
+    padding: 20px;
+  }
+  
+  .hzd-btn {
+    padding: 12px 30px;
+    font-size: 16px;
+  }
+  
+  #hangmanWord {
+    font-size: 36px;
+    letter-spacing: 8px;
+  }
+  
+  .mario-title {
+    font-size: 24px;
+  }
+  
+  .stat {
+    font-size: 18px;
+    padding: 8px 15px;
+  }
+}
