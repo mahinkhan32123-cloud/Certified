@@ -5,198 +5,155 @@
 }
 
 body {
-  font-family: 'Orbitron', Arial, sans-serif;
-  background: linear-gradient(135deg, #0a0e27 0%, #1a1a2e 50%, #16213e 100%);
+  font-family: 'Press Start 2P', 'Arial Black', sans-serif;
+  background: #5c94fc;
   text-align: center;
-  color: #00d9ff;
+  color: #fff;
   overflow-x: hidden;
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin: 0;
+  padding: 0;
   position: relative;
 }
 
-/* Animated background */
+/* Mario ground pattern */
 body::before {
   content: "";
   position: fixed;
-  top: 0;
+  bottom: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  background: 
-    radial-gradient(circle at 20% 50%, rgba(0, 217, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 50%, rgba(255, 107, 157, 0.1) 0%, transparent 50%);
-  animation: pulse 8s ease-in-out infinite;
+  height: 100px;
+  background: repeating-linear-gradient(
+    90deg,
+    #8B4513 0px,
+    #8B4513 20px,
+    #D2691E 20px,
+    #D2691E 40px
+  );
   pointer-events: none;
   z-index: 0;
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
+/* Main Menu - Mario Theme */
+#mainMenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #5c94fc;
+  z-index: 100;
 }
 
-/* HZD Frame */
 .hzd-frame {
   position: relative;
-  max-width: 800px;
-  padding: 60px 40px;
-  background: rgba(10, 14, 39, 0.8);
-  border: 3px solid #00d9ff;
-  border-radius: 10px;
+  max-width: 700px;
+  width: 90%;
+  padding: 50px 30px;
+  background: #fff;
+  border: 8px solid #000;
+  border-radius: 20px;
   box-shadow: 
-    0 0 30px rgba(0, 217, 255, 0.3),
-    inset 0 0 30px rgba(0, 217, 255, 0.1);
-  backdrop-filter: blur(10px);
+    0 10px 0 #000,
+    0 10px 30px rgba(0,0,0,0.5);
   z-index: 1;
 }
 
 .hzd-frame::before {
-  content: "";
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(45deg, #00d9ff, #ff6b9d, #00d9ff);
-  border-radius: 10px;
-  z-index: -1;
-  opacity: 0.3;
-  filter: blur(10px);
+  display: none;
 }
 
-/* Glitch effect title */
+/* Mario title */
 .glitch {
-  font-size: 48px;
+  font-family: 'Press Start 2P', 'Arial Black', sans-serif;
+  font-size: 32px;
   font-weight: 900;
   text-transform: uppercase;
   position: relative;
+  color: #e60012;
   text-shadow: 
-    0 0 10px #00d9ff,
-    0 0 20px #00d9ff,
-    0 0 30px #00d9ff;
-  animation: glitch 3s infinite;
-  margin-bottom: 40px;
-  letter-spacing: 3px;
-}
-
-@keyframes glitch {
-  0%, 90%, 100% {
-    transform: translate(0);
-  }
-  92% {
-    transform: translate(-2px, 2px);
-  }
-  94% {
-    transform: translate(2px, -2px);
-  }
-  96% {
-    transform: translate(-2px, -2px);
-  }
-  98% {
-    transform: translate(2px, 2px);
-  }
+    3px 3px 0 #000,
+    -2px -2px 0 #000,
+    2px -2px 0 #000,
+    -2px 2px 0 #000;
+  margin-bottom: 30px;
+  letter-spacing: 2px;
+  line-height: 1.5;
 }
 
 .glitch::before {
-  content: attr(data-text);
-  position: absolute;
-  left: -2px;
-  text-shadow: 2px 0 #ff6b9d;
-  top: 0;
-  color: #00d9ff;
-  overflow: hidden;
-  animation: glitch-before 3s infinite;
-  opacity: 0.8;
+  display: none;
 }
 
 @keyframes glitch-before {
-  0%, 90%, 100% {
-    clip-path: inset(0 0 0 0);
-  }
-  92%, 98% {
-    clip-path: inset(0 100% 0 0);
-  }
+  display: none;
 }
 
-/* Message box */
+/* Message box - Mario style */
 .message-box {
-  background: rgba(0, 217, 255, 0.05);
-  border: 2px solid rgba(0, 217, 255, 0.3);
-  padding: 30px;
-  border-radius: 10px;
-  margin-bottom: 40px;
-  font-size: 20px;
+  background: #ffd700;
+  border: 6px solid #000;
+  padding: 25px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+  font-size: 16px;
   line-height: 1.8;
-  color: #fff;
+  color: #000;
+  font-family: 'Press Start 2P', 'Arial Black', sans-serif;
+  box-shadow: inset 0 4px 0 rgba(255,255,255,0.5);
 }
 
-/* Buttons */
+/* Buttons - Mario style */
 .hzd-btn {
-  padding: 15px 40px;
-  font-size: 20px;
+  padding: 15px 30px;
+  font-size: 16px;
   font-weight: 700;
-  border: 3px solid;
-  border-radius: 5px;
+  border: 5px solid #000;
+  border-radius: 10px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-family: 'Orbitron', sans-serif;
+  transition: all 0.2s ease;
+  font-family: 'Press Start 2P', sans-serif;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   position: relative;
-  overflow: hidden;
   margin: 10px;
+  box-shadow: 0 6px 0 #000;
 }
 
 .hzd-btn::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  transform: translate(-50%, -50%);
-  transition: width 0.6s, height 0.6s;
+  display: none;
 }
 
-.hzd-btn:hover::before {
-  width: 300px;
-  height: 300px;
+.hzd-btn:hover {
+  transform: translateY(3px);
+  box-shadow: 0 3px 0 #000;
+}
+
+.hzd-btn:active {
+  transform: translateY(6px);
+  box-shadow: 0 0 0 #000;
 }
 
 .hzd-btn.primary {
-  background: linear-gradient(135deg, #00d9ff 0%, #0077ff 100%);
-  border-color: #00d9ff;
-  color: #0a0e27;
-  box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
-  animation: pulse-btn 2s infinite;
-}
-
-@keyframes pulse-btn {
-  0%, 100% { 
-    transform: scale(1);
-    box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
-  }
-  50% { 
-    transform: scale(1.05);
-    box-shadow: 0 0 30px rgba(0, 217, 255, 0.8);
-  }
+  background: linear-gradient(180deg, #00d900 0%, #00a000 100%);
+  color: #fff;
+  text-shadow: 2px 2px 0 #000;
+  animation: none;
 }
 
 .hzd-btn.secondary {
-  background: rgba(255, 107, 157, 0.2);
-  border-color: #ff6b9d;
-  color: #ff6b9d;
+  background: linear-gradient(180deg, #ff6b6b 0%, #c92a2a 100%);
+  color: #fff;
+  text-shadow: 2px 2px 0 #000;
   transition: all 0.3s ease;
 }
 
 .hzd-btn.secondary:hover {
-  background: rgba(255, 107, 157, 0.4);
-  transform: scale(0.95);
+  background: linear-gradient(180deg, #ff8787 0%, #e03131 100%);
 }
 
 .hzd-btn.secondary.shrink {
@@ -205,14 +162,14 @@ body::before {
 
 @keyframes shrink {
   to {
-    transform: scale(0.7);
+    transform: scale(0.7) translateY(6px);
     opacity: 0.6;
   }
 }
 
 .hzd-btn.large {
-  padding: 20px 60px;
-  font-size: 26px;
+  padding: 20px 50px;
+  font-size: 20px;
 }
 
 .menu-buttons {
@@ -222,37 +179,57 @@ body::before {
   flex-wrap: wrap;
 }
 
-/* Stages */
+/* Stages - Full screen */
 #hangmanGame, #transitionScreen, #catchGame, #keyGame, #question, #ending {
   display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 100;
 }
 
 /* Hangman specific */
+#hangmanGame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #5c94fc;
+}
+
+#hangmanGame .hzd-frame {
+  background: #fff;
+}
+
 #hangmanGame h1 {
-  font-size: 36px;
+  font-size: 24px;
   margin-bottom: 20px;
-  color: #00d9ff;
-  text-shadow: 0 0 10px #00d9ff;
+  color: #e60012;
+  text-shadow: 3px 3px 0 #000;
+  font-family: 'Press Start 2P', sans-serif;
 }
 
 .question-text {
-  font-size: 24px;
+  font-size: 18px;
   margin: 20px 0;
-  color: #fff;
-  background: rgba(0, 217, 255, 0.1);
+  color: #000;
+  background: #ffd700;
   padding: 15px;
   border-radius: 8px;
-  border: 2px solid rgba(0, 217, 255, 0.3);
+  border: 4px solid #000;
+  font-family: 'Press Start 2P', sans-serif;
+  line-height: 1.6;
 }
 
 #hangmanWord {
-  font-size: 56px;
+  font-size: 48px;
   letter-spacing: 15px;
   margin: 30px 0;
-  font-family: 'Orbitron', monospace;
+  font-family: 'Press Start 2P', monospace;
   font-weight: bold;
-  color: #00d9ff;
-  text-shadow: 0 0 10px #00d9ff;
+  color: #e60012;
+  text-shadow: 3px 3px 0 #000;
 }
 
 #hangmanKeyboard {
@@ -268,42 +245,48 @@ body::before {
   width: 50px;
   height: 50px;
   padding: 0;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   border-radius: 8px;
-  background: linear-gradient(135deg, #00d9ff 0%, #0077ff 100%);
-  color: #0a0e27;
-  border: 2px solid #00d9ff;
+  background: linear-gradient(180deg, #00d900 0%, #00a000 100%);
+  color: #fff;
+  border: 4px solid #000;
   cursor: pointer;
   transition: all 0.2s ease;
-  font-family: 'Orbitron', monospace;
+  font-family: 'Press Start 2P', monospace;
+  box-shadow: 0 4px 0 #000;
+  text-shadow: 2px 2px 0 #000;
 }
 
 .letter-btn:hover:not(:disabled) {
-  transform: scale(1.1);
-  box-shadow: 0 0 15px rgba(0, 217, 255, 0.8);
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #000;
 }
 
 .letter-btn:disabled {
-  background: #2a2a4a;
-  border-color: #555;
-  color: #555;
+  background: #999;
+  border-color: #666;
+  color: #666;
   cursor: not-allowed;
   opacity: 0.5;
+  box-shadow: 0 2px 0 #666;
+  text-shadow: none;
 }
 
 #hangmanMessage {
-  font-size: 22px;
+  font-size: 18px;
   margin-top: 20px;
   min-height: 30px;
   font-weight: 600;
-  color: #ff6b9d;
-  text-shadow: 0 0 10px #ff6b9d;
+  color: #e60012;
+  text-shadow: 2px 2px 0 #000;
+  font-family: 'Press Start 2P', sans-serif;
 }
 
 #wrongGuesses {
-  color: #ff6b9d;
-  font-size: 18px;
+  color: #e60012;
+  font-size: 16px;
+  font-family: 'Press Start 2P', sans-serif;
 }
 
 #wrongLetters {
@@ -314,6 +297,27 @@ body::before {
 /* Transition screen */
 #transitionScreen {
   animation: fadeIn 0.5s ease-in;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #5c94fc;
+}
+
+#transitionScreen .hzd-frame {
+  background: #fff;
+}
+
+#transitionScreen h1 {
+  font-size: 24px;
+  line-height: 1.6;
+}
+
+#transitionScreen p {
+  font-size: 18px;
+  margin: 30px 0;
+  color: #000;
+  font-family: 'Press Start 2P', sans-serif;
+  line-height: 1.8;
 }
 
 @keyframes fadeIn {
@@ -418,6 +422,27 @@ body::before {
 /* Key Game */
 #keyGame {
   animation: fadeIn 0.5s ease-in;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #5c94fc;
+}
+
+#keyGame .hzd-frame {
+  background: #fff;
+}
+
+#keyGame h1 {
+  font-size: 24px;
+  color: #e60012;
+  text-shadow: 3px 3px 0 #000;
+  font-family: 'Press Start 2P', sans-serif;
+}
+
+#keyGame p {
+  font-size: 16px;
+  color: #000;
+  font-family: 'Press Start 2P', sans-serif;
 }
 
 #lockArea { 
@@ -433,7 +458,7 @@ body::before {
   top: 100px; 
   left: 50%; 
   transform: translateX(-50%);
-  filter: drop-shadow(0 0 10px #00d9ff);
+  filter: drop-shadow(0 0 10px #e60012);
 }
 
 #key { 
@@ -443,25 +468,37 @@ body::before {
   user-select: none; 
   touch-action: none;
   z-index: 10;
-  filter: drop-shadow(0 0 10px #ff6b9d);
+  filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));
   transition: filter 0.2s;
 }
 
 #key:active {
   cursor: grabbing;
-  filter: drop-shadow(0 0 20px #ff6b9d);
+  filter: drop-shadow(0 8px 8px rgba(0,0,0,0.7));
 }
 
 /* Question stage */
 #question {
   animation: fadeIn 0.5s ease-in;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #5c94fc;
+}
+
+#question .hzd-frame {
+  background: #fff;
 }
 
 #yesBtn {
-  background: linear-gradient(135deg, #ff6b9d 0%, #ff1744 100%);
+  background: linear-gradient(180deg, #00d900 0%, #00a000 100%);
   color: white;
-  border-color: #ff6b9d;
-  box-shadow: 0 0 20px rgba(255, 107, 157, 0.5);
+  border: 5px solid #000;
+  box-shadow: 0 6px 0 #000;
+  text-shadow: 2px 2px 0 #000;
+  font-family: 'Press Start 2P', sans-serif;
+  padding: 15px 30px;
+  font-size: 18px;
 }
 
 #noBtn {
@@ -474,13 +511,12 @@ body::before {
   bottom: 60px;
   left: 0;
   right: 0;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: bold;
-  color: #00d9ff;
-  text-shadow: 
-    0 0 10px #00d9ff,
-    2px 2px 5px rgba(0,0,0,0.8);
+  color: #e60012;
+  text-shadow: 3px 3px 0 #000;
   animation: fadeIn 0.3s ease-in;
+  font-family: 'Press Start 2P', sans-serif;
 }
 
 /* Ending */
