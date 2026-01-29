@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mario's Key Quest 🔑</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="styles-v1.css">
+</head>
+<body>
+
+<div id="gameContainer">
+  <canvas id="gameCanvas"></canvas>
+  <div id="gameUI">
+    <div id="message">Use Arrow Keys to Move! Get the key and bring it to the castle! 🔑🏰</div>
+    <div id="hasKey" style="display:none;">You got the key! Now reach the castle! 🔑✨</div>
+  </div>
+</div>
+
+<div id="winScreen" style="display:none;">
+  <div class="win-box">
+    <h1>🎉 YOU DID IT! 🎉</h1>
+    <p>You brought the key to the castle!</p>
+    <div id="finalMessage">
+      Now... will you be my Valentine? 💖
+      <br><br>
+      <button id="yesBtn" onclick="celebrate()">YES! 💕</button>
+      <button id="noBtn" onmouseover="moveNoBtn()">No</button>
+    </div>
+  </div>
+</div>
+
+<div id="celebrationScreen" style="display:none;">
+  <div class="win-box">
+    <h1 style="font-size: 48px;">💖 YESSS! 💖</h1>
+    <p style="font-size: 24px; margin-top: 20px;">I'm so happy! 😊</p>
+  </div>
+</div>
+
+<script src="script-v1.js"></script>
+
+</body>
+</html>
