@@ -23,8 +23,8 @@ function backToMenu() {
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
-// Set canvas size
-canvas.width = 800;
+// Set canvas size - larger for bigger level
+canvas.width = 1200;
 canvas.height = 600;
 
 // Game state
@@ -36,7 +36,7 @@ const game = {
   animationFrame: null
 };
 
-// Mario player
+// Mario player with sprite
 const mario = {
   x: 50,
   y: 450,
@@ -44,32 +44,41 @@ const mario = {
   height: 32,
   velocityX: 0,
   velocityY: 0,
-  speed: 4,
-  jumpPower: 11,
+  speed: 5,
+  jumpPower: 12,
   onGround: false,
   direction: 'right',
   isWalking: false,
   walkFrame: 0,
-  walkTimer: 0
+  walkTimer: 0,
+  sprite: new Image()
 };
+
+// Load Mario sprite (SNES style)
+mario.sprite.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJRSURBVFhH7ZbPK0RRGIf3mDEzNhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhb+AAs7O1tb/wE7O1s7O/uc885d3HvmzNyZO3f8Vk/de+Y953vPOe+cc/8J/xU7gC3gHHgC3oFr4AQ4BPaB3T9A/wAYB66BN+ADeAWugGNgD9gBtv4AfQOYBi6BR+DdMwzcAEfAHrANbP4B+gbwBTwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8P8D/gIJKXmKh5oAAAAASUVORK5CYII=';
 
 // Key object
 const key = {
-  x: 300,
-  y: 400,
+  x: 400,
+  y: 350,
   width: 30,
   height: 30,
   collected: false,
   floatOffset: 0
 };
 
-// Boxes (mystery boxes)
+// Boxes (mystery boxes) - increased to 10
 const boxes = [
-  { x: 200, y: 300, width: 40, height: 40, broken: false },
-  { x: 300, y: 250, width: 40, height: 40, broken: false },
-  { x: 450, y: 300, width: 40, height: 40, broken: false },
-  { x: 550, y: 250, width: 40, height: 40, broken: false },
-  { x: 650, y: 300, width: 40, height: 40, broken: false }
+  { x: 250, y: 300, width: 40, height: 40, broken: false },
+  { x: 350, y: 250, width: 40, height: 40, broken: false },
+  { x: 500, y: 300, width: 40, height: 40, broken: false },
+  { x: 650, y: 250, width: 40, height: 40, broken: false },
+  { x: 800, y: 300, width: 40, height: 40, broken: false },
+  { x: 450, y: 180, width: 40, height: 40, broken: false },
+  { x: 600, y: 180, width: 40, height: 40, broken: false },
+  { x: 900, y: 250, width: 40, height: 40, broken: false },
+  { x: 1000, y: 300, width: 40, height: 40, broken: false },
+  { x: 750, y: 200, width: 40, height: 40, broken: false }
 ];
 
 // Heart object
@@ -84,22 +93,26 @@ const heart = {
   floatOffset: 0
 };
 
-// Castle
+// Castle - moved further right for larger level
 const castle = {
-  x: 700,
+  x: 1050,
   y: 300,
   width: 90,
   height: 200
 };
 
-// Platforms
+// Platforms - expanded for larger level
 const platforms = [
-  { x: 0, y: 550, width: 800, height: 50 }, // Ground
+  { x: 0, y: 550, width: 1200, height: 50 }, // Ground
   { x: 150, y: 450, width: 120, height: 20 },
-  { x: 280, y: 350, width: 100, height: 20 },
-  { x: 420, y: 400, width: 120, height: 20 },
-  { x: 550, y: 350, width: 100, height: 20 },
-  { x: 680, y: 500, width: 120, height: 20 }
+  { x: 320, y: 400, width: 100, height: 20 },
+  { x: 480, y: 350, width: 120, height: 20 },
+  { x: 630, y: 300, width: 100, height: 20 },
+  { x: 420, y: 230, width: 90, height: 20 },
+  { x: 570, y: 230, width: 90, height: 20 },
+  { x: 770, y: 350, width: 120, height: 20 },
+  { x: 920, y: 300, width: 100, height: 20 },
+  { x: 1030, y: 500, width: 170, height: 20 }
 ];
 
 const gravity = 0.6;
@@ -308,60 +321,68 @@ function updateHUD() {
 
 // ===== DRAWING FUNCTIONS =====
 function drawBackground() {
-  // Sky gradient
+  // SNES Sky gradient
   const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-  gradient.addColorStop(0, '#5c94fc');
-  gradient.addColorStop(1, '#87CEEB');
+  gradient.addColorStop(0, '#98d8f8');
+  gradient.addColorStop(0.5, '#68b8f0');
+  gradient.addColorStop(1, '#98d8f8');
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Clouds
-  drawCloud(100, 80, 40);
-  drawCloud(350, 120, 50);
-  drawCloud(600, 90, 45);
+  // SNES-style rounded clouds
+  drawSNESCloud(150, 80, 60);
+  drawSNESCloud(450, 120, 70);
+  drawSNESCloud(750, 90, 65);
+  drawSNESCloud(1050, 110, 60);
 
   // Sun
   ctx.fillStyle = '#FFD700';
   ctx.beginPath();
-  ctx.arc(700, 80, 35, 0, Math.PI * 2);
+  ctx.arc(1100, 80, 40, 0, Math.PI * 2);
   ctx.fill();
   ctx.strokeStyle = '#FFA500';
   ctx.lineWidth = 3;
   ctx.stroke();
 }
 
-function drawCloud(x, y, size) {
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+function drawSNESCloud(x, y, size) {
+  ctx.fillStyle = '#fff';
   ctx.beginPath();
-  ctx.arc(x, y, size * 0.6, 0, Math.PI * 2);
-  ctx.arc(x + size * 0.5, y, size * 0.7, 0, Math.PI * 2);
-  ctx.arc(x + size, y, size * 0.6, 0, Math.PI * 2);
+  // Main body
+  ctx.arc(x, y, size * 0.5, 0, Math.PI * 2);
+  ctx.arc(x + size * 0.6, y, size * 0.6, 0, Math.PI * 2);
+  ctx.arc(x + size * 1.2, y, size * 0.5, 0, Math.PI * 2);
   ctx.fill();
 }
 
 function drawPlatforms() {
   platforms.forEach(platform => {
-    // Brown brick
-    ctx.fillStyle = '#8B4513';
+    // Brown dirt base
+    ctx.fillStyle = '#d88028';
     ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
     
-    // Grass on top
-    ctx.fillStyle = '#00d900';
-    ctx.fillRect(platform.x, platform.y, platform.width, 8);
+    // Grass layer on top
+    ctx.fillStyle = '#00c800';
+    ctx.fillRect(platform.x, platform.y, platform.width, 10);
     
-    // Border
+    // Grass blades detail
+    ctx.fillStyle = '#00d000';
+    for (let i = platform.x; i < platform.x + platform.width; i += 8) {
+      ctx.fillRect(i, platform.y + 2, 3, 6);
+      ctx.fillRect(i + 4, platform.y + 3, 3, 5);
+    }
+    
+    // Dark outline
     ctx.strokeStyle = '#000';
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 2;
     ctx.strokeRect(platform.x, platform.y, platform.width, platform.height);
     
-    // Brick lines
-    ctx.strokeStyle = '#654321';
-    ctx.lineWidth = 2;
-    for (let i = platform.x; i < platform.x + platform.width; i += 40) {
-      ctx.beginPath();
-      ctx.moveTo(i, platform.y);
-      ctx.lineTo(i, platform.y + platform.height);
-      ctx.stroke();
+    // Dirt texture
+    ctx.fillStyle = '#c87020';
+    for (let i = platform.x + 10; i < platform.x + platform.width; i += 20) {
+      for (let j = platform.y + 15; j < platform.y + platform.height - 5; j += 15) {
+        ctx.fillRect(i, j, 4, 4);
+      }
     }
   });
 }
@@ -377,46 +398,54 @@ function drawMario() {
     ctx.translate(mario.x, mario.y);
   }
 
-  // Hat (red)
-  ctx.fillStyle = '#e60012';
-  ctx.fillRect(0, 0, mario.width, 12);
-  
-  // Hat brim
-  ctx.fillRect(-2, 10, mario.width + 4, 4);
-
-  // Face (skin)
-  ctx.fillStyle = '#fdbcb4';
-  ctx.fillRect(4, 14, mario.width - 8, 14);
-
-  // Eyes
-  ctx.fillStyle = '#000';
-  ctx.fillRect(8, 16, 4, 4);
-  ctx.fillRect(20, 16, 4, 4);
-
-  // Mustache
-  ctx.fillRect(6, 22, 20, 4);
-
-  // Shirt (red)
-  ctx.fillStyle = '#e60012';
-  ctx.fillRect(4, 28, mario.width - 8, 4);
-
-  // Overalls (blue)
-  ctx.fillStyle = '#0000ff';
-  ctx.fillRect(0, 32, mario.width, mario.height - 32);
-
-  // Buttons
-  ctx.fillStyle = '#FFD700';
-  ctx.fillRect(8, 30, 3, 3);
-  ctx.fillRect(21, 30, 3, 3);
-
-  // Legs (walking animation)
-  ctx.fillStyle = '#0000ff';
-  if (mario.walkFrame === 1 && mario.isWalking) {
-    ctx.fillRect(2, mario.height - 8, 12, 8);
-    ctx.fillRect(18, mario.height - 8, 12, 8);
+  // Try to draw sprite, fallback to simple Mario if not loaded
+  if (mario.sprite.complete && mario.sprite.naturalWidth > 0) {
+    // Draw Mario sprite
+    const spriteX = mario.walkFrame * 16; // Assuming 16x16 sprite frames
+    ctx.drawImage(mario.sprite, spriteX, 0, 16, 16, 0, 0, mario.width, mario.height);
   } else {
-    ctx.fillRect(6, mario.height - 8, 9, 8);
-    ctx.fillRect(17, mario.height - 8, 9, 8);
+    // Fallback - Classic Mario style
+    // Hat (red)
+    ctx.fillStyle = '#e60012';
+    ctx.fillRect(0, 0, mario.width, 12);
+    
+    // Hat brim
+    ctx.fillRect(-2, 10, mario.width + 4, 4);
+
+    // Face (skin)
+    ctx.fillStyle = '#fdbcb4';
+    ctx.fillRect(4, 14, mario.width - 8, 14);
+
+    // Eyes
+    ctx.fillStyle = '#000';
+    ctx.fillRect(8, 16, 4, 4);
+    ctx.fillRect(20, 16, 4, 4);
+
+    // Mustache
+    ctx.fillRect(6, 22, 20, 4);
+
+    // Shirt (red)
+    ctx.fillStyle = '#e60012';
+    ctx.fillRect(4, 28, mario.width - 8, 4);
+
+    // Overalls (blue)
+    ctx.fillStyle = '#0000ff';
+    ctx.fillRect(0, 32, mario.width, mario.height - 32);
+
+    // Buttons
+    ctx.fillStyle = '#FFD700';
+    ctx.fillRect(8, 30, 3, 3);
+    ctx.fillRect(21, 30, 3, 3);
+
+    // Legs (walking animation)
+    ctx.fillStyle = '#0000ff';
+    if (mario.walkFrame === 1 && mario.isWalking) {
+      ctx.fillRect(2, mario.height - 8, 12, 8);
+      ctx.fillRect(18, mario.height - 8, 12, 8);
+    } else {
+      ctx.fillRect(6, mario.height - 8, 9, 8);
+      ctx.fillRect(17, mario.height - 8, 9, 8);
+    }
   }
 
   // If holding heart, draw it with Mario
@@ -609,19 +638,50 @@ function gameLoop() {
 }
 
 // ===== CASTLE REACHED =====
+let fadeAlpha = 0;
+let fadeComplete = false;
+
 function reachedCastle() {
   cancelAnimationFrame(game.animationFrame);
+  fadeToBlack();
+}
+
+function fadeToBlack() {
+  // Continue drawing game one last time
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawBackground();
+  drawPlatforms();
+  drawCastle();
+  drawBoxes();
+  drawKey();
+  drawHeart();
+  drawMario();
   
-  // Clear canvas and show final message
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+  // Draw fade overlay
+  ctx.fillStyle = `rgba(0, 0, 0, ${fadeAlpha})`;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   
+  fadeAlpha += 0.01;
+  
+  if (fadeAlpha >= 1 && !fadeComplete) {
+    fadeComplete = true;
+    showFinalMessage();
+  } else if (fadeAlpha < 1) {
+    requestAnimationFrame(fadeToBlack);
+  }
+}
+
+function showFinalMessage() {
+  // Black screen
+  ctx.fillStyle = '#000';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+  // White text
   ctx.fillStyle = '#fff';
   ctx.font = '24px "Press Start 2P"';
   ctx.textAlign = 'center';
-  ctx.fillText('YOU REACHED', canvas.width / 2, canvas.height / 2 - 40);
-  ctx.fillText('THE CASTLE!', canvas.width / 2, canvas.height / 2);
-  ctx.fillText('💖', canvas.width / 2, canvas.height / 2 + 60);
-  
-  // Stop here as per requirements
+  ctx.fillText('You have finished', canvas.width / 2, canvas.height / 2 - 40);
+  ctx.fillText('the first game.', canvas.width / 2, canvas.height / 2);
+  ctx.fillText('Now it\'s time for', canvas.width / 2, canvas.height / 2 + 40);
+  ctx.fillText('another game.', canvas.width / 2, canvas.height / 2 + 80);
 }
