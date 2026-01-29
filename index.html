@@ -17,8 +17,13 @@
     <div class="cloud" style="left: 75%; top: 18%;"></div>
   </div>
   <div class="menu-container">
-    <h1 class="mario-title">MARIO'S<br>VALENTINE<br>QUEST</h1>
-    <div class="coin-icon">🪙</div>
+    <div class="title-container">
+      <h1 class="mario-title">
+        <span class="title-mario">MARIO'S</span><br>
+        <span class="title-valentine">VALENTINE</span><br>
+        <span class="title-quest">QUEST</span>
+      </h1>
+    </div>
     <div class="menu-buttons">
       <button class="mario-btn" onclick="startGame()">START</button>
       <button class="mario-btn secondary" onclick="showInstructions()">INSTRUCTIONS</button>
@@ -30,9 +35,11 @@
 <div id="instructionsScreen" class="screen">
   <div class="instructions-container">
     <div class="text-box">
-      <p>I have spent so much time on this game. You will see EVERY feature I added to make this happen. I made this game to ask an important question… it will be EPIC.</p>
-      <br>
-      <p style="border-top: 3px solid #000; padding-top: 20px; margin-top: 20px;">The instructions are very simple. You are Mario. You have to find the key and the heart to unlock the next set of mini games. The first game has to be Mario-themed because we are going to NINTENDO WORLD soon.</p>
+      <h2 style="margin-bottom: 20px; color: #e60012; font-size: 18px;">FROM THE DEVELOPER 💖</h2>
+      <p style="margin-bottom: 25px;">I have spent so much time on this game. You will see EVERY feature I added to make this happen. I made this game to ask an important question… it will be EPIC.</p>
+      
+      <h2 style="margin: 25px 0 15px 0; color: #0000ff; font-size: 18px; border-top: 4px solid #000; padding-top: 20px;">HOW TO PLAY 🎮</h2>
+      <p>The instructions are very simple. You are Mario. You have to find the key and the heart to unlock the next set of mini games. The first game has to be Mario-themed because we are going to NINTENDO WORLD soon.</p>
     </div>
     <button class="mario-btn" onclick="backToMenu()">BACK</button>
   </div>
@@ -41,8 +48,8 @@
 <!-- Game Screen -->
 <div id="gameScreen" class="screen">
   <div id="hud">
-    <div id="keyStatus">🔑: <span id="hasKeyText">NO</span></div>
-    <div id="heartStatus">💖: <span id="hasHeartText">NO</span></div>
+    <div id="keyStatus">🔑 <span id="hasKeyText">NO</span></div>
+    <div id="heartStatus">💖 <span id="hasHeartText">NO</span></div>
   </div>
   <canvas id="gameCanvas"></canvas>
 </div>

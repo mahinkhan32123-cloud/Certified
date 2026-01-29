@@ -23,9 +23,18 @@ function backToMenu() {
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
-// Set canvas size - larger for bigger level
-canvas.width = 1200;
+// Set canvas size
+canvas.width = 800;
 canvas.height = 600;
+
+// Camera for side-scrolling
+const camera = {
+  x: 0,
+  y: 0,
+  width: 800,
+  height: 600,
+  followSpeed: 0.1
+};
 
 // Game state
 const game = {
@@ -33,12 +42,13 @@ const game = {
   hasHeart: false,
   heartBoxIndex: null,
   keys: {},
-  animationFrame: null
+  animationFrame: null,
+  levelWidth: 3000 // Much wider level!
 };
 
-// Mario player with sprite
+// Mario player - 8-bit style, no external sprites
 const mario = {
-  x: 50,
+  x: 100,
   y: 450,
   width: 32,
   height: 32,
@@ -50,16 +60,12 @@ const mario = {
   direction: 'right',
   isWalking: false,
   walkFrame: 0,
-  walkTimer: 0,
-  sprite: new Image()
+  walkTimer: 0
 };
-
-// Load Mario sprite (SNES style)
-mario.sprite.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJRSURBVFhH7ZbPK0RRGIf3mDEzNhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhb+AAs7O1tb/wE7O1s7O/uc885d3HvmzNyZO3f8Vk/de+Y953vPOe+cc/8J/xU7gC3gHHgC3oFr4AQ4BPaB3T9A/wAYB66BN+ADeAWugGNgD9gBtv4AfQOYBi6BR+DdMwzcAEfAHrANbP4B+gbwBTwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8Aw8A8/AM/AMPAPPwDPwDDwDz8Az8P8D/gIJKXmKh5oAAAAASUVORK5CYII=';
 
 // Key object
 const key = {
-  x: 400,
+  x: 800,
   y: 350,
   width: 30,
   height: 30,
@@ -67,18 +73,18 @@ const key = {
   floatOffset: 0
 };
 
-// Boxes (mystery boxes) - increased to 10
+// Boxes (mystery boxes) - spread across WIDE level
 const boxes = [
-  { x: 250, y: 300, width: 40, height: 40, broken: false },
-  { x: 350, y: 250, width: 40, height: 40, broken: false },
   { x: 500, y: 300, width: 40, height: 40, broken: false },
-  { x: 650, y: 250, width: 40, height: 40, broken: false },
-  { x: 800, y: 300, width: 40, height: 40, broken: false },
-  { x: 450, y: 180, width: 40, height: 40, broken: false },
-  { x: 600, y: 180, width: 40, height: 40, broken: false },
-  { x: 900, y: 250, width: 40, height: 40, broken: false },
-  { x: 1000, y: 300, width: 40, height: 40, broken: false },
-  { x: 750, y: 200, width: 40, height: 40, broken: false }
+  { x: 750, y: 250, width: 40, height: 40, broken: false },
+  { x: 1100, y: 300, width: 40, height: 40, broken: false },
+  { x: 1400, y: 250, width: 40, height: 40, broken: false },
+  { x: 1700, y: 300, width: 40, height: 40, broken: false },
+  { x: 950, y: 180, width: 40, height: 40, broken: false },
+  { x: 1250, y: 180, width: 40, height: 40, broken: false },
+  { x: 1900, y: 250, width: 40, height: 40, broken: false },
+  { x: 2200, y: 300, width: 40, height: 40, broken: false },
+  { x: 1550, y: 200, width: 40, height: 40, broken: false }
 ];
 
 // Heart object
@@ -93,26 +99,32 @@ const heart = {
   floatOffset: 0
 };
 
-// Castle - moved further right for larger level
+// Castle - at the end of the level
 const castle = {
-  x: 1050,
+  x: 2700,
   y: 300,
   width: 90,
   height: 200
 };
 
-// Platforms - expanded for larger level
+// Platforms - spread across wide level
 const platforms = [
-  { x: 0, y: 550, width: 1200, height: 50 }, // Ground
-  { x: 150, y: 450, width: 120, height: 20 },
-  { x: 320, y: 400, width: 100, height: 20 },
-  { x: 480, y: 350, width: 120, height: 20 },
-  { x: 630, y: 300, width: 100, height: 20 },
-  { x: 420, y: 230, width: 90, height: 20 },
-  { x: 570, y: 230, width: 90, height: 20 },
-  { x: 770, y: 350, width: 120, height: 20 },
-  { x: 920, y: 300, width: 100, height: 20 },
-  { x: 1030, y: 500, width: 170, height: 20 }
+  { x: 0, y: 550, width: 3000, height: 50 }, // Ground
+  { x: 200, y: 450, width: 150, height: 20 },
+  { x: 450, y: 400, width: 120, height: 20 },
+  { x: 700, y: 350, width: 130, height: 20 },
+  { x: 920, y: 300, width: 120, height: 20 },
+  { x: 650, y: 230, width: 100, height: 20 },
+  { x: 900, y: 230, width: 100, height: 20 },
+  { x: 1150, y: 350, width: 130, height: 20 },
+  { x: 1350, y: 300, width: 120, height: 20 },
+  { x: 1600, y: 350, width: 130, height: 20 },
+  { x: 1200, y: 230, width: 110, height: 20 },
+  { x: 1500, y: 250, width: 100, height: 20 },
+  { x: 1850, y: 300, width: 130, height: 20 },
+  { x: 2100, y: 350, width: 120, height: 20 },
+  { x: 2350, y: 400, width: 130, height: 20 },
+  { x: 2650, y: 500, width: 350, height: 20 }
 ];
 
 const gravity = 0.6;
@@ -122,13 +134,14 @@ function initGame() {
   // Reset game state
   game.hasKey = false;
   game.hasHeart = false;
-  mario.x = 50;
+  mario.x = 100;
   mario.y = 450;
   mario.velocityX = 0;
   mario.velocityY = 0;
   key.collected = false;
   heart.collected = false;
   heart.falling = false;
+  camera.x = 0;
   
   // Randomize which box has the heart
   game.heartBoxIndex = Math.floor(Math.random() * boxes.length);
@@ -159,6 +172,20 @@ window.addEventListener('keyup', (e) => {
 });
 
 // ===== UPDATE FUNCTIONS =====
+function updateCamera() {
+  // Keep Mario near center of screen
+  const targetX = mario.x - camera.width / 2 + mario.width / 2;
+  
+  // Smooth camera follow
+  camera.x += (targetX - camera.x) * camera.followSpeed;
+  
+  // Clamp camera to level bounds
+  if (camera.x < 0) camera.x = 0;
+  if (camera.x > game.levelWidth - camera.width) {
+    camera.x = game.levelWidth - camera.width;
+  }
+}
+
 function updateMario() {
   // Horizontal movement
   mario.isWalking = false;
@@ -199,9 +226,11 @@ function updateMario() {
   mario.x += mario.velocityX;
   mario.y += mario.velocityY;
 
-  // Keep Mario in bounds
+  // Keep Mario in level bounds
   if (mario.x < 0) mario.x = 0;
-  if (mario.x + mario.width > canvas.width) mario.x = canvas.width - mario.width;
+  if (mario.x + mario.width > game.levelWidth) {
+    mario.x = game.levelWidth - mario.width;
+  }
 
   // Platform collision
   mario.onGround = false;
@@ -329,16 +358,19 @@ function drawBackground() {
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // SNES-style rounded clouds
-  drawSNESCloud(150, 80, 60);
-  drawSNESCloud(450, 120, 70);
-  drawSNESCloud(750, 90, 65);
-  drawSNESCloud(1050, 110, 60);
+  // SNES-style rounded clouds (parallax)
+  const cloudOffset = camera.x * 0.5;
+  drawSNESCloud(150 - cloudOffset, 80, 60);
+  drawSNESCloud(450 - cloudOffset, 120, 70);
+  drawSNESCloud(750 - cloudOffset, 90, 65);
+  drawSNESCloud(1100 - cloudOffset, 110, 60);
+  drawSNESCloud(1450 - cloudOffset, 85, 65);
+  drawSNESCloud(1800 - cloudOffset, 105, 70);
 
   // Sun
   ctx.fillStyle = '#FFD700';
   ctx.beginPath();
-  ctx.arc(1100, 80, 40, 0, Math.PI * 2);
+  ctx.arc(700 - camera.x * 0.3, 80, 40, 0, Math.PI * 2);
   ctx.fill();
   ctx.strokeStyle = '#FFA500';
   ctx.lineWidth = 3;
@@ -346,7 +378,7 @@ function drawBackground() {
 }
 
 function drawSNESCloud(x, y, size) {
-  ctx.fillStyle = '#fff';
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
   ctx.beginPath();
   // Main body
   ctx.arc(x, y, size * 0.5, 0, Math.PI * 2);
@@ -359,96 +391,108 @@ function drawPlatforms() {
   platforms.forEach(platform => {
     // Brown dirt base
     ctx.fillStyle = '#d88028';
-    ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
+    ctx.fillRect(platform.x - camera.x, platform.y, platform.width, platform.height);
     
     // Grass layer on top
     ctx.fillStyle = '#00c800';
-    ctx.fillRect(platform.x, platform.y, platform.width, 10);
+    ctx.fillRect(platform.x - camera.x, platform.y, platform.width, 10);
     
     // Grass blades detail
     ctx.fillStyle = '#00d000';
     for (let i = platform.x; i < platform.x + platform.width; i += 8) {
-      ctx.fillRect(i, platform.y + 2, 3, 6);
-      ctx.fillRect(i + 4, platform.y + 3, 3, 5);
+      ctx.fillRect(i - camera.x, platform.y + 2, 3, 6);
+      ctx.fillRect(i + 4 - camera.x, platform.y + 3, 3, 5);
     }
     
     // Dark outline
     ctx.strokeStyle = '#000';
     ctx.lineWidth = 2;
-    ctx.strokeRect(platform.x, platform.y, platform.width, platform.height);
+    ctx.strokeRect(platform.x - camera.x, platform.y, platform.width, platform.height);
     
     // Dirt texture
     ctx.fillStyle = '#c87020';
     for (let i = platform.x + 10; i < platform.x + platform.width; i += 20) {
       for (let j = platform.y + 15; j < platform.y + platform.height - 5; j += 15) {
-        ctx.fillRect(i, j, 4, 4);
+        ctx.fillRect(i - camera.x, j, 4, 4);
       }
     }
   });
 }
 
-function drawMario() {
+function draw8BitMario() {
+  const drawX = mario.x - camera.x;
+  const drawY = mario.y;
+  
   ctx.save();
   
   // Flip for direction
   if (mario.direction === 'left') {
-    ctx.translate(mario.x + mario.width, mario.y);
+    ctx.translate(drawX + mario.width, drawY);
     ctx.scale(-1, 1);
   } else {
-    ctx.translate(mario.x, mario.y);
+    ctx.translate(drawX, drawY);
   }
 
-  // Try to draw sprite, fallback to simple Mario if not loaded
-  if (mario.sprite.complete && mario.sprite.naturalWidth > 0) {
-    // Draw Mario sprite
-    const spriteX = mario.walkFrame * 16; // Assuming 16x16 sprite frames
-    ctx.drawImage(mario.sprite, spriteX, 0, 16, 16, 0, 0, mario.width, mario.height);
+  const pixelSize = 4; // 8x8 grid, each pixel is 4x4
+  
+  // 8-bit Mario pattern (based on classic NES Mario)
+  // Hat row 1
+  ctx.fillStyle = '#e60012';
+  ctx.fillRect(pixelSize, 0, pixelSize * 6, pixelSize);
+  
+  // Hat row 2
+  ctx.fillRect(0, pixelSize, pixelSize * 8, pixelSize);
+  
+  // Face/Hat row 3
+  ctx.fillStyle = '#fdbcb4';
+  ctx.fillRect(pixelSize, pixelSize * 2, pixelSize, pixelSize);
+  ctx.fillRect(pixelSize * 6, pixelSize * 2, pixelSize * 2, pixelSize);
+  ctx.fillStyle = '#e60012';
+  ctx.fillRect(pixelSize * 2, pixelSize * 2, pixelSize * 4, pixelSize);
+  
+  // Face row 4
+  ctx.fillStyle = '#fdbcb4';
+  ctx.fillRect(pixelSize, pixelSize * 3, pixelSize * 2, pixelSize);
+  ctx.fillStyle = '#000';
+  ctx.fillRect(pixelSize * 3, pixelSize * 3, pixelSize, pixelSize);
+  ctx.fillStyle = '#fdbcb4';
+  ctx.fillRect(pixelSize * 4, pixelSize * 3, pixelSize, pixelSize);
+  ctx.fillStyle = '#000';
+  ctx.fillRect(pixelSize * 5, pixelSize * 3, pixelSize, pixelSize);
+  ctx.fillStyle = '#fdbcb4';
+  ctx.fillRect(pixelSize * 6, pixelSize * 3, pixelSize * 2, pixelSize);
+  
+  // Mustache/mouth row 5
+  ctx.fillStyle = '#fdbcb4';
+  ctx.fillRect(pixelSize, pixelSize * 4, pixelSize, pixelSize);
+  ctx.fillStyle = '#000';
+  ctx.fillRect(pixelSize * 2, pixelSize * 4, pixelSize * 5, pixelSize);
+  ctx.fillStyle = '#fdbcb4';
+  ctx.fillRect(pixelSize * 7, pixelSize * 4, pixelSize, pixelSize);
+  
+  // Shirt row 6
+  ctx.fillStyle = '#e60012';
+  ctx.fillRect(pixelSize * 2, pixelSize * 5, pixelSize * 5, pixelSize);
+  
+  // Overalls row 7
+  ctx.fillStyle = '#0000ff';
+  ctx.fillRect(pixelSize, pixelSize * 6, pixelSize * 2, pixelSize);
+  ctx.fillStyle = '#e60012';
+  ctx.fillRect(pixelSize * 3, pixelSize * 6, pixelSize * 3, pixelSize);
+  ctx.fillStyle = '#0000ff';
+  ctx.fillRect(pixelSize * 6, pixelSize * 6, pixelSize * 2, pixelSize);
+  
+  // Legs row 8
+  ctx.fillStyle = '#0000ff';
+  if (mario.walkFrame === 1 && mario.isWalking) {
+    ctx.fillRect(0, pixelSize * 7, pixelSize * 3, pixelSize);
+    ctx.fillRect(pixelSize * 5, pixelSize * 7, pixelSize * 3, pixelSize);
   } else {
-    // Fallback - Classic Mario style
-    // Hat (red)
-    ctx.fillStyle = '#e60012';
-    ctx.fillRect(0, 0, mario.width, 12);
-    
-    // Hat brim
-    ctx.fillRect(-2, 10, mario.width + 4, 4);
-
-    // Face (skin)
-    ctx.fillStyle = '#fdbcb4';
-    ctx.fillRect(4, 14, mario.width - 8, 14);
-
-    // Eyes
-    ctx.fillStyle = '#000';
-    ctx.fillRect(8, 16, 4, 4);
-    ctx.fillRect(20, 16, 4, 4);
-
-    // Mustache
-    ctx.fillRect(6, 22, 20, 4);
-
-    // Shirt (red)
-    ctx.fillStyle = '#e60012';
-    ctx.fillRect(4, 28, mario.width - 8, 4);
-
-    // Overalls (blue)
-    ctx.fillStyle = '#0000ff';
-    ctx.fillRect(0, 32, mario.width, mario.height - 32);
-
-    // Buttons
-    ctx.fillStyle = '#FFD700';
-    ctx.fillRect(8, 30, 3, 3);
-    ctx.fillRect(21, 30, 3, 3);
-
-    // Legs (walking animation)
-    ctx.fillStyle = '#0000ff';
-    if (mario.walkFrame === 1 && mario.isWalking) {
-      ctx.fillRect(2, mario.height - 8, 12, 8);
-      ctx.fillRect(18, mario.height - 8, 12, 8);
-    } else {
-      ctx.fillRect(6, mario.height - 8, 9, 8);
-      ctx.fillRect(17, mario.height - 8, 9, 8);
-    }
+    ctx.fillRect(pixelSize, pixelSize * 7, pixelSize * 3, pixelSize);
+    ctx.fillRect(pixelSize * 4, pixelSize * 7, pixelSize * 3, pixelSize);
   }
 
-  // If holding heart, draw it with Mario
+  // If holding heart, draw it
   if (game.hasHeart && heart.collected) {
     ctx.fillStyle = '#ff69b4';
     ctx.font = '20px Arial';
@@ -462,6 +506,7 @@ function drawKey() {
   if (key.collected) return;
 
   const drawY = key.y + key.floatOffset;
+  const drawX = key.x - camera.x;
 
   // Key glow
   ctx.shadowBlur = 15;
@@ -469,16 +514,16 @@ function drawKey() {
 
   // Key body
   ctx.fillStyle = '#FFD700';
-  ctx.fillRect(key.x, drawY + 10, 20, 8);
+  ctx.fillRect(drawX, drawY + 10, 20, 8);
 
   // Key head (circle)
   ctx.beginPath();
-  ctx.arc(key.x + 5, drawY + 14, 8, 0, Math.PI * 2);
+  ctx.arc(drawX + 5, drawY + 14, 8, 0, Math.PI * 2);
   ctx.fill();
 
   // Key teeth
-  ctx.fillRect(key.x + 20, drawY + 10, 4, 4);
-  ctx.fillRect(key.x + 25, drawY + 14, 4, 4);
+  ctx.fillRect(drawX + 20, drawY + 10, 4, 4);
+  ctx.fillRect(drawX + 25, drawY + 14, 4, 4);
 
   // Border
   ctx.strokeStyle = '#000';
@@ -491,31 +536,33 @@ function drawKey() {
 
 function drawBoxes() {
   boxes.forEach(box => {
+    const drawX = box.x - camera.x;
+    
     if (box.broken) {
       // Broken box pieces
       ctx.fillStyle = '#8B4513';
-      ctx.fillRect(box.x - 5, box.y + 5, 15, 15);
-      ctx.fillRect(box.x + 30, box.y + 5, 15, 15);
+      ctx.fillRect(drawX - 5, box.y + 5, 15, 15);
+      ctx.fillRect(drawX + 30, box.y + 5, 15, 15);
       return;
     }
 
     // Mystery box (yellow with question mark)
     ctx.fillStyle = '#FFD700';
-    ctx.fillRect(box.x, box.y, box.width, box.height);
+    ctx.fillRect(drawX, box.y, box.width, box.height);
 
     // Border
     ctx.strokeStyle = '#000';
     ctx.lineWidth = 3;
-    ctx.strokeRect(box.x, box.y, box.width, box.height);
+    ctx.strokeRect(drawX, box.y, box.width, box.height);
 
     // Question mark
     ctx.fillStyle = '#000';
     ctx.font = 'bold 24px Arial';
-    ctx.fillText('?', box.x + 12, box.y + 30);
+    ctx.fillText('?', drawX + 12, box.y + 30);
 
     // Shine effect
     ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-    ctx.fillRect(box.x + 5, box.y + 5, 10, 10);
+    ctx.fillRect(drawX + 5, box.y + 5, 10, 10);
   });
 }
 
@@ -524,6 +571,7 @@ function drawHeart() {
   if (!heart.falling && !heart.collected) return;
 
   const drawY = heart.falling ? heart.y : heart.y + heart.floatOffset;
+  const drawX = heart.x - camera.x;
 
   // Heart glow
   ctx.shadowBlur = 15;
@@ -531,25 +579,27 @@ function drawHeart() {
 
   ctx.fillStyle = '#ff69b4';
   ctx.font = '30px Arial';
-  ctx.fillText('💖', heart.x, drawY + 25);
+  ctx.fillText('💖', drawX, drawY + 25);
 
   ctx.shadowBlur = 0;
 }
 
 function drawCastle() {
+  const drawX = castle.x - camera.x;
+  
   // Castle body
   ctx.fillStyle = '#8B4513';
-  ctx.fillRect(castle.x, castle.y, castle.width, castle.height);
+  ctx.fillRect(drawX, castle.y, castle.width, castle.height);
 
   // Castle walls detail
   ctx.fillStyle = '#A0522D';
   for (let i = 0; i < 3; i++) {
-    ctx.fillRect(castle.x + 10 + i * 30, castle.y + 20, 20, 40);
+    ctx.fillRect(drawX + 10 + i * 30, castle.y + 20, 20, 40);
   }
 
   // Door
   ctx.fillStyle = '#654321';
-  const doorX = castle.x + 25;
+  const doorX = drawX + 25;
   const doorY = castle.y + castle.height - 80;
   ctx.fillRect(doorX, doorY, 40, 80);
 
@@ -565,41 +615,41 @@ function drawCastle() {
 
   // Windows
   ctx.fillStyle = '#87CEEB';
-  ctx.fillRect(castle.x + 15, castle.y + 80, 20, 25);
-  ctx.fillRect(castle.x + 55, castle.y + 80, 20, 25);
+  ctx.fillRect(drawX + 15, castle.y + 80, 20, 25);
+  ctx.fillRect(drawX + 55, castle.y + 80, 20, 25);
 
   // Window frames
   ctx.strokeStyle = '#000';
   ctx.lineWidth = 2;
-  ctx.strokeRect(castle.x + 15, castle.y + 80, 20, 25);
-  ctx.strokeRect(castle.x + 55, castle.y + 80, 20, 25);
+  ctx.strokeRect(drawX + 15, castle.y + 80, 20, 25);
+  ctx.strokeRect(drawX + 55, castle.y + 80, 20, 25);
 
   // Tower tops
   ctx.fillStyle = '#e60012';
   
   // Left tower
   ctx.beginPath();
-  ctx.moveTo(castle.x - 5, castle.y);
-  ctx.lineTo(castle.x + 15, castle.y - 30);
-  ctx.lineTo(castle.x + 35, castle.y);
+  ctx.moveTo(drawX - 5, castle.y);
+  ctx.lineTo(drawX + 15, castle.y - 30);
+  ctx.lineTo(drawX + 35, castle.y);
   ctx.fill();
 
   // Right tower
   ctx.beginPath();
-  ctx.moveTo(castle.x + 55, castle.y);
-  ctx.lineTo(castle.x + 75, castle.y - 30);
-  ctx.lineTo(castle.x + 95, castle.y);
+  ctx.moveTo(drawX + 55, castle.y);
+  ctx.lineTo(drawX + 75, castle.y - 30);
+  ctx.lineTo(drawX + 95, castle.y);
   ctx.fill();
 
   // Flag
   ctx.fillStyle = '#e60012';
-  ctx.fillRect(castle.x + 75, castle.y - 30, 15, 10);
+  ctx.fillRect(drawX + 75, castle.y - 30, 15, 10);
   
   ctx.strokeStyle = '#000';
   ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.moveTo(castle.x + 75, castle.y - 30);
-  ctx.lineTo(castle.x + 75, castle.y);
+  ctx.moveTo(drawX + 75, castle.y - 30);
+  ctx.lineTo(drawX + 75, castle.y);
   ctx.stroke();
 
   // Door indicator
@@ -619,6 +669,9 @@ function gameLoop() {
   // Clear canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  // Update camera
+  updateCamera();
+
   // Draw everything
   drawBackground();
   drawPlatforms();
@@ -626,7 +679,7 @@ function gameLoop() {
   drawBoxes();
   drawKey();
   drawHeart();
-  drawMario();
+  draw8BitMario();
 
   // Update everything
   updateMario();
@@ -649,13 +702,16 @@ function reachedCastle() {
 function fadeToBlack() {
   // Continue drawing game one last time
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  updateCamera();
+  
   drawBackground();
   drawPlatforms();
   drawCastle();
   drawBoxes();
   drawKey();
   drawHeart();
-  drawMario();
+  draw8BitMario();
   
   // Draw fade overlay
   ctx.fillStyle = `rgba(0, 0, 0, ${fadeAlpha})`;
@@ -678,10 +734,10 @@ function showFinalMessage() {
   
   // White text
   ctx.fillStyle = '#fff';
-  ctx.font = '24px "Press Start 2P"';
+  ctx.font = '20px "Press Start 2P"';
   ctx.textAlign = 'center';
-  ctx.fillText('You have finished', canvas.width / 2, canvas.height / 2 - 40);
-  ctx.fillText('the first game.', canvas.width / 2, canvas.height / 2);
-  ctx.fillText('Now it\'s time for', canvas.width / 2, canvas.height / 2 + 40);
-  ctx.fillText('another game.', canvas.width / 2, canvas.height / 2 + 80);
+  ctx.fillText('You have finished', canvas.width / 2, canvas.height / 2 - 60);
+  ctx.fillText('the first game.', canvas.width / 2, canvas.height / 2 - 20);
+  ctx.fillText('Now it\'s time for', canvas.width / 2, canvas.height / 2 + 20);
+  ctx.fillText('another game.', canvas.width / 2, canvas.height / 2 + 60);
 }
