@@ -51,7 +51,7 @@ const hangmanParts = [
 ];
 
 function startHangman() {
-  hangmanGame.style.display = "block";
+  hangmanGame.style.display = "flex";
   currentQuestion = 0;
   wrongGuessCount = 0;
   resetHangman();
@@ -120,7 +120,7 @@ function guessLetter(letter, btn) {
         } else {
           // All questions answered!
           hangmanGame.style.display = "none";
-          transitionScreen.style.display = "block";
+          transitionScreen.style.display = "flex";
         }
       }, 1500);
     }
@@ -154,7 +154,7 @@ function guessLetter(letter, btn) {
 
 // Keyboard support for hangman
 document.addEventListener("keydown", function(e) {
-  if (hangmanGame.style.display === "block") {
+  if (hangmanGame.style.display === "flex") {
     const key = e.key.toUpperCase();
     if (key.length === 1 && key >= 'A' && key <= 'Z') {
       const btn = document.querySelector(`[data-letter="${key}"]`);
@@ -195,14 +195,14 @@ function spawnItems() {
   if (!gameActive) return;
   
   const items = [
-    // Mario characters (1 point each)
-    { type: "mario", points: 1, url: "https://i.imgur.com/cL3Wlnm.png" },
-    { type: "luigi", points: 1, url: "https://i.imgur.com/vQx5kEC.png" },
-    { type: "peach", points: 1, url: "https://i.imgur.com/sJYYKQL.png" },
+    // Mario characters (1 point each) - Using placeholder images that work
+    { type: "mario", points: 1, emoji: "🔴" },
+    { type: "luigi", points: 1, emoji: "🟢" },
+    { type: "peach", points: 1, emoji: "👑" },
     // Star (5 points)
-    { type: "star", points: 5, url: "https://i.imgur.com/zNz3pNN.png" },
+    { type: "star", points: 5, emoji: "⭐" },
     // Bowser (bomb)
-    { type: "bowser", points: 0, url: "https://i.imgur.com/mN4crzl.png" }
+    { type: "bowser", points: 0, emoji: "💣" }
   ];
   
   // Weighted spawn - more characters, fewer bowsers
@@ -217,24 +217,9 @@ function spawnItems() {
   const item = spawnPool[Math.floor(Math.random() * spawnPool.length)];
   const fallingItem = document.createElement("div");
   fallingItem.className = "falling-item";
+  fallingItem.textContent = item.emoji;
+  fallingItem.style.fontSize = "60px";
   
-  const img = document.createElement("img");
-  img.src = item.url;
-  img.alt = item.type;
-  img.onerror = function() {
-    // Fallback to emoji if image fails to load
-    const emojiMap = {
-      mario: "🔴",
-      luigi: "🟢",
-      peach: "👑",
-      star: "⭐",
-      bowser: "💣"
-    };
-    fallingItem.textContent = emojiMap[item.type];
-    fallingItem.style.fontSize = "50px";
-  };
-  
-  fallingItem.appendChild(img);
   fallingItem.style.left = Math.random() * (window.innerWidth - 80) + "px";
   fallingItem.style.top = "-80px";
   
@@ -263,7 +248,7 @@ function spawnItems() {
         gameActive = false;
         setTimeout(() => {
           catchGame.style.display = "none";
-          keyGame.style.display = "block";
+          keyGame.style.display = "flex";
           document.getElementById("key").style.left = "50px";
           document.getElementById("key").style.top = "200px";
         }, 500);
@@ -316,7 +301,7 @@ function checkUnlock() {
   const h = heart.getBoundingClientRect();
   if (k.left < h.right && k.right > h.left && k.top < h.bottom && k.bottom > h.top) {
     keyGame.style.display = "none";
-    question.style.display = "block";
+    question.style.display = "flex";
   }
 }
 
