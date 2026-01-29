@@ -2,41 +2,45 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Mario's Key Quest 🔑</title>
+<title>Mario's Valentine Quest 💖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="styles-v1.css">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<div id="gameContainer">
-  <canvas id="gameCanvas"></canvas>
-  <div id="gameUI">
-    <div id="message">Use Arrow Keys to Move! Get the key and bring it to the castle! 🔑🏰</div>
-    <div id="hasKey" style="display:none;">You got the key! Now reach the castle! 🔑✨</div>
-  </div>
-</div>
-
-<div id="winScreen" style="display:none;">
-  <div class="win-box">
-    <h1>🎉 YOU DID IT! 🎉</h1>
-    <p>You brought the key to the castle!</p>
-    <div id="finalMessage">
-      Now... will you be my Valentine? 💖
-      <br><br>
-      <button id="yesBtn" onclick="celebrate()">YES! 💕</button>
-      <button id="noBtn" onmouseover="moveNoBtn()">No</button>
+<!-- Main Menu -->
+<div id="mainMenu" class="screen active">
+  <div class="menu-container">
+    <h1 class="mario-title">MARIO'S<br>VALENTINE<br>QUEST</h1>
+    <div class="coin-icon">🪙</div>
+    <div class="menu-buttons">
+      <button class="mario-btn" onclick="startGame()">START</button>
+      <button class="mario-btn secondary" onclick="showInstructions()">INSTRUCTIONS</button>
     </div>
   </div>
 </div>
 
-<div id="celebrationScreen" style="display:none;">
-  <div class="win-box">
-    <h1 style="font-size: 48px;">💖 YESSS! 💖</h1>
-    <p style="font-size: 24px; margin-top: 20px;">I'm so happy! 😊</p>
+<!-- Instructions Screen -->
+<div id="instructionsScreen" class="screen">
+  <div class="instructions-container">
+    <div class="text-box">
+      <p>I have spent so much time on this game. You will see EVERY feature I added to make this happen. I made this game to ask an important question… it will be EPIC.</p>
+    </div>
+    <button class="mario-btn" onclick="backToMenu()">BACK</button>
   </div>
 </div>
 
-<script src="script-v1.js"></script>
+<!-- Game Screen -->
+<div id="gameScreen" class="screen">
+  <div id="hud">
+    <div id="keyStatus">🔑: <span id="hasKeyText">NO</span></div>
+    <div id="heartStatus">💖: <span id="hasHeartText">NO</span></div>
+  </div>
+  <canvas id="gameCanvas"></canvas>
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
