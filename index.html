@@ -4,142 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For My Valentine 💖</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Audio element for background music -->
-    <audio id="bgMusic" loop></audio>
 
-    <!-- STAGE 1: Song Selection -->
-    <div id="songSelection" class="stage active">
-        <div class="container">
-            <h1 class="romantic-title">Choose a song for our moment 💖</h1>
-            <div class="song-options">
-                <div class="song-card" data-song="with-you">
-                    <div class="song-icon">🎵</div>
-                    <h3>With You</h3>
-                    <p>Chris Brown</p>
-                </div>
-                <div class="song-card" data-song="sure-thing">
-                    <div class="song-icon">🎶</div>
-                    <h3>Sure Thing</h3>
-                    <p>Miguel</p>
-                </div>
-                <div class="song-card" data-song="let-me-love-you">
-                    <div class="song-icon">🎼</div>
-                    <h3>Let Me Love You</h3>
-                    <p>Mario</p>
-                </div>
+<audio id="bgMusic" loop></audio>
+
+<!-- STAGE 1 -->
+<div id="songSelection" class="stage active">
+    <div class="container">
+        <h1 class="romantic-title">Choose a song for our moment 💖</h1>
+
+        <div class="song-options">
+            <div class="song-card" data-song="with-you">
+                <h3>With You</h3>
+                <p>Chris Brown</p>
+            </div>
+            <div class="song-card" data-song="sure-thing">
+                <h3>Sure Thing</h3>
+                <p>Miguel</p>
+            </div>
+            <div class="song-card" data-song="let-me-love-you">
+                <h3>Let Me Love You</h3>
+                <p>Mario</p>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Song Animation Transition -->
-    <div id="songTransition" class="stage">
-        <div class="music-player-animation">
-            <div class="vinyl-record">
-                <div class="vinyl-center"></div>
-                <div class="vinyl-groove"></div>
-            </div>
-            <div class="music-notes">
-                <span class="note">♪</span>
-                <span class="note">♫</span>
-                <span class="note">♪</span>
-            </div>
-        </div>
-    </div>
+<!-- STAGE 2 -->
+<div id="songTransition" class="stage">
+    <div class="vinyl"></div>
+</div>
 
-    <!-- STAGE 2: Envelope Introduction -->
-    <div id="envelopeIntro" class="stage">
-        <div class="container">
-            <button id="nextToEnvelope" class="next-btn">Next 💌</button>
-        </div>
-    </div>
+<!-- STAGE 3 -->
+<div id="envelopeStage" class="stage">
+    <div class="container">
+        <div class="envelope" id="envelope">
+            <div class="envelope-top"></div>
+            <div class="letter">
+                <div class="letter-content">
+                    <p class="letter-text">
+                        Hey my love,<br><br>
+                        So I wrote this program just for you (yes, I know it’s nerdy,
+                        but I thought it’d be cute considering your man is a software engineer).<br><br>
 
-    <!-- STAGE 3: Envelope with Heart -->
-    <div id="envelopeStage" class="stage">
-        <div class="container">
-            <div class="envelope-container">
-                <div id="envelope" class="envelope">
-                    <div class="envelope-flap"></div>
-                    <div class="envelope-body"></div>
-                    <div id="heartSeal" class="heart-seal">
-                        <span class="heart-icon">💖</span>
-                    </div>
-                    <div class="letter" id="letter">
-                        <div class="letter-content">
-                            <div class="letter-header">
-                                <p class="date">February 2025</p>
-                            </div>
-                            
-                            <div class="letter-body">
-                                <p class="greeting">Hey my love,</p>
-                                
-                                <p>So I wrote this program just for you (yes, I know it's nerdy, but I thought it'd be cute considering your man is a software engineer).</p>
-                                
-                                <p>I love you so much and I care for you dearly. You're one in a million, and no matter what, I will always be by your side.</p>
-                                
-                                <p>I know through all the hard work you've been doing, sometimes you feel like you don't have much time off, or that it's tough to truly enjoy time to yourself. But when you're with me, you can turn your brain off.</p>
-                                
-                                <p>I love you endlessly — cheers to us, always and forever.</p>
-                                
-                                <p class="signature">Love, Yours.</p>
-                            </div>
+                        I love you so much and care for you dearly.
+                        You’re one in a million and I’ll always be by your side.<br><br>
 
-                            <!-- Photo placeholder -->
-                            <div class="photo-container">
-                                <div class="photo-placeholder">
-                                    <span>💕</span>
-                                    <p class="photo-note">Our special moment together</p>
-                                </div>
-                            </div>
+                        When you’re with me, you can turn your brain off.
+                        I love you endlessly — cheers to us, always and forever.<br><br>
 
-                            <button id="nextToDrumroll" class="next-btn">Next</button>
-                        </div>
-                    </div>
-                </div>
-                <p class="envelope-instruction">Click the heart to open me up 💌</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- STAGE 4: Drumroll -->
-    <div id="drumrollStage" class="stage">
-        <div class="container">
-            <h1 class="drumroll-text">Drumroll plsssss 🥁</h1>
-            <div class="drumroll-animation">
-                <div class="drum">🥁</div>
-                <div class="drum-sticks">
-                    <span class="stick left">🥢</span>
-                    <span class="stick right">🥢</span>
+                        <span class="signature">Love, Yours 💖</span>
+                    </p>
                 </div>
             </div>
+            <div class="heart-seal" id="heartSeal">💗</div>
         </div>
-    </div>
 
-    <!-- STAGE 5: The Question -->
-    <div id="questionStage" class="stage">
-        <div class="container">
-            <h1 class="question-title">Will you be my Valentine?</h1>
-            <div class="button-container">
-                <button id="yesBtn" class="answer-btn yes-btn">Yes 💖</button>
-                <button id="noBtn" class="answer-btn no-btn">No 😅</button>
-            </div>
-            <p id="noMessage" class="no-message"></p>
-        </div>
+        <p class="instruction">Click the heart 💌</p>
+        <button id="nextBtn" class="next-btn hidden">Next</button>
     </div>
+</div>
 
-    <!-- STAGE 6: Celebration -->
-    <div id="celebrationStage" class="stage">
-        <div class="container">
-            <h1 class="celebration-title">YAY!!! 💖💖💖</h1>
-            <h2 class="celebration-subtitle">Best Valentine ever!</h2>
-            <div class="confetti-container" id="confettiContainer"></div>
-            <div class="hearts-container" id="heartsContainer"></div>
-            <div class="fireworks-container" id="fireworksContainer"></div>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
