@@ -448,102 +448,147 @@ function drawMario64Style() {
     ctx.translate(drawX, drawY);
   }
 
-  // Mario 64 inspired design
-  // Red Hat
+  const w = mario.width;
+  const h = mario.height;
+  
+  // Based on reference: Round Mario with proper proportions
+  
+  // Large red hat (covers top of head, not floating)
   ctx.fillStyle = '#e60012';
   ctx.beginPath();
-  ctx.arc(mario.width / 2, 8, 14, Math.PI, 0);
+  ctx.ellipse(w/2, h*0.25, w*0.45, h*0.22, 0, Math.PI, Math.PI * 2);
   ctx.fill();
   
-  // Hat brim
-  ctx.fillStyle = '#8B0000';
-  ctx.fillRect(4, 14, mario.width - 8, 4);
+  // Hat brim (darker red, rounded)
+  ctx.fillStyle = '#c00000';
+  ctx.beginPath();
+  ctx.ellipse(w/2, h*0.28, w*0.48, h*0.08, 0, 0, Math.PI * 2);
+  ctx.fill();
   
-  // M logo on hat
+  // White M circle on hat
   ctx.fillStyle = '#fff';
-  ctx.font = 'bold 12px Arial';
+  ctx.beginPath();
+  ctx.arc(w/2, h*0.18, w*0.14, 0, Math.PI * 2);
+  ctx.fill();
+  
+  ctx.fillStyle = '#e60012';
+  ctx.font = `bold ${w*0.28}px Arial`;
   ctx.textAlign = 'center';
-  ctx.fillText('M', mario.width / 2, 10);
+  ctx.textBaseline = 'middle';
+  ctx.fillText('M', w/2, h*0.18);
   
-  // Face (peach/tan color)
-  ctx.fillStyle = '#fdbcb4';
+  // Round head/face (peach color)
+  ctx.fillStyle = '#f4c7ab';
   ctx.beginPath();
-  ctx.arc(mario.width / 2, 24, 12, 0, Math.PI * 2);
+  ctx.arc(w/2, h*0.42, w*0.38, 0, Math.PI * 2);
   ctx.fill();
   
-  // Eyes (big blue eyes)
+  // Big blue eyes with white
   ctx.fillStyle = '#fff';
   ctx.beginPath();
-  ctx.arc(14, 22, 4, 0, Math.PI * 2);
-  ctx.arc(26, 22, 4, 0, Math.PI * 2);
+  ctx.ellipse(w*0.35, h*0.38, w*0.12, h*0.14, 0, 0, Math.PI * 2);
+  ctx.ellipse(w*0.65, h*0.38, w*0.12, h*0.14, 0, 0, Math.PI * 2);
   ctx.fill();
   
-  // Pupils
-  ctx.fillStyle = '#0066cc';
+  // Blue iris
+  ctx.fillStyle = '#4a9eff';
   ctx.beginPath();
-  ctx.arc(14, 22, 2, 0, Math.PI * 2);
-  ctx.arc(26, 22, 2, 0, Math.PI * 2);
+  ctx.arc(w*0.36, h*0.38, w*0.08, 0, Math.PI * 2);
+  ctx.arc(w*0.64, h*0.38, w*0.08, 0, Math.PI * 2);
   ctx.fill();
   
-  // Nose
-  ctx.fillStyle = '#fdbcb4';
-  ctx.beginPath();
-  ctx.arc(mario.width / 2, 26, 3, 0, Math.PI * 2);
-  ctx.fill();
-  
-  // Mustache (black, thick)
+  // Black pupils with shine
   ctx.fillStyle = '#000';
   ctx.beginPath();
-  ctx.ellipse(mario.width / 2, 29, 10, 3, 0, 0, Math.PI * 2);
+  ctx.arc(w*0.37, h*0.38, w*0.04, 0, Math.PI * 2);
+  ctx.arc(w*0.63, h*0.38, w*0.04, 0, Math.PI * 2);
   ctx.fill();
   
-  // Body - Red shirt
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.arc(w*0.38, h*0.37, w*0.02, 0, Math.PI * 2);
+  ctx.arc(w*0.64, h*0.37, w*0.02, 0, Math.PI * 2);
+  ctx.fill();
+  
+  // Round nose
+  ctx.fillStyle = '#f4c7ab';
+  ctx.beginPath();
+  ctx.ellipse(w/2, h*0.45, w*0.14, h*0.12, 0, 0, Math.PI);
+  ctx.fill();
+  
+  // Big thick mustache (dark brown/black)
+  ctx.fillStyle = '#3d2817';
+  ctx.beginPath();
+  ctx.ellipse(w*0.3, h*0.52, w*0.18, h*0.12, -0.3, 0, Math.PI);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.ellipse(w*0.7, h*0.52, w*0.18, h*0.12, 0.3, 0, Math.PI);
+  ctx.fill();
+  
+  // Red shirt (visible at neckline)
   ctx.fillStyle = '#e60012';
-  ctx.fillRect(8, 30, 24, 5);
+  ctx.fillRect(w*0.25, h*0.58, w*0.5, h*0.08);
   
-  // Blue overalls
-  ctx.fillStyle = '#0000ff';
-  ctx.fillRect(10, 35, 20, 3);
-  ctx.fillRect(8, 38, 24, 2);
+  // Blue overalls body
+  ctx.fillStyle = '#2758d6';
+  ctx.fillRect(w*0.2, h*0.66, w*0.6, h*0.3);
   
-  // Legs
-  ctx.fillStyle = '#0000ff';
-  if (mario.walkFrame === 1 && mario.isWalking) {
-    ctx.fillRect(8, 40, 10, 8);
-    ctx.fillRect(22, 40, 10, 8);
-  } else {
-    ctx.fillRect(12, 40, 8, 8);
-    ctx.fillRect(20, 40, 8, 8);
-  }
+  // Overall straps
+  ctx.fillStyle = '#2758d6';
+  ctx.fillRect(w*0.28, h*0.58, w*0.12, h*0.12);
+  ctx.fillRect(w*0.6, h*0.58, w*0.12, h*0.12);
   
-  // Shoes (brown)
+  // Yellow buttons (shiny)
+  const gradient = ctx.createRadialGradient(w*0.34, h*0.64, 0, w*0.34, h*0.64, w*0.08);
+  gradient.addColorStop(0, '#ffeb3b');
+  gradient.addColorStop(1, '#ffc107');
+  ctx.fillStyle = gradient;
+  ctx.beginPath();
+  ctx.arc(w*0.34, h*0.64, w*0.08, 0, Math.PI * 2);
+  ctx.arc(w*0.66, h*0.64, w*0.08, 0, Math.PI * 2);
+  ctx.fill();
+  
+  // White gloves (rounded, puffy)
+  ctx.fillStyle = '#fff';
+  ctx.strokeStyle = '#ccc';
+  ctx.lineWidth = 1;
+  
+  // Left glove
+  ctx.beginPath();
+  ctx.arc(w*0.05, h*0.7, w*0.18, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  
+  // Right glove
+  ctx.beginPath();
+  ctx.arc(w*0.95, h*0.7, w*0.18, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  
+  // Brown shoes
   ctx.fillStyle = '#8B4513';
   if (mario.walkFrame === 1 && mario.isWalking) {
-    ctx.fillRect(8, 48, 10, 4);
-    ctx.fillRect(22, 48, 10, 4);
+    ctx.beginPath();
+    ctx.ellipse(w*0.3, h*0.98, w*0.16, h*0.08, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.ellipse(w*0.7, h*0.98, w*0.16, h*0.08, 0, 0, Math.PI * 2);
+    ctx.fill();
   } else {
-    ctx.fillRect(12, 48, 8, 4);
-    ctx.fillRect(20, 48, 8, 4);
+    ctx.beginPath();
+    ctx.ellipse(w*0.35, h*0.98, w*0.16, h*0.08, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.ellipse(w*0.65, h*0.98, w*0.16, h*0.08, 0, 0, Math.PI * 2);
+    ctx.fill();
   }
-  
-  // Yellow buttons
-  ctx.fillStyle = '#FFD700';
-  ctx.beginPath();
-  ctx.arc(14, 37, 2, 0, Math.PI * 2);
-  ctx.arc(26, 37, 2, 0, Math.PI * 2);
-  ctx.fill();
-  
-  // White gloves
-  ctx.fillStyle = '#fff';
-  ctx.fillRect(-2, 32, 6, 6);
-  ctx.fillRect(mario.width - 4, 32, 6, 6);
 
   if (game.hasHeart && heart.collected) {
     ctx.fillStyle = '#ff69b4';
     ctx.font = 'bold 20px Arial';
     ctx.shadowBlur = 10;
     ctx.shadowColor = '#ff69b4';
-    ctx.fillText('💖', mario.width + 2, 20);
+    ctx.fillText('💖', w + 2, 20);
     ctx.shadowBlur = 0;
   }
 
@@ -1052,23 +1097,29 @@ function generateMaze() {
 }
 
 function drawMaze() {
-  mazeCtx.fillStyle = '#2c3e50';
+  // White background
+  mazeCtx.fillStyle = '#fff';
   mazeCtx.fillRect(0, 0, mazeCanvas.width, mazeCanvas.height);
   
-  // Draw maze walls
+  // Draw heart-shaped maze with high contrast
+  const centerX = mazeCanvas.width / 2;
+  const centerY = mazeCanvas.height / 2;
+  
+  // Draw maze paths (white) and walls (pink)
   for (let y = 0; y < maze.rows; y++) {
     for (let x = 0; x < maze.cols; x++) {
       const cell = maze.grid[y][x];
       const px = x * maze.cellSize;
       const py = y * maze.cellSize;
       
-      // Draw cell background
-      mazeCtx.fillStyle = '#ecf0f1';
-      mazeCtx.fillRect(px + 1, py + 1, maze.cellSize - 2, maze.cellSize - 2);
+      // Walkable path - white
+      mazeCtx.fillStyle = '#fff';
+      mazeCtx.fillRect(px + 2, py + 2, maze.cellSize - 4, maze.cellSize - 4);
       
-      // Draw walls
-      mazeCtx.strokeStyle = '#34495e';
-      mazeCtx.lineWidth = 3;
+      // Draw thick pink walls for visibility
+      mazeCtx.strokeStyle = '#f48fb1';
+      mazeCtx.lineWidth = 8;
+      mazeCtx.lineCap = 'round';
       
       if (!cell.top) {
         mazeCtx.beginPath();
@@ -1097,37 +1148,103 @@ function drawMaze() {
     }
   }
   
-  // Draw goal (guy with flowers)
-  const goalX = maze.goal.x * maze.cellSize;
-  const goalY = maze.goal.y * maze.cellSize;
-  
-  mazeCtx.fillStyle = '#3498db';
+  // Draw heart-shaped border
+  mazeCtx.strokeStyle = '#f48fb1';
+  mazeCtx.lineWidth = 12;
   mazeCtx.beginPath();
-  mazeCtx.arc(goalX + maze.cellSize / 2, goalY + 10, 8, 0, Math.PI * 2);
+  
+  // Create heart shape
+  const scale = 300;
+  const offsetY = 100;
+  for (let t = 0; t <= Math.PI * 2; t += 0.01) {
+    const x = scale * (16 * Math.pow(Math.sin(t), 3));
+    const y = -scale * (13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+    
+    if (t === 0) {
+      mazeCtx.moveTo(centerX + x, centerY + y/16 + offsetY);
+    } else {
+      mazeCtx.lineTo(centerX + x, centerY + y/16 + offsetY);
+    }
+  }
+  mazeCtx.closePath();
+  mazeCtx.stroke();
+  
+  // Draw goal (simple guy with flower - matching reference)
+  const goalX = maze.goal.x * maze.cellSize + maze.cellSize / 2;
+  const goalY = maze.goal.y * maze.cellSize + maze.cellSize / 2;
+  
+  // Guy - simple minimalist style like reference
+  // Brown hair (half circle)
+  mazeCtx.fillStyle = '#8B4513';
+  mazeCtx.beginPath();
+  mazeCtx.arc(goalX, goalY - 10, 8, Math.PI, 0);
   mazeCtx.fill();
   
-  mazeCtx.fillStyle = '#2980b9';
-  mazeCtx.fillRect(goalX + maze.cellSize / 2 - 6, goalY + 18, 12, 12);
+  // Pink face circle
+  mazeCtx.fillStyle = '#ffc0cb';
+  mazeCtx.beginPath();
+  mazeCtx.arc(goalX, goalY - 10, 7, 0, Math.PI * 2);
+  mazeCtx.fill();
   
+  // Simple eye dot
+  mazeCtx.fillStyle = '#000';
+  mazeCtx.beginPath();
+  mazeCtx.arc(goalX, goalY - 10, 1, 0, Math.PI * 2);
+  mazeCtx.fill();
+  
+  // Red body (simple rectangle)
+  mazeCtx.fillStyle = '#e60012';
+  mazeCtx.fillRect(goalX - 8, goalY, 16, 18);
+  
+  // Pink/red flower
+  mazeCtx.fillStyle = '#ff1493';
   mazeCtx.font = '16px Arial';
-  mazeCtx.fillText('💐', goalX + 5, goalY + 15);
+  mazeCtx.fillText('🌸', goalX - 12, goalY + 8);
   
-  // Draw player (girl)
-  const playerX = maze.player.x * maze.cellSize;
-  const playerY = maze.player.y * maze.cellSize;
+  // Draw player (simple girl - matching reference)
+  const playerX = maze.player.x * maze.cellSize + maze.cellSize / 2;
+  const playerY = maze.player.y * maze.cellSize + maze.cellSize / 2;
   
-  mazeCtx.fillStyle = '#e74c3c';
+  // Brown hair
+  mazeCtx.fillStyle = '#8B4513';
   mazeCtx.beginPath();
-  mazeCtx.arc(playerX + maze.cellSize / 2, playerY + 10, 8, 0, Math.PI * 2);
+  mazeCtx.arc(playerX, playerY - 10, 8, Math.PI, 0);
   mazeCtx.fill();
   
-  mazeCtx.fillStyle = '#c0392b';
-  mazeCtx.fillRect(playerX + maze.cellSize / 2 - 6, playerY + 18, 12, 12);
-  
-  mazeCtx.fillStyle = '#f39c12';
+  // Pink face
+  mazeCtx.fillStyle = '#ffc0cb';
   mazeCtx.beginPath();
-  mazeCtx.arc(playerX + maze.cellSize / 2, playerY + 6, 6, Math.PI, 0);
+  mazeCtx.arc(playerX, playerY - 10, 7, 0, Math.PI * 2);
   mazeCtx.fill();
+  
+  // Eye dot
+  mazeCtx.fillStyle = '#000';
+  mazeCtx.beginPath();
+  mazeCtx.arc(playerX, playerY - 10, 1, 0, Math.PI * 2);
+  mazeCtx.fill();
+  
+  // Purple dress (triangle shape)
+  mazeCtx.fillStyle = '#6a1b9a';
+  mazeCtx.beginPath();
+  mazeCtx.moveTo(playerX, playerY);
+  mazeCtx.lineTo(playerX - 10, playerY + 18);
+  mazeCtx.lineTo(playerX + 10, playerY + 18);
+  mazeCtx.closePath();
+  mazeCtx.fill();
+  
+  // Add visible border around characters for clarity
+  mazeCtx.strokeStyle = '#000';
+  mazeCtx.lineWidth = 2;
+  
+  // Border around girl
+  mazeCtx.beginPath();
+  mazeCtx.arc(playerX, playerY - 10, 8, 0, Math.PI * 2);
+  mazeCtx.stroke();
+  
+  // Border around guy
+  mazeCtx.beginPath();
+  mazeCtx.arc(goalX, goalY - 10, 8, 0, Math.PI * 2);
+  mazeCtx.stroke();
 }
 
 function reachedGoal() {
