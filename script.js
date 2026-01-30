@@ -71,10 +71,10 @@ const mario = {
   walkTimer: 0
 };
 
-// Key object
+// Key object - easier to reach position
 const key = {
-  x: 800,
-  y: 350,
+  x: 300,
+  y: 520,  // On the ground, easy to get!
   width: 30,
   height: 30,
   collected: false,
@@ -293,8 +293,8 @@ function updateMario() {
     }
   });
 
-  // Check box collision from below - IMPROVED HITBOX
-  if (game.hasKey && mario.velocityY < 0) {
+  // Check box collision from below - ALWAYS BREAKABLE (no key needed!)
+  if (mario.velocityY < 0) {
     boxes.forEach((box, index) => {
       if (!box.broken) {
         // More forgiving collision detection
@@ -481,82 +481,115 @@ function draw8BitMario() {
     ctx.translate(drawX, drawY);
   }
 
-  const p = 4; // pixel size
+  const p = 2; // Smaller pixels for more detail (16x16 grid now)
   
-  // Enhanced 8-bit Mario with better proportions
-  // Row 0 - Hat top
+  // Better proportioned Mario sprite
+  
+  // Row 0-1: Hat top
   ctx.fillStyle = '#e60012';
-  ctx.fillRect(p * 2, 0, p * 4, p);
+  ctx.fillRect(p * 5, 0, p * 6, p);
+  ctx.fillRect(p * 4, p, p * 8, p);
   
-  // Row 1 - Hat wide
-  ctx.fillRect(p, p, p * 6, p);
-  
-  // Row 2 - Hat & face edge
-  ctx.fillStyle = '#e60012';
-  ctx.fillRect(p, p * 2, p, p);
-  ctx.fillRect(p * 2, p * 2, p * 3, p);
+  // Row 2-3: Hat brim and top of face
+  ctx.fillRect(p * 3, p * 2, p * 10, p);
   ctx.fillStyle = '#fdbcb4';
-  ctx.fillRect(p * 5, p * 2, p * 2, p);
-  ctx.fillStyle = '#8B4513'; // Hair
-  ctx.fillRect(p * 7, p * 2, p, p);
-  
-  // Row 3 - Face with eyes
-  ctx.fillStyle = '#fdbcb4';
-  ctx.fillRect(0, p * 3, p * 2, p);
-  ctx.fillStyle = '#000'; // Eye
-  ctx.fillRect(p * 2, p * 3, p, p);
-  ctx.fillStyle = '#fdbcb4';
-  ctx.fillRect(p * 3, p * 3, p, p);
-  ctx.fillStyle = '#000'; // Eye
   ctx.fillRect(p * 4, p * 3, p, p);
-  ctx.fillStyle = '#fdbcb4';
-  ctx.fillRect(p * 5, p * 3, p * 3, p);
+  ctx.fillRect(p * 11, p * 3, p, p);
+  ctx.fillStyle = '#e60012';
+  ctx.fillRect(p * 5, p * 3, p * 6, p);
   
-  // Row 4 - Mustache
+  // Row 4: Eyes and face
   ctx.fillStyle = '#fdbcb4';
-  ctx.fillRect(0, p * 4, p, p);
-  ctx.fillStyle = '#000';
-  ctx.fillRect(p, p * 4, p * 6, p);
+  ctx.fillRect(p * 3, p * 4, p * 2, p);
+  ctx.fillStyle = '#FFF'; // White of eyes
+  ctx.fillRect(p * 5, p * 4, p * 2, p);
   ctx.fillStyle = '#fdbcb4';
   ctx.fillRect(p * 7, p * 4, p, p);
-  
-  // Row 5 - Chin & shirt
+  ctx.fillStyle = '#FFF';
+  ctx.fillRect(p * 8, p * 4, p * 2, p);
   ctx.fillStyle = '#fdbcb4';
-  ctx.fillRect(p, p * 5, p, p);
-  ctx.fillStyle = '#e60012';
-  ctx.fillRect(p * 2, p * 5, p * 4, p);
+  ctx.fillRect(p * 10, p * 4, p * 3, p);
+  
+  // Row 5: Pupils and nose
+  ctx.fillStyle = '#fdbcb4';
+  ctx.fillRect(p * 3, p * 5, p * 2, p);
+  ctx.fillStyle = '#000'; // Left pupil
+  ctx.fillRect(p * 5, p * 5, p, p);
   ctx.fillStyle = '#fdbcb4';
   ctx.fillRect(p * 6, p * 5, p, p);
+  ctx.fillStyle = '#000'; // Nose
+  ctx.fillRect(p * 7, p * 5, p, p);
+  ctx.fillStyle = '#fdbcb4';
+  ctx.fillRect(p * 8, p * 5, p, p);
+  ctx.fillStyle = '#000'; // Right pupil
+  ctx.fillRect(p * 9, p * 5, p, p);
+  ctx.fillStyle = '#fdbcb4';
+  ctx.fillRect(p * 10, p * 5, p * 3, p);
   
-  // Row 6 - Overalls straps with buttons
-  ctx.fillStyle = '#0000ff';
-  ctx.fillRect(p, p * 6, p, p);
-  ctx.fillStyle = '#FFD700'; // Button
-  ctx.fillRect(p * 2, p * 6, p, p);
+  // Row 6: Mustache top
+  ctx.fillStyle = '#fdbcb4';
+  ctx.fillRect(p * 3, p * 6, p, p);
+  ctx.fillStyle = '#8B4513'; // Brown mustache
+  ctx.fillRect(p * 4, p * 6, p * 8, p);
+  ctx.fillStyle = '#fdbcb4';
+  ctx.fillRect(p * 12, p * 6, p, p);
+  
+  // Row 7: Mustache bottom
+  ctx.fillStyle = '#fdbcb4';
+  ctx.fillRect(p * 2, p * 7, p * 2, p);
+  ctx.fillStyle = '#8B4513';
+  ctx.fillRect(p * 4, p * 7, p * 8, p);
+  ctx.fillStyle = '#fdbcb4';
+  ctx.fillRect(p * 12, p * 7, p * 2, p);
+  
+  // Row 8: Mouth/chin
+  ctx.fillStyle = '#fdbcb4';
+  ctx.fillRect(p * 4, p * 8, p * 8, p);
+  
+  // Row 9-10: Shirt
   ctx.fillStyle = '#e60012';
-  ctx.fillRect(p * 3, p * 6, p * 2, p);
-  ctx.fillStyle = '#FFD700'; // Button
-  ctx.fillRect(p * 5, p * 6, p, p);
-  ctx.fillStyle = '#0000ff';
-  ctx.fillRect(p * 6, p * 6, p, p);
+  ctx.fillRect(p * 4, p * 9, p * 8, p);
+  ctx.fillRect(p * 3, p * 10, p * 10, p);
   
-  // Row 7 - Legs with walking animation
+  // Row 11-12: Overalls with buttons
+  ctx.fillStyle = '#0000ff';
+  ctx.fillRect(p * 2, p * 11, p * 3, p);
+  ctx.fillStyle = '#FFD700'; // Left button
+  ctx.fillRect(p * 5, p * 11, p, p);
+  ctx.fillStyle = '#e60012';
+  ctx.fillRect(p * 6, p * 11, p * 4, p);
+  ctx.fillStyle = '#FFD700'; // Right button
+  ctx.fillRect(p * 10, p * 11, p, p);
+  ctx.fillStyle = '#0000ff';
+  ctx.fillRect(p * 11, p * 11, p * 3, p);
+  
+  ctx.fillStyle = '#0000ff';
+  ctx.fillRect(p * 2, p * 12, p * 12, p);
+  
+  // Row 13-14: Overalls bottom
+  ctx.fillRect(p * 3, p * 13, p * 10, p);
+  ctx.fillRect(p * 4, p * 14, p * 8, p);
+  
+  // Row 15: Legs with walking animation
   ctx.fillStyle = '#0000ff';
   if (mario.walkFrame === 1 && mario.isWalking) {
-    // Walking pose - legs apart
-    ctx.fillRect(0, p * 7, p * 3, p);
-    ctx.fillRect(p * 5, p * 7, p * 3, p);
+    // Walking - legs spread
+    ctx.fillRect(p * 3, p * 15, p * 4, p);
+    ctx.fillRect(p * 9, p * 15, p * 4, p);
   } else {
-    // Standing pose - legs together
-    ctx.fillRect(p, p * 7, p * 3, p);
-    ctx.fillRect(p * 4, p * 7, p * 3, p);
+    // Standing - legs together
+    ctx.fillRect(p * 5, p * 15, p * 3, p);
+    ctx.fillRect(p * 8, p * 15, p * 3, p);
   }
 
   // If holding heart, draw it
   if (game.hasHeart && heart.collected) {
     ctx.fillStyle = '#ff69b4';
-    ctx.font = '20px Arial';
-    ctx.fillText('💖', mario.width + 5, 20);
+    ctx.font = 'bold 24px Arial';
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = '#ff69b4';
+    ctx.fillText('💖', mario.width + 2, 20);
+    ctx.shadowBlur = 0;
   }
 
   ctx.restore();
@@ -676,139 +709,248 @@ function drawHeart() {
 
 function drawCastle() {
   const drawX = castle.x - camera.x;
+  const baseY = castle.y;
   
-  // Main castle body (cream/tan color)
+  // Background towers (symmetry)
+  ctx.fillStyle = '#E8D5B7';
+  ctx.fillRect(drawX - 5, baseY + 80, 25, 120);
+  ctx.fillRect(drawX + 70, baseY + 80, 25, 120);
+  
+  ctx.strokeStyle = '#8B7355';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(drawX - 5, baseY + 80, 25, 120);
+  ctx.strokeRect(drawX + 70, baseY + 80, 25, 120);
+  
+  // Main castle body (larger, more impressive)
   ctx.fillStyle = '#F5DEB3';
-  ctx.fillRect(drawX + 10, castle.y + 40, 70, 160);
-  
-  // Castle body outline
+  ctx.fillRect(drawX + 5, baseY + 50, 80, 150);
   ctx.strokeStyle = '#000';
   ctx.lineWidth = 3;
-  ctx.strokeRect(drawX + 10, castle.y + 40, 70, 160);
+  ctx.strokeRect(drawX + 5, baseY + 50, 80, 150);
   
-  // Left tower
+  // Castle bricks pattern
+  ctx.strokeStyle = 'rgba(139, 115, 85, 0.3)';
+  ctx.lineWidth = 1;
+  for (let i = baseY + 60; i < baseY + 200; i += 12) {
+    ctx.beginPath();
+    ctx.moveTo(drawX + 5, i);
+    ctx.lineTo(drawX + 85, i);
+    ctx.stroke();
+  }
+  for (let i = drawX + 15; i < drawX + 85; i += 20) {
+    ctx.beginPath();
+    ctx.moveTo(i, baseY + 50);
+    ctx.lineTo(i, baseY + 200);
+    ctx.stroke();
+  }
+  
+  // Side towers
   ctx.fillStyle = '#F5DEB3';
-  ctx.fillRect(drawX, castle.y + 60, 20, 140);
-  ctx.strokeRect(drawX, castle.y + 60, 20, 140);
+  ctx.fillRect(drawX - 5, baseY + 80, 15, 120);
+  ctx.fillRect(drawX + 80, baseY + 80, 15, 120);
   
-  // Right tower
-  ctx.fillRect(drawX + 70, castle.y + 60, 20, 140);
-  ctx.strokeRect(drawX + 70, castle.y + 60, 20, 140);
+  ctx.strokeStyle = '#000';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(drawX - 5, baseY + 80, 15, 120);
+  ctx.strokeRect(drawX + 80, baseY + 80, 15, 120);
   
-  // Center tower (taller)
-  ctx.fillRect(drawX + 30, castle.y, 30, 50);
-  ctx.strokeRect(drawX + 30, castle.y, 30, 50);
+  // Center tower (tallest)
+  ctx.fillStyle = '#F5DEB3';
+  ctx.fillRect(drawX + 30, baseY, 30, 60);
+  ctx.strokeRect(drawX + 30, baseY, 30, 60);
   
-  // Red roofs (cone-style)
-  ctx.fillStyle = '#e60012';
+  // RED ROOFS - Mario 64 style
+  ctx.fillStyle = '#DC143C';
   
-  // Center tower roof
+  // Left tower roof (cone)
   ctx.beginPath();
-  ctx.moveTo(drawX + 25, castle.y);
-  ctx.lineTo(drawX + 45, castle.y - 30);
-  ctx.lineTo(drawX + 65, castle.y);
+  ctx.moveTo(drawX - 8, baseY + 80);
+  ctx.lineTo(drawX + 2.5, baseY + 50);
+  ctx.lineTo(drawX + 13, baseY + 80);
   ctx.closePath();
   ctx.fill();
+  ctx.strokeStyle = '#8B0000';
+  ctx.lineWidth = 2;
   ctx.stroke();
   
-  // Left tower roof
-  ctx.beginPath();
-  ctx.moveTo(drawX - 5, castle.y + 60);
-  ctx.lineTo(drawX + 10, castle.y + 35);
-  ctx.lineTo(drawX + 25, castle.y + 60);
-  ctx.closePath();
-  ctx.fill();
-  ctx.stroke();
+  // Add roof lines
+  ctx.strokeStyle = '#8B0000';
+  for (let i = 0; i < 3; i++) {
+    ctx.beginPath();
+    ctx.moveTo(drawX - 8 + i * 3.5, baseY + 80 - i * 5);
+    ctx.lineTo(drawX + 13 - i * 3.5, baseY + 80 - i * 5);
+    ctx.stroke();
+  }
   
   // Right tower roof
+  ctx.fillStyle = '#DC143C';
   ctx.beginPath();
-  ctx.moveTo(drawX + 65, castle.y + 60);
-  ctx.lineTo(drawX + 80, castle.y + 35);
-  ctx.lineTo(drawX + 95, castle.y + 60);
+  ctx.moveTo(drawX + 77, baseY + 80);
+  ctx.lineTo(drawX + 87.5, baseY + 50);
+  ctx.lineTo(drawX + 98, baseY + 80);
   ctx.closePath();
   ctx.fill();
+  ctx.strokeStyle = '#8B0000';
+  ctx.lineWidth = 2;
   ctx.stroke();
+  
+  for (let i = 0; i < 3; i++) {
+    ctx.beginPath();
+    ctx.moveTo(drawX + 77 + i * 3.5, baseY + 80 - i * 5);
+    ctx.lineTo(drawX + 98 - i * 3.5, baseY + 80 - i * 5);
+    ctx.stroke();
+  }
+  
+  // Center tower roof (tallest)
+  ctx.fillStyle = '#DC143C';
+  ctx.beginPath();
+  ctx.moveTo(drawX + 25, baseY);
+  ctx.lineTo(drawX + 45, baseY - 35);
+  ctx.lineTo(drawX + 65, baseY);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = '#8B0000';
+  ctx.stroke();
+  
+  for (let i = 0; i < 4; i++) {
+    ctx.beginPath();
+    ctx.moveTo(drawX + 25 + i * 5, baseY - i * 6);
+    ctx.lineTo(drawX + 65 - i * 5, baseY - i * 6);
+    ctx.stroke();
+  }
   
   // Main roof
+  ctx.fillStyle = '#DC143C';
   ctx.beginPath();
-  ctx.moveTo(drawX + 5, castle.y + 40);
-  ctx.lineTo(drawX + 45, castle.y + 10);
-  ctx.lineTo(drawX + 85, castle.y + 40);
+  ctx.moveTo(drawX, baseY + 50);
+  ctx.lineTo(drawX + 45, baseY + 15);
+  ctx.lineTo(drawX + 90, baseY + 50);
   ctx.closePath();
   ctx.fill();
   ctx.stroke();
   
-  // Large front door (arched)
-  const doorX = drawX + 30;
-  const doorY = castle.y + 140;
+  // Peach's pink flag with crown
+  ctx.fillStyle = '#ff69b4';
+  ctx.fillRect(drawX + 45, baseY - 35, 3, 35);
   
-  // Door background
+  // Flag cloth
+  ctx.fillRect(drawX + 48, baseY - 33, 18, 12);
+  ctx.strokeStyle = '#000';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(drawX + 48, baseY - 33, 18, 12);
+  
+  // Crown on flag
+  ctx.fillStyle = '#FFD700';
+  ctx.font = 'bold 10px Arial';
+  ctx.fillText('👑', drawX + 50, baseY - 23);
+  
+  // Grand entrance door (larger)
+  const doorX = drawX + 27;
+  const doorY = baseY + 140;
+  const doorWidth = 36;
+  const doorHeight = 60;
+  
+  // Door decoration frame
+  ctx.fillStyle = '#C19A6B';
+  ctx.fillRect(doorX - 3, doorY - 3, doorWidth + 6, doorHeight + 3);
+  
+  // Door itself
   ctx.fillStyle = '#654321';
-  ctx.fillRect(doorX, doorY, 30, 60);
+  ctx.fillRect(doorX, doorY, doorWidth, doorHeight);
   
-  // Door arch
+  // Arched top
   ctx.beginPath();
-  ctx.arc(doorX + 15, doorY, 15, Math.PI, 0);
+  ctx.arc(doorX + doorWidth / 2, doorY, doorWidth / 2, Math.PI, 0);
   ctx.fill();
-  ctx.stroke();
   
-  // Door frame
-  ctx.strokeRect(doorX, doorY, 30, 60);
+  // Door panels
+  ctx.strokeStyle = '#8B4513';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(doorX + 4, doorY + 5, doorWidth - 8, doorHeight - 10);
+  ctx.strokeRect(doorX + 8, doorY + 10, doorWidth - 16, doorHeight - 20);
   
-  // Windows (arched, blue)
+  // Door frame outline
+  ctx.strokeStyle = '#000';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(doorX, doorY, doorWidth, doorHeight);
+  
+  // Door handle
+  ctx.fillStyle = '#FFD700';
+  ctx.beginPath();
+  ctx.arc(doorX + doorWidth - 8, doorY + doorHeight / 2, 3, 0, Math.PI * 2);
+  ctx.fill();
+  
+  // Beautiful arched windows
   ctx.fillStyle = '#87CEEB';
   
   // Left window
-  ctx.fillRect(drawX + 15, castle.y + 100, 15, 20);
+  const winX1 = drawX + 12;
+  const winY = baseY + 100;
+  ctx.fillRect(winX1, winY, 18, 28);
   ctx.beginPath();
-  ctx.arc(drawX + 22.5, castle.y + 100, 7.5, Math.PI, 0);
+  ctx.arc(winX1 + 9, winY, 9, Math.PI, 0);
   ctx.fill();
-  ctx.strokeRect(drawX + 15, castle.y + 100, 15, 20);
   
-  // Right window
-  ctx.fillRect(drawX + 60, castle.y + 100, 15, 20);
-  ctx.beginPath();
-  ctx.arc(drawX + 67.5, castle.y + 100, 7.5, Math.PI, 0);
-  ctx.fill();
-  ctx.strokeRect(drawX + 60, castle.y + 100, 15, 20);
-  
-  // Top window
-  ctx.fillRect(drawX + 37, castle.y + 15, 16, 20);
-  ctx.strokeRect(drawX + 37, castle.y + 15, 16, 20);
-  
-  // Peach's flag on top
-  ctx.fillStyle = '#ff69b4';
-  ctx.fillRect(drawX + 45, castle.y - 30, 2, 30);
-  ctx.fillRect(drawX + 47, castle.y - 28, 12, 8);
+  // Window panes
   ctx.strokeStyle = '#000';
   ctx.lineWidth = 2;
-  ctx.strokeRect(drawX + 47, castle.y - 28, 12, 8);
+  ctx.strokeRect(winX1, winY, 18, 28);
+  ctx.beginPath();
+  ctx.moveTo(winX1 + 9, winY);
+  ctx.lineTo(winX1 + 9, winY + 28);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(winX1, winY + 14);
+  ctx.lineTo(winX1 + 18, winY + 14);
+  ctx.stroke();
   
-  // Crown symbol on flag
-  ctx.fillStyle = '#FFD700';
-  ctx.font = 'bold 8px Arial';
-  ctx.fillText('♔', drawX + 49, castle.y - 21);
+  // Right window
+  const winX2 = drawX + 60;
+  ctx.fillStyle = '#87CEEB';
+  ctx.fillRect(winX2, winY, 18, 28);
+  ctx.beginPath();
+  ctx.arc(winX2 + 9, winY, 9, Math.PI, 0);
+  ctx.fill();
   
-  // Star on door (if player has heart)
+  ctx.strokeStyle = '#000';
+  ctx.strokeRect(winX2, winY, 18, 28);
+  ctx.beginPath();
+  ctx.moveTo(winX2 + 9, winY);
+  ctx.lineTo(winX2 + 9, winY + 28);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(winX2, winY + 14);
+  ctx.lineTo(winX2 + 18, winY + 14);
+  ctx.stroke();
+  
+  // Top window (center tower)
+  ctx.fillStyle = '#87CEEB';
+  ctx.fillRect(drawX + 37, baseY + 20, 16, 25);
+  ctx.strokeStyle = '#000';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(drawX + 37, baseY + 20, 16, 25);
+  ctx.beginPath();
+  ctx.moveTo(drawX + 45, baseY + 20);
+  ctx.lineTo(drawX + 45, baseY + 45);
+  ctx.stroke();
+  
+  // Star or lock on door based on progress
   if (game.hasHeart) {
     ctx.fillStyle = '#FFD700';
-    ctx.font = '30px Arial';
-    ctx.fillText('⭐', doorX + 4, doorY + 40);
+    ctx.font = 'bold 32px Arial';
+    ctx.shadowBlur = 15;
+    ctx.shadowColor = '#FFD700';
+    ctx.textAlign = 'center';
+    ctx.fillText('⭐', doorX + doorWidth / 2, doorY + 40);
+    ctx.shadowBlur = 0;
   } else {
-    ctx.fillStyle = '#ff0000';
-    ctx.font = '24px Arial';
-    ctx.fillText('🔒', doorX + 6, doorY + 38);
+    ctx.fillStyle = '#666';
+    ctx.font = '28px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('🔒', doorX + doorWidth / 2, doorY + 38);
   }
   
-  // Brick texture on walls
-  ctx.strokeStyle = 'rgba(0,0,0,0.1)';
-  ctx.lineWidth = 1;
-  for (let i = castle.y + 50; i < castle.y + 200; i += 10) {
-    ctx.beginPath();
-    ctx.moveTo(drawX + 10, i);
-    ctx.lineTo(drawX + 80, i);
-    ctx.stroke();
-  }
+  ctx.textAlign = 'left';
 }
 
 // ===== GAME LOOP =====
