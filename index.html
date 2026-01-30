@@ -1,99 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Mario's Valentine Quest 💖</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Valentine 💖</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Audio element for background music -->
+    <audio id="bgMusic" loop></audio>
 
-<!-- Main Menu -->
-<div id="mainMenu" class="screen active">
-  <div class="snes-clouds">
-    <div class="cloud" style="left: 10%; top: 15%;"></div>
-    <div class="cloud" style="left: 45%; top: 25%;"></div>
-    <div class="cloud" style="left: 75%; top: 18%;"></div>
-  </div>
-  <div class="menu-container">
-    <div class="title-container">
-      <h1 class="mario-title">
-        <span class="title-mario">MARIO'S</span><br>
-        <span class="title-valentine">VALENTINE</span><br>
-        <span class="title-quest">QUEST</span>
-      </h1>
+    <!-- STAGE 1: Song Selection -->
+    <div id="songSelection" class="stage active">
+        <div class="container">
+            <h1 class="romantic-title">Choose a song for our moment 💖</h1>
+            <div class="song-options">
+                <div class="song-card" data-song="with-you">
+                    <div class="song-icon">🎵</div>
+                    <h3>With You</h3>
+                    <p>Chris Brown</p>
+                </div>
+                <div class="song-card" data-song="sure-thing">
+                    <div class="song-icon">🎶</div>
+                    <h3>Sure Thing</h3>
+                    <p>Miguel</p>
+                </div>
+                <div class="song-card" data-song="let-me-love-you">
+                    <div class="song-icon">🎼</div>
+                    <h3>Let Me Love You</h3>
+                    <p>Mario</p>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="menu-buttons">
-      <button class="mario-btn" onclick="startGame()">START</button>
-      <button class="mario-btn secondary" onclick="showInstructions()">INSTRUCTIONS</button>
+
+    <!-- Song Animation Transition -->
+    <div id="songTransition" class="stage">
+        <div class="music-player-animation">
+            <div class="vinyl-record">
+                <div class="vinyl-center"></div>
+                <div class="vinyl-groove"></div>
+            </div>
+            <div class="music-notes">
+                <span class="note">♪</span>
+                <span class="note">♫</span>
+                <span class="note">♪</span>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
-<!-- Instructions Screen -->
-<div id="instructionsScreen" class="screen">
-  <div class="instructions-container">
-    <div class="text-box">
-      <h2 style="margin-bottom: 20px; color: #e60012; font-size: 18px;">FROM THE DEVELOPER 💖</h2>
-      <p style="margin-bottom: 25px;">I have spent so much time on this game. You will see EVERY feature I added to make this happen. I made this game to ask an important question… it will be EPIC.</p>
-      
-      <h2 style="margin: 25px 0 15px 0; color: #0000ff; font-size: 18px; border-top: 4px solid #000; padding-top: 20px;">HOW TO PLAY 🎮</h2>
-      <p>The instructions are very simple. You are Mario. You have to find the key and the heart to unlock the next set of mini games. The first game has to be Mario-themed because we are going to NINTENDO WORLD soon.</p>
+    <!-- STAGE 2: Envelope Introduction -->
+    <div id="envelopeIntro" class="stage">
+        <div class="container">
+            <button id="nextToEnvelope" class="next-btn">Next 💌</button>
+        </div>
     </div>
-    <button class="mario-btn" onclick="backToMenu()">BACK</button>
-  </div>
-</div>
 
-<!-- Game Screen -->
-<div id="gameScreen" class="screen">
-  <div id="hud">
-    <div id="keyStatus">🔑 <span id="hasKeyText">NO</span></div>
-    <div id="heartStatus">💖 <span id="hasHeartText">NO</span></div>
-  </div>
-  <canvas id="gameCanvas"></canvas>
-</div>
+    <!-- STAGE 3: Envelope with Heart -->
+    <div id="envelopeStage" class="stage">
+        <div class="container">
+            <div class="envelope-container">
+                <div id="envelope" class="envelope">
+                    <div class="envelope-flap"></div>
+                    <div class="envelope-body"></div>
+                    <div id="heartSeal" class="heart-seal">
+                        <span class="heart-icon">💖</span>
+                    </div>
+                    <div class="letter" id="letter">
+                        <div class="letter-content">
+                            <div class="letter-header">
+                                <p class="date">February 2025</p>
+                            </div>
+                            
+                            <div class="letter-body">
+                                <p class="greeting">Hey my love,</p>
+                                
+                                <p>So I wrote this program just for you (yes, I know it's nerdy, but I thought it'd be cute considering your man is a software engineer).</p>
+                                
+                                <p>I love you so much and I care for you dearly. You're one in a million, and no matter what, I will always be by your side.</p>
+                                
+                                <p>I know through all the hard work you've been doing, sometimes you feel like you don't have much time off, or that it's tough to truly enjoy time to yourself. But when you're with me, you can turn your brain off.</p>
+                                
+                                <p>I love you endlessly — cheers to us, always and forever.</p>
+                                
+                                <p class="signature">Love, Yours.</p>
+                            </div>
 
-<!-- Transition Screen (between games) -->
-<div id="transitionScreen" class="screen">
-  <div class="transition-message">
-    <p id="transitionText"></p>
-  </div>
-</div>
+                            <!-- Photo placeholder -->
+                            <div class="photo-container">
+                                <div class="photo-placeholder">
+                                    <span>💕</span>
+                                    <p class="photo-note">Our special moment together</p>
+                                </div>
+                            </div>
 
-<!-- Maze Game Screen -->
-<div id="mazeScreen" class="screen">
-  <div class="maze-instructions">
-    <p>Find your way to him! Use arrow keys to move.</p>
-  </div>
-  <canvas id="mazeCanvas"></canvas>
-</div>
-
-<!-- Heart Screen -->
-<div id="heartScreen" class="screen">
-  <div class="heart-container">
-    <div class="big-heart" onclick="openEssay()">
-      💖
-      <p class="heart-hint">Click the heart</p>
+                            <button id="nextToDrumroll" class="next-btn">Next</button>
+                        </div>
+                    </div>
+                </div>
+                <p class="envelope-instruction">Click the heart to open me up 💌</p>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
-<!-- Essay Page -->
-<div id="essayScreen" class="screen">
-  <div class="essay-container">
-    <h1>To My Valentine 💕</h1>
-    <div class="essay-content">
-      <!-- Essay content will go here -->
-      <p style="text-align: center; color: #666; font-style: italic;">
-        [Your heartfelt message will appear here]
-      </p>
+    <!-- STAGE 4: Drumroll -->
+    <div id="drumrollStage" class="stage">
+        <div class="container">
+            <h1 class="drumroll-text">Drumroll plsssss 🥁</h1>
+            <div class="drumroll-animation">
+                <div class="drum">🥁</div>
+                <div class="drum-sticks">
+                    <span class="stick left">🥢</span>
+                    <span class="stick right">🥢</span>
+                </div>
+            </div>
+        </div>
     </div>
-    <button class="mario-btn" onclick="backToMenu()">Back to Start</button>
-  </div>
-</div>
 
-<script src="script.js"></script>
+    <!-- STAGE 5: The Question -->
+    <div id="questionStage" class="stage">
+        <div class="container">
+            <h1 class="question-title">Will you be my Valentine?</h1>
+            <div class="button-container">
+                <button id="yesBtn" class="answer-btn yes-btn">Yes 💖</button>
+                <button id="noBtn" class="answer-btn no-btn">No 😅</button>
+            </div>
+            <p id="noMessage" class="no-message"></p>
+        </div>
+    </div>
 
+    <!-- STAGE 6: Celebration -->
+    <div id="celebrationStage" class="stage">
+        <div class="container">
+            <h1 class="celebration-title">YAY!!! 💖💖💖</h1>
+            <h2 class="celebration-subtitle">Best Valentine ever!</h2>
+            <div class="confetti-container" id="confettiContainer"></div>
+            <div class="hearts-container" id="heartsContainer"></div>
+            <div class="fireworks-container" id="fireworksContainer"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
