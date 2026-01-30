@@ -54,6 +54,45 @@
   <canvas id="gameCanvas"></canvas>
 </div>
 
+<!-- Transition Screen (between games) -->
+<div id="transitionScreen" class="screen">
+  <div class="transition-message">
+    <p id="transitionText"></p>
+  </div>
+</div>
+
+<!-- Maze Game Screen -->
+<div id="mazeScreen" class="screen">
+  <div class="maze-instructions">
+    <p>Find your way to him! Use arrow keys to move.</p>
+  </div>
+  <canvas id="mazeCanvas"></canvas>
+</div>
+
+<!-- Heart Screen -->
+<div id="heartScreen" class="screen">
+  <div class="heart-container">
+    <div class="big-heart" onclick="openEssay()">
+      💖
+      <p class="heart-hint">Click the heart</p>
+    </div>
+  </div>
+</div>
+
+<!-- Essay Page -->
+<div id="essayScreen" class="screen">
+  <div class="essay-container">
+    <h1>To My Valentine 💕</h1>
+    <div class="essay-content">
+      <!-- Essay content will go here -->
+      <p style="text-align: center; color: #666; font-style: italic;">
+        [Your heartfelt message will appear here]
+      </p>
+    </div>
+    <button class="mario-btn" onclick="backToMenu()">Back to Start</button>
+  </div>
+</div>
+
 <script src="script.js"></script>
 
 </body>
