@@ -1,13 +1,11 @@
 // =====================
-// SCRIPT.JS — VERSION 2.0
-// Working with test MP3
+// SCRIPT.JS — VERSION 2.1 (FINAL FIX)
 // =====================
 
 document.addEventListener('DOMContentLoaded', () => {
 
     const bgMusic = document.getElementById('bgMusic');
 
-    // All songs use test MP3 for now
     const songs = {
         'with-you': 'https://www.computerhope.com/jargon/m/example.mp3',
         'sure-thing': 'https://www.computerhope.com/jargon/m/example.mp3',
@@ -15,68 +13,66 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // =====================
-    // STAGE CONTROL
+    // STAGE CONTROL — HARD FIX
     // =====================
     function showStage(stageId) {
         console.log('Showing stage:', stageId);
-        
-        // Hide all stages
+
         document.querySelectorAll('.stage').forEach(stage => {
             stage.style.display = 'none';
+            stage.style.pointerEvents = 'none';
             stage.classList.remove('active');
         });
 
-        // Show target stage
         const activeStage = document.getElementById(stageId);
-        if (activeStage) {
-            activeStage.style.display = 'flex';
-            activeStage.classList.add('active');
-        } else {
+        if (!activeStage) {
             console.error('Stage not found:', stageId);
+            return;
         }
+
+        activeStage.style.display = 'flex';
+        activeStage.style.pointerEvents = 'auto';
+        activeStage.classList.add('active');
     }
 
     function playSong(key) {
         console.log('Playing song:', key);
-        
-        if (songs[key]) {
-            bgMusic.src = songs[key];
-            bgMusic.volume = 0.5;
-            bgMusic.play()
-                .then(() => console.log('Music started successfully'))
-                .catch(err => console.log('Music play failed:', err));
-        } else {
-            console.log('No song URL for:', key);
-        }
-    }
+        if (!songs[key]) return;
 
-    // =====================
-    // STAGE 1: SONG SELECTION
-    // =====================
-    const songOptions = document.querySelector('.song-options');
-    if (songOptions) {
-        songOptions.addEventListener('click', (e) => {
-            const card = e.target.closest('.song-card');
-            if (!card) return;
-
-            const songKey = card.dataset.song;
-            console.log('Song card clicked:', songKey);
-
-            // Play the song
-            playSong(songKey);
-            
-            // Show vinyl animation
-            showStage('songTransition');
-
-            // Auto-advance to envelope intro after 3.2 seconds
-            setTimeout(() => {
-                showStage('envelopeIntro');
-            }, 3200);
+        bgMusic.src = songs[key];
+        bgMusic.volume = 0.5;
+        bgMusic.play().catch(err => {
+            console.warn('Autoplay blocked (expected):', err);
         });
     }
 
     // =====================
-    // STAGE 2: ENVELOPE INTRO
+    // SONG SELECTION — CAPTURE PHASE
+    // =====================
+    document.addEventListener(
+        'click',
+        (e) => {
+            const card = e.target.closest('.song-card');
+            if (!card) return;
+
+            e.stopPropagation();
+            e.preventDefault();
+
+            const songKey = card.dataset.song;
+            console.log('Song card CLICKED:', songKey);
+
+            playSong(songKey);
+            showStage('songTransition');
+
+            setTimeout(() => {
+                showStage('envelopeIntro');
+            }, 3200);
+        },
+        true // 👈 CAPTURE PHASE (CRITICAL)
+    );
+
+    // =====================
+    // ENVELOPE INTRO
     // =====================
     const nextToEnvelopeBtn = document.getElementById('nextToEnvelope');
     if (nextToEnvelopeBtn) {
@@ -87,26 +83,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // =====================
-    // STAGE 3: ENVELOPE & LETTER
+    // ENVELOPE
     // =====================
     const envelope = document.getElementById('envelope');
     const heartSeal = document.getElementById('heartSeal');
 
     if (heartSeal) {
         heartSeal.addEventListener('click', () => {
-            console.log('Heart seal clicked - opening envelope');
-            
-            if (envelope) {
-                envelope.classList.add('open');
-            }
-            
+            console.log('Opening envelope');
+            envelope.classList.add('open');
             heartSeal.style.opacity = '0';
             heartSeal.style.pointerEvents = 'none';
-            
+
             const instruction = document.querySelector('.envelope-instruction');
-            if (instruction) {
-                instruction.style.opacity = '0';
-            }
+            if (instruction) instruction.style.opacity = '0';
         });
     }
 
@@ -115,17 +105,12 @@ document.addEventListener('DOMContentLoaded', () => {
         nextToDrumrollBtn.addEventListener('click', () => {
             console.log('Next to drumroll clicked');
             showStage('drumrollStage');
-            
-            // Auto-advance to question after 3 seconds
-            setTimeout(() => {
-                console.log('Auto-advancing to question');
-                showStage('questionStage');
-            }, 3000);
+            setTimeout(() => showStage('questionStage'), 3000);
         });
     }
 
     // =====================
-    // STAGE 5: THE QUESTION
+    // QUESTION
     // =====================
     const yesBtn = document.getElementById('yesBtn');
     const noBtn = document.getElementById('noBtn');
@@ -137,9 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
         "Think again 🥺",
         "Wrong answer",
         "LOL no",
-        "Try clicking yes 💖",
-        "Really? 😅",
-        "Wrong button!"
+        "Try clicking yes 💖"
     ];
 
     let noScale = 1;
@@ -150,133 +133,26 @@ document.addEventListener('DOMContentLoaded', () => {
             const x = (Math.random() - 0.5) * 200;
             const y = (Math.random() - 0.5) * 150;
             noBtn.style.transform = `translate(${x}px, ${y}px) scale(${noScale})`;
-            
+
             if (noMessage) {
-                const randomMsg = noMessages[Math.floor(Math.random() * noMessages.length)];
-                noMessage.textContent = randomMsg;
-                setTimeout(() => noMessage.textContent = '', 1500);
+                noMessage.textContent =
+                    noMessages[Math.floor(Math.random() * noMessages.length)];
+                setTimeout(() => (noMessage.textContent = ''), 1500);
             }
         });
     }
 
     if (yesBtn) {
         yesBtn.addEventListener('click', () => {
-            console.log('YES clicked! Starting celebration!');
+            console.log('YES clicked');
             showStage('celebrationStage');
-            startCelebration();
         });
     }
 
     // =====================
-    // STAGE 6: CELEBRATION
+    // INIT
     // =====================
-    function startCelebration() {
-        console.log('Starting celebration animations');
-        createConfetti();
-        createHearts();
-        createFireworks();
-    }
-
-    function createConfetti() {
-        const container = document.getElementById('confettiContainer');
-        if (!container) return;
-
-        const colors = ['#ff69b4', '#c2185b', '#ff1493', '#ffc0cb', '#ff6b9d'];
-        
-        // Initial burst
-        for (let i = 0; i < 120; i++) {
-            setTimeout(() => {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.left = Math.random() * 100 + '%';
-                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                container.appendChild(confetti);
-                
-                setTimeout(() => confetti.remove(), 3000);
-            }, i * 25);
-        }
-
-        // Continuous confetti
-        setInterval(() => {
-            for (let i = 0; i < 10; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.left = Math.random() * 100 + '%';
-                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                container.appendChild(confetti);
-                
-                setTimeout(() => confetti.remove(), 3000);
-            }
-        }, 2000);
-    }
-
-    function createHearts() {
-        const container = document.getElementById('heartsContainer');
-        if (!container) return;
-
-        const heartEmojis = ['💖', '💕', '💗', '💓', '💝'];
-        
-        // Continuous hearts
-        setInterval(() => {
-            const heart = document.createElement('div');
-            heart.className = 'floating-heart';
-            heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-            heart.style.left = Math.random() * 100 + '%';
-            container.appendChild(heart);
-            
-            setTimeout(() => heart.remove(), 4000);
-        }, 300);
-    }
-
-    function createFireworks() {
-        const container = document.getElementById('fireworksContainer');
-        if (!container) return;
-
-        const colors = ['#ff69b4', '#c2185b', '#ff1493', '#ffc0cb', '#FFD700', '#ff6b9d'];
-        
-        function launchFirework() {
-            const x = Math.random() * window.innerWidth;
-            const y = Math.random() * (window.innerHeight * 0.5);
-            
-            for (let i = 0; i < 30; i++) {
-                const angle = (Math.PI * 2 * i) / 30;
-                const velocity = 50 + Math.random() * 50;
-                const tx = Math.cos(angle) * velocity;
-                const ty = Math.sin(angle) * velocity;
-                
-                const particle = document.createElement('div');
-                particle.className = 'firework';
-                particle.style.left = x + 'px';
-                particle.style.top = y + 'px';
-                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.setProperty('--tx', tx + 'px');
-                particle.style.setProperty('--ty', ty + 'px');
-                container.appendChild(particle);
-                
-                setTimeout(() => particle.remove(), 1000);
-            }
-        }
-
-        // Initial fireworks
-        for (let i = 0; i < 5; i++) {
-            setTimeout(launchFirework, i * 400);
-        }
-
-        // Continuous fireworks
-        setInterval(launchFirework, 1600);
-    }
-
-    // =====================
-    // INITIALIZE
-    // =====================
-    console.log('Valentine app initialized - v2.0');
+    console.log('Valentine app initialized — FIXED');
     showStage('songSelection');
-
-    // Enable audio on first interaction
-    document.addEventListener('click', () => {
-        if (bgMusic) {
-            bgMusic.volume = 0.5;
-        }
-    }, { once: true });
 
 });
