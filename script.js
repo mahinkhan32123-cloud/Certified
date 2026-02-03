@@ -27,10 +27,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function playSong(key) {
-        if (!songs[key]) return;
-        bgMusic.src = songs[key];
-        bgMusic.volume = 0.5;
-        bgMusic.play().catch(() => {});
+        // FIXED: Allow progression even without MP3
+        if (songs[key]) {
+            bgMusic.src = songs[key];
+            bgMusic.volume = 0.5;
+            bgMusic.play().catch(() => {
+                console.log('Music playback failed');
+            });
+        } else {
+            console.log('No song file yet - continuing without music');
+        }
     }
 
     // =====================
@@ -41,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!card) return;
 
         const songKey = card.dataset.song;
+        console.log('Song selected:', songKey);
 
         playSong(songKey);
         showStage('songTransition');
@@ -54,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ENVELOPE FLOW
     // =====================
     document.getElementById('nextToEnvelope').addEventListener('click', () => {
+        console.log('Next to envelope clicked');
         showStage('envelopeStage');
     });
 
@@ -61,12 +69,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const heartSeal = document.getElementById('heartSeal');
 
     heartSeal.addEventListener('click', () => {
+        console.log('Heart seal clicked');
         envelope.classList.add('open');
         heartSeal.style.opacity = '0';
         document.querySelector('.envelope-instruction').style.opacity = '0';
     });
 
     document.getElementById('nextToDrumroll').addEventListener('click', () => {
+        console.log('Next to drumroll clicked');
         showStage('drumrollStage');
         setTimeout(() => showStage('questionStage'), 3000);
     });
@@ -99,6 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     yesBtn.addEventListener('click', () => {
+        console.log('YES clicked!');
         showStage('celebrationStage');
         startCelebration();
     });
@@ -114,11 +125,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function confetti() {
         const container = document.getElementById('confettiContainer');
+        const colors = ['#ff69b4', '#c2185b', '#ff1493', '#ffc0cb', '#ff6b9d'];
         for (let i = 0; i < 120; i++) {
             setTimeout(() => {
                 const c = document.createElement('div');
                 c.className = 'confetti';
                 c.style.left = Math.random() * 100 + '%';
+                c.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
                 container.appendChild(c);
                 setTimeout(() => c.remove(), 3000);
             }, i * 25);
@@ -127,10 +140,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function hearts() {
         const container = document.getElementById('heartsContainer');
+        const heartEmojis = ['💖', '💕', '💗', '💓', '💝'];
         setInterval(() => {
             const h = document.createElement('div');
             h.className = 'floating-heart';
-            h.textContent = '💖';
+            h.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
             h.style.left = Math.random() * 100 + '%';
             container.appendChild(h);
             setTimeout(() => h.remove(), 4000);
@@ -139,14 +153,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function fireworks() {
         const container = document.getElementById('fireworksContainer');
+        const colors = ['#ff69b4', '#c2185b', '#ff1493', '#ffc0cb', '#FFD700', '#ff6b9d'];
         setInterval(() => {
             const x = Math.random() * window.innerWidth;
             const y = Math.random() * window.innerHeight * 0.5;
             for (let i = 0; i < 30; i++) {
+                const angle = (Math.PI * 2 * i) / 30;
+                const velocity = 50 + Math.random() * 50;
+                const tx = Math.cos(angle) * velocity;
+                const ty = Math.sin(angle) * velocity;
+                
                 const p = document.createElement('div');
                 p.className = 'firework';
                 p.style.left = x + 'px';
                 p.style.top = y + 'px';
+                p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                p.style.setProperty('--tx', tx + 'px');
+                p.style.setProperty('--ty', ty + 'px');
                 container.appendChild(p);
                 setTimeout(() => p.remove(), 1000);
             }
