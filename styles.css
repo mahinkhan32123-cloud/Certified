@@ -1,3 +1,6 @@
+/* =====================
+   GLOBAL RESET
+===================== */
 * {
     margin: 0;
     padding: 0;
@@ -5,33 +8,31 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-    overflow-x: hidden;
-    background: linear-gradient(135deg, #ffeef8 0%, #ffe0f0 50%, #ffd1e8 100%);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    background: linear-gradient(135deg, #ffeef8, #ffd6eb);
     min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
 }
 
-/* Stage Management */
+/* =====================
+   STAGES
+===================== */
 .stage {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
+    inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.8s ease-in-out;
-    background: linear-gradient(135deg, #ffeef8 0%, #ffe0f0 50%, #ffd1e8 100%);
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
 .stage.active {
     opacity: 1;
     pointer-events: all;
+    transform: translateY(0);
 }
 
 .container {
@@ -41,50 +42,34 @@ body {
     width: 100%;
 }
 
-/* ========== STAGE 1: Song Selection ========== */
+/* =====================
+   STAGE 1 — SONGS
+===================== */
 .romantic-title {
     font-size: 52px;
-    font-weight: 700;
     color: #c2185b;
     margin-bottom: 60px;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.15);
-    animation: fadeInDown 1s ease-out;
-    letter-spacing: 1px;
-}
-
-@keyframes fadeInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 
 .song-options {
     display: flex;
-    gap: 30px;
     justify-content: center;
+    gap: 30px;
     flex-wrap: wrap;
 }
 
 .song-card {
+    width: 220px;
+    padding: 40px 30px;
     background: white;
     border-radius: 20px;
-    padding: 40px 30px;
-    width: 220px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 10px 30px rgba(194, 24, 91, 0.2);
-    border: 3px solid transparent;
+    box-shadow: 0 10px 30px rgba(194,24,91,0.25);
+    transition: transform 0.3s ease;
 }
 
 .song-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 40px rgba(194, 24, 91, 0.3);
-    border-color: #ff69b4;
 }
 
 .song-icon {
@@ -92,23 +77,10 @@ body {
     margin-bottom: 20px;
 }
 
-.song-card h3 {
-    font-size: 26px;
-    font-weight: 700;
-    color: #c2185b;
-    margin-bottom: 10px;
-    letter-spacing: 0.5px;
-}
-
-.song-card p {
-    color: #555;
-    font-size: 18px;
-    font-weight: 500;
-}
-
-/* ========== Song Transition Animation ========== */
+/* =====================
+   VINYL TRANSITION
+===================== */
 .music-player-animation {
-    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -118,110 +90,75 @@ body {
 .vinyl-record {
     width: 300px;
     height: 300px;
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
     border-radius: 50%;
-    position: relative;
-    animation: spin 3s linear infinite;
+    background: radial-gradient(circle, #444 0%, #111 60%);
     box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    transform: translateY(200px) scale(0.5);
+    opacity: 0;
+}
+
+.stage.active .vinyl-record {
+    animation: vinylEnter 1.2s ease-out forwards,
+               spin 3s linear infinite 1.2s;
+}
+
+@keyframes vinylEnter {
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
 }
 
 @keyframes spin {
-    from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
 
 .vinyl-center {
-    width: 100px;
-    height: 100px;
-    background: linear-gradient(135deg, #c2185b 0%, #ff69b4 100%);
+    width: 90px;
+    height: 90px;
+    background: linear-gradient(135deg, #c2185b, #ff69b4);
     border-radius: 50%;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: inset 0 5px 15px rgba(0,0,0,0.3);
+    inset: 0;
+    margin: auto;
 }
 
-.vinyl-groove {
-    position: absolute;
-    width: 80%;
-    height: 80%;
-    top: 10%;
-    left: 10%;
-    border-radius: 50%;
-    border: 2px solid rgba(255,255,255,0.1);
-    box-shadow: 
-        inset 0 0 0 10px rgba(255,255,255,0.05),
-        inset 0 0 0 20px rgba(255,255,255,0.03);
-}
-
-.music-notes {
-    display: flex;
-    gap: 30px;
+.music-notes span {
     font-size: 40px;
-}
-
-.music-notes .note {
     animation: float 2s ease-in-out infinite;
 }
 
-.music-notes .note:nth-child(2) {
-    animation-delay: 0.3s;
-}
-
-.music-notes .note:nth-child(3) {
-    animation-delay: 0.6s;
-}
-
 @keyframes float {
-    0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-20px); }
 }
 
-/* ========== Next Button ========== */
+/* =====================
+   BUTTONS
+===================== */
 .next-btn {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-    font-size: 28px;
+    margin-top: 40px;
+    padding: 22px 60px;
+    font-size: 26px;
     font-weight: bold;
-    padding: 25px 60px;
-    background: linear-gradient(135deg, #c2185b 0%, #ff69b4 100%);
     color: white;
+    background: linear-gradient(135deg, #c2185b, #ff69b4);
     border: none;
     border-radius: 50px;
     cursor: pointer;
-    box-shadow: 0 10px 30px rgba(194, 24, 91, 0.4);
-    transition: all 0.3s ease;
-    margin-top: 40px;
-    display: inline-block;
-    position: relative;
-    z-index: 100;
-    letter-spacing: 1px;
+    box-shadow: 0 10px 30px rgba(194,24,91,0.4);
 }
 
 .next-btn:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(194, 24, 91, 0.5);
-    background: linear-gradient(135deg, #d81b60 0%, #ff1493 100%);
 }
 
-.next-btn:active {
-    transform: translateY(-2px);
-}
-
-/* ========== STAGE 3: Envelope ========== */
-.envelope-container {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-}
-
+/* =====================
+   ENVELOPE
+===================== */
 .envelope {
     position: relative;
-    width: 400px;
+    width: 420px;
     height: 280px;
-    margin: 0 auto;
 }
 
 .envelope-body {
@@ -229,24 +166,20 @@ body {
     bottom: 0;
     width: 100%;
     height: 200px;
-    background: linear-gradient(135deg, #ffeef8 0%, #ffe0f0 100%);
+    background: #fff;
     border: 3px solid #c2185b;
-    border-radius: 10px;
-    box-shadow: 0 10px 40px rgba(194, 24, 91, 0.3);
+    border-radius: 12px;
 }
 
 .envelope-flap {
     position: absolute;
     top: 0;
-    left: 0;
     width: 100%;
     height: 140px;
-    background: linear-gradient(135deg, #ff69b4 0%, #c2185b 100%);
+    background: linear-gradient(135deg, #ff69b4, #c2185b);
     clip-path: polygon(0 0, 50% 70%, 100% 0);
-    border: 3px solid #c2185b;
-    transform-origin: top center;
-    transition: transform 1s ease-out;
-    z-index: 10;
+    transform-origin: top;
+    transition: transform 1.2s ease;
 }
 
 .envelope.open .envelope-flap {
@@ -255,411 +188,181 @@ body {
 
 .heart-seal {
     position: absolute;
-    top: 80px;
+    top: 90px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 15;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.heart-seal:hover {
-    transform: translateX(-50%) scale(1.2);
-}
-
-.heart-icon {
     font-size: 60px;
-    filter: drop-shadow(0 5px 15px rgba(194, 24, 91, 0.5));
-    animation: heartbeat 1.5s ease-in-out infinite;
+    cursor: pointer;
+    animation: pulse 1.5s infinite;
 }
 
-@keyframes heartbeat {
-    0%, 100% { transform: scale(1); }
-    25% { transform: scale(1.1); }
-    50% { transform: scale(1); }
+@keyframes pulse {
+    50% { transform: translateX(-50%) scale(1.15); }
 }
 
 .envelope-instruction {
-    font-size: 26px;
-    font-weight: 600;
+    margin-top: 20px;
+    font-size: 22px;
     color: #c2185b;
-    font-style: italic;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
 }
 
-/* ========== Letter ========== */
+/* =====================
+   LETTER
+===================== */
 .letter {
     position: absolute;
-    bottom: 20px;
+    bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
-    height: 0;
-    background: linear-gradient(135deg, #fffef9 0%, #fff9f0 100%);
-    border: 2px solid #d4a574;
-    border-radius: 10px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-    overflow: hidden;
-    transition: height 1s ease-out, bottom 1s ease-out;
+    max-width: 520px;
+    max-height: 0;
     opacity: 0;
+    background: linear-gradient(135deg, #fffef9, #fff6e8);
+    border-radius: 14px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    overflow: hidden;
+    transition: max-height 1.4s ease, transform 1.2s ease, opacity 1s ease;
 }
 
 .envelope.open .letter {
-    height: 600px;
-    bottom: -400px;
+    max-height: 700px;
+    transform: translateX(-50%) translateY(-180px);
     opacity: 1;
 }
 
 .letter-content {
     padding: 40px;
-    height: 100%;
-    overflow-y: auto;
-}
-
-.letter-header {
-    margin-bottom: 30px;
-}
-
-.date {
-    color: #999;
-    font-size: 14px;
-    text-align: right;
-}
-
-.letter-body {
-    line-height: 1.9;
-    color: #222;
+    font-family: 'Playfair Display', serif;
     font-size: 20px;
+    line-height: 2;
     text-align: left;
-    font-weight: 400;
-}
-
-.letter-body p {
-    margin-bottom: 24px;
 }
 
 .greeting {
-    font-size: 28px;
+    font-size: 26px;
     color: #c2185b;
-    font-weight: 700;
-    letter-spacing: 0.5px;
+    margin-bottom: 20px;
 }
 
 .signature {
     margin-top: 40px;
     font-style: italic;
+    font-size: 22px;
     color: #c2185b;
-    font-size: 24px;
-    font-weight: 600;
 }
 
-/* Photo Placeholder */
-.photo-container {
-    margin: 40px 0;
-    display: flex;
-    justify-content: center;
-}
-
-.photo-placeholder {
-    width: 300px;
-    height: 300px;
-    background: linear-gradient(135deg, #ffe0f0 0%, #ffd1e8 100%);
-    border: 5px dashed #ff69b4;
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-.photo-placeholder span {
-    font-size: 48px;
-}
-
-.photo-note {
-    font-size: 14px;
-    color: #999;
-    font-style: italic;
-}
-
-/* ========== STAGE 4: Drumroll ========== */
+/* =====================
+   DRUMROLL
+===================== */
 .drumroll-text {
     font-size: 60px;
-    font-weight: 700;
     color: #c2185b;
-    margin-bottom: 60px;
-    animation: fadeInScale 0.8s ease-out;
-    letter-spacing: 1px;
-}
-
-@keyframes fadeInScale {
-    from {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-.drumroll-animation {
-    position: relative;
+    margin-bottom: 40px;
 }
 
 .drum {
-    font-size: 150px;
-    animation: drumShake 0.5s ease-in-out infinite;
+    font-size: 140px;
+    animation: shake 0.5s infinite;
 }
 
-@keyframes drumShake {
-    0%, 100% { transform: rotate(-5deg); }
-    50% { transform: rotate(5deg); }
+@keyframes shake {
+    50% { transform: rotate(6deg); }
 }
 
-.drum-sticks {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 200px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.stick {
-    font-size: 40px;
-    animation: drumHit 0.5s ease-in-out infinite;
-}
-
-.stick.right {
-    animation-delay: 0.25s;
-}
-
-@keyframes drumHit {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(15deg); }
-}
-
-/* ========== STAGE 5: Question ========== */
+/* =====================
+   QUESTION
+===================== */
 .question-title {
-    font-size: 68px;
-    font-weight: 800;
+    font-size: 64px;
     color: #c2185b;
-    margin-bottom: 80px;
-    animation: fadeInScale 1s ease-out;
-    text-shadow: 3px 3px 10px rgba(0,0,0,0.2);
-    letter-spacing: 1px;
+    margin-bottom: 60px;
 }
 
 .button-container {
     display: flex;
     gap: 40px;
     justify-content: center;
-    align-items: center;
-    margin-bottom: 40px;
-    min-height: 120px;
 }
 
 .answer-btn {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-    font-size: 36px;
-    font-weight: 700;
     padding: 25px 60px;
-    border: none;
+    font-size: 32px;
     border-radius: 50px;
+    border: none;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    letter-spacing: 1px;
 }
 
 .yes-btn {
-    background: linear-gradient(135deg, #c2185b 0%, #ff69b4 100%);
+    background: linear-gradient(135deg, #c2185b, #ff69b4);
     color: white;
 }
 
-.yes-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 15px 40px rgba(194, 24, 91, 0.4);
-}
-
 .no-btn {
-    background: linear-gradient(135deg, #ddd 0%, #bbb 100%);
+    background: #ddd;
     color: #666;
-    position: relative;
-    transition: all 0.2s ease;
 }
 
 .no-message {
-    font-size: 28px;
+    margin-top: 30px;
+    font-size: 26px;
     color: #c2185b;
-    font-style: italic;
-    min-height: 40px;
-    animation: fadeIn 0.3s ease-out;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-/* ========== STAGE 6: Celebration ========== */
+/* =====================
+   CELEBRATION
+===================== */
 .celebration-title {
-    font-size: 88px;
-    font-weight: 900;
+    font-size: 80px;
     color: #c2185b;
-    margin-bottom: 30px;
-    animation: celebrationBounce 0.8s ease-out;
-    text-shadow: 4px 4px 12px rgba(0,0,0,0.3);
-    letter-spacing: 2px;
 }
 
 .celebration-subtitle {
-    font-size: 52px;
-    font-weight: 700;
+    font-size: 46px;
     color: #ff69b4;
-    animation: celebrationBounce 0.8s ease-out 0.2s;
-    animation-fill-mode: both;
-    letter-spacing: 1px;
+    margin-bottom: 30px;
 }
 
-@keyframes celebrationBounce {
-    0% {
-        opacity: 0;
-        transform: scale(0) rotate(-180deg);
-    }
-    50% {
-        transform: scale(1.2) rotate(10deg);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1) rotate(0deg);
-    }
+.woohoo-gif {
+    width: 320px;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
 }
 
-/* Confetti */
-.confetti-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 1000;
-}
-
-.confetti {
+/* =====================
+   FX
+===================== */
+.confetti,
+.firework {
     position: absolute;
     width: 10px;
     height: 10px;
-    background: #ff69b4;
-    animation: confettiFall 3s linear forwards;
+    background: pink;
+    animation: fall 3s linear forwards;
 }
 
-@keyframes confettiFall {
+@keyframes fall {
     to {
         transform: translateY(100vh) rotate(720deg);
         opacity: 0;
     }
 }
 
-/* Hearts */
-.hearts-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 1001;
-}
-
 .floating-heart {
     position: absolute;
-    font-size: 40px;
-    animation: heartFloat 4s ease-out forwards;
+    font-size: 36px;
+    animation: heartFloat 4s forwards;
 }
 
 @keyframes heartFloat {
-    0% {
-        transform: translateY(0) scale(0);
-        opacity: 0;
-    }
-    10% {
-        opacity: 1;
-        transform: scale(1);
-    }
-    100% {
-        transform: translateY(-100vh) scale(1.5);
-        opacity: 0;
-    }
+    from { transform: translateY(0) scale(0); opacity: 0; }
+    to { transform: translateY(-100vh) scale(1.5); opacity: 0; }
 }
 
-/* Fireworks */
-.fireworks-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 1002;
-}
-
-.firework {
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    animation: fireworkExplode 1s ease-out forwards;
-}
-
-@keyframes fireworkExplode {
-    0% {
-        transform: translate(0, 0);
-        opacity: 1;
-    }
-    100% {
-        transform: translate(var(--tx), var(--ty));
-        opacity: 0;
-    }
-}
-
-/* Responsive */
+/* =====================
+   RESPONSIVE
+===================== */
 @media (max-width: 768px) {
-    .romantic-title {
-        font-size: 32px;
-    }
-    
-    .song-card {
-        width: 180px;
-        padding: 30px 20px;
-    }
-    
-    .envelope {
-        width: 90%;
-        max-width: 350px;
-    }
-    
-    .letter-body {
-        font-size: 16px;
-    }
-    
-    .question-title {
-        font-size: 40px;
-    }
-    
-    .answer-btn {
-        font-size: 24px;
-        padding: 20px 40px;
-    }
-    
-    .celebration-title {
-        font-size: 48px;
-    }
+    .romantic-title { font-size: 32px; }
+    .question-title { font-size: 38px; }
 }
