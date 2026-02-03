@@ -7,9 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const bgMusic = document.getElementById('bgMusic');
 
     const songs = {
-        'with-you': '',
-        'sure-thing': '',
-        'let-me-love-you': ''
+        'with-you': 'https://www.computerhope.com/jargon/m/example.mp3',
+        'sure-thing': 'https://www.computerhope.com/jargon/m/example.mp3',
+        'let-me-love-you': 'https://www.computerhope.com/jargon/m/example.mp3'
     };
 
     // =====================
