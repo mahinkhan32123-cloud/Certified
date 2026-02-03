@@ -1,48 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For My Valentine 💖</title>
-
-    <!-- Romantic font for the letter -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8" />
+    <title>Valentine 💖</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-<audio id="bgMusic" loop></audio>
+<audio id="bgMusic"></audio>
 
-<!-- STAGE 1: Song Selection -->
-<div id="songSelection" class="stage active">
+<!-- =====================
+     STAGE 1 — SONG SELECT
+===================== -->
+<section class="stage" id="songSelection">
     <div class="container">
-        <h1 class="romantic-title">Choose a song for our moment 💖</h1>
+        <h1 class="romantic-title">Choose a song 💕</h1>
         <div class="song-options">
             <div class="song-card" data-song="with-you">
-                <div class="song-icon">🎵</div>
-                <h3>With You</h3>
-                <p>Chris Brown</p>
+                <div class="song-icon">🎶</div>
+                <p>With You</p>
             </div>
             <div class="song-card" data-song="sure-thing">
-                <div class="song-icon">🎶</div>
-                <h3>Sure Thing</h3>
-                <p>Miguel</p>
+                <div class="song-icon">💿</div>
+                <p>Sure Thing</p>
             </div>
             <div class="song-card" data-song="let-me-love-you">
-                <div class="song-icon">🎼</div>
-                <h3>Let Me Love You</h3>
-                <p>Mario</p>
+                <div class="song-icon">🎧</div>
+                <p>Let Me Love You</p>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<!-- Song Transition -->
-<div id="songTransition" class="stage">
+<!-- =====================
+     STAGE 2 — VINYL
+===================== -->
+<section class="stage" id="songTransition">
     <div class="music-player-animation">
         <div class="vinyl-record">
             <div class="vinyl-center"></div>
-            <div class="vinyl-groove"></div>
         </div>
         <div class="music-notes">
+            <span>🎵</span><span>🎶</span><span>🎵</span>
+        </div>
+    </div>
+</section>
+
+<!-- =====================
+     STAGE 3 — ENVELOPE INTRO
+===================== -->
+<section class="stage" id="envelopeIntro">
+    <div class="container">
+        <button class="next-btn" id="nextToEnvelope">Open something special 💌</button>
+    </div>
+</section>
+
+<!-- =====================
+     STAGE 4 — ENVELOPE
+===================== -->
+<section class="stage" id="envelopeStage">
+    <div class="container">
+        <div class="envelope" id="envelope">
+            <div class="envelope-flap"></div>
+            <div class="envelope-body"></div>
+            <div class="heart-seal" id="heartSeal">❤️</div>
+
+            <div class="letter">
+                <div class="letter-content">
+                    <p class="greeting">My Love,</p>
+                    <p>
+                        This is just a little reminder that you mean the world to me.
+                        Every smile, every moment, every heartbeat with you is special.
+                    </p>
+                    <p class="signature">Forever yours 💖</p>
+                    <button class="next-btn" id="nextToDrumroll">Continue</button>
+                </div>
+            </div>
+        </div>
+        <p class="envelope-instruction">Tap the heart 💗</p>
+    </div>
+</section>
+
+<!-- =====================
+     STAGE 5 — DRUMROLL
+===================== -->
+<section class="stage" id="drumrollStage">
+    <div class="container">
+        <h1 class="drumroll-text">Drumroll please…</h1>
+        <div class="drum">🥁</div>
+    </div>
+</section>
+
+<!-- =====================
+     STAGE 6 — QUESTION
+===================== -->
+<section class="stage" id="questionStage">
+    <div class="container">
+        <h1 class="question-title">Will you be my Valentine? 💘</h1>
+        <div class="button-container">
+            <button class="answer-btn yes-btn" id="yesBtn">YES 💖</button>
+            <button class="answer-btn no-btn" id="noBtn">No</button>
+        </div>
+        <p class="no-message" id="noMessage"></p>
+    </div>
+</section>
+
+<!-- =====================
+     STAGE 7 — CELEBRATION
+===================== -->
+<section class="stage" id="celebrationStage">
+    <div class="container">
+        <h1 class="celebration-title">YAYYYY!!! 🎉</h1>
+        <p class="celebration-subtitle">Happy Valentine’s Day 💕</p>
+        <img class="woohoo-gif" src="https://media.giphy.com/media/26xBwdIuRJiAIqHwA/giphy.gif" />
+    </div>
+    <div id="confettiContainer"></div>
+    <div id="heartsContainer"></div>
+    <div id="fireworksContainer"></div>
+</section>
+
+<!-- =====================
+     DEBUG NEXT BUTTON
+===================== -->
+<button id="debugNextBtn" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99999;
+    padding: 14px 26px;
+    font-size: 18px;
+    border-radius: 30px;
+    border: none;
+    background: #c2185b;
+    color: white;
+    cursor: pointer;
+">
+    NEXT →
+</button>
+
+<script src="script.js"></script>
+</body>
+</html>
