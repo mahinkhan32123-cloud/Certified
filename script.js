@@ -1,6 +1,6 @@
 /* ============================================ */
-/* VALENTINE'S DAY WEBSITE - JAVASCRIPT */
-/* All functionality for smooth romantic experience */
+/* ROMANTIC VALENTINE'S WEBSITE - JAVASCRIPT */
+/* Enhanced with artsy transitions and celebrations */
 /* ============================================ */
 
 // ============================================
@@ -12,36 +12,45 @@
  * @param {number} pageNumber - The page to navigate to (1-4)
  */
 function goToPage(pageNumber) {
-    // Hide all pages
+    console.log(`Navigating to page ${pageNumber}`);
+    
+    // Remove active class from all pages
     document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
     });
 
-    // Show target page
+    // Add active class to target page
     const targetPage = document.getElementById('page' + pageNumber);
-    targetPage.classList.add('active');
+    if (targetPage) {
+        targetPage.classList.add('active');
+    }
 
-    // If going to page 2, start the slideshow
+    // Special actions for specific pages
     if (pageNumber === 2) {
-        showSlide(slideIndex);
+        // Start slideshow on page 2
+        setTimeout(() => {
+            showSlide(slideIndex);
+        }, 100);
     }
 }
 
 // ============================================
-// SLIDESHOW FUNCTIONALITY
+// SLIDESHOW WITH ARTSY TRANSITIONS
 // ============================================
 
 let slideIndex = 1;
 
 /**
- * Display the current slide and update dots
+ * Display the current slide with Ken Burns effect
  * @param {number} n - Slide number to show
  */
 function showSlide(n) {
     const slides = document.getElementsByClassName('slide');
     const dots = document.getElementsByClassName('dot');
 
-    // Wrap around if out of bounds
+    if (slides.length === 0) return;
+
+    // Wrap around if needed
     if (n > slides.length) { slideIndex = 1; }
     if (n < 1) { slideIndex = slides.length; }
 
@@ -50,19 +59,23 @@ function showSlide(n) {
         slides[i].classList.remove('active-slide');
     }
 
-    // Remove active class from all dots
+    // Deactivate all dots
     for (let i = 0; i < dots.length; i++) {
         dots[i].classList.remove('active-dot');
     }
 
-    // Show current slide and activate dot
+    // Show current slide with animation
     slides[slideIndex - 1].classList.add('active-slide');
-    dots[slideIndex - 1].classList.add('active-dot');
+    
+    // Activate current dot
+    if (dots[slideIndex - 1]) {
+        dots[slideIndex - 1].classList.add('active-dot');
+    }
 }
 
 /**
- * Navigate to next/previous slide
- * @param {number} n - Direction to move (1 for next, -1 for previous)
+ * Navigate to next or previous slide
+ * @param {number} n - Direction (1 for next, -1 for previous)
  */
 function changeSlide(n) {
     slideIndex += n;
@@ -70,24 +83,27 @@ function changeSlide(n) {
 }
 
 /**
- * Jump to specific slide
- * @param {number} n - Slide number to jump to
+ * Jump to a specific slide
+ * @param {number} n - Slide number
  */
 function currentSlide(n) {
     slideIndex = n;
     showSlide(slideIndex);
 }
 
-// Auto-play slideshow (optional - uncomment to enable)
-// setInterval(() => {
-//     changeSlide(1);
-// }, 4000);
+// Optional: Auto-play slideshow (uncomment to enable)
+// let autoPlayInterval;
+// function startAutoPlay() {
+//     autoPlayInterval = setInterval(() => {
+//         changeSlide(1);
+//     }, 5000);
+// }
+// setTimeout(startAutoPlay, 2000);
 
 // ============================================
-// NO BUTTON - PLAYFUL AVOIDANCE
+// NO BUTTON - PLAYFUL DODGING
 // ============================================
 
-// Messages to cycle through when hovering over "No"
 const noMessages = [
     "NO?!",
     "bruh",
@@ -102,52 +118,64 @@ const noMessages = [
 ];
 
 let noButtonScale = 1;
+let noHoverCount = 0;
 
 /**
- * Handle mouse hovering over the "No" button
- * Makes it shrink and move randomly
+ * Handle hovering over the No button
+ * Makes it dodge and shrink playfully
  */
 function handleNoHover() {
     const noBtn = document.getElementById('noBtn');
     const noMessage = document.getElementById('noMessage');
+    
+    if (!noBtn || !noMessage) return;
 
-    // Shrink the button each time
-    noButtonScale = Math.max(0.3, noButtonScale - 0.1);
+    noHoverCount++;
 
-    // Random position within safe bounds
-    const maxMoveX = 250;
-    const maxMoveY = 150;
-    const randomX = (Math.random() - 0.5) * maxMoveX;
-    const randomY = (Math.random() - 0.5) * maxMoveY;
+    // Shrink progressively (but not too small)
+    noButtonScale = Math.max(0.35, noButtonScale - 0.12);
 
-    // Apply transformation
-    noBtn.style.transform = `translate(${randomX}px, ${randomY}px) scale(${noButtonScale})`;
+    // Calculate random movement (larger movements as user tries more)
+    const moveRange = 200 + (noHoverCount * 20);
+    const randomX = (Math.random() - 0.5) * moveRange;
+    const randomY = (Math.random() - 0.5) * (moveRange * 0.7);
+
+    // Apply transformation with smooth easing
+    noBtn.style.transform = `translate(${randomX}px, ${randomY}px) scale(${noButtonScale}) rotate(${Math.random() * 20 - 10}deg)`;
+    noBtn.style.transition = 'transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
 
     // Show random funny message
-    const randomMessage = noMessages[Math.floor(Math.random() * noMessages.length)];
-    noMessage.textContent = randomMessage;
+    const randomMsg = noMessages[Math.floor(Math.random() * noMessages.length)];
+    noMessage.textContent = randomMsg;
 
-    // Clear message after 1.5 seconds
+    // Clear message after delay
     setTimeout(() => {
         noMessage.textContent = '';
-    }, 1500);
+    }, 1800);
 }
 
 // ============================================
-// YES BUTTON - CELEBRATION
+// YES BUTTON - CELEBRATION!
 // ============================================
 
 /**
- * Handle "Yes" button click
- * Shows celebration screen with animations
+ * Handle Yes button click
+ * Triggers full celebration sequence
  */
 function handleYes() {
+    console.log('She said YES! 💖');
+    
     const celebration = document.getElementById('celebration');
-    celebration.classList.add('active');
+    if (celebration) {
+        celebration.classList.add('active');
+    }
 
-    // Start all celebration animations
-    createConfetti();
-    startFireworks();
+    // Start all celebration effects
+    setTimeout(() => {
+        createConfetti();
+        startFireworks();
+        createSparkles();
+    }, 300);
 }
 
 // ============================================
@@ -159,72 +187,116 @@ function handleYes() {
  */
 function createConfetti() {
     const container = document.getElementById('confettiContainer');
-    const colors = ['#ff6b9d', '#ff8fb3', '#ffc4d6', '#ffebf0', '#ff1493', '#FFD700'];
+    if (!container) return;
 
-    // Initial burst of confetti
-    for (let i = 0; i < 150; i++) {
+    const colors = [
+        '#ff6b9d', '#ff8fb3', '#ffc4d6', 
+        '#ffebf0', '#ff1493', '#FFD700', 
+        '#ff69b4', '#ffc0cb'
+    ];
+
+    // Initial burst
+    for (let i = 0; i < 180; i++) {
         setTimeout(() => {
-            const confetti = document.createElement('div');
-            confetti.className = 'confetti-piece';
-            confetti.style.left = Math.random() * 100 + '%';
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.animationDelay = Math.random() * 0.5 + 's';
-            confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-            container.appendChild(confetti);
-
-            // Remove after animation
-            setTimeout(() => confetti.remove(), 3000);
-        }, i * 20);
+            createConfettiPiece(container, colors);
+        }, i * 15);
     }
 
     // Continuous confetti
     setInterval(() => {
-        for (let i = 0; i < 15; i++) {
-            const confetti = document.createElement('div');
-            confetti.className = 'confetti-piece';
-            confetti.style.left = Math.random() * 100 + '%';
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-            container.appendChild(confetti);
-
-            setTimeout(() => confetti.remove(), 3000);
+        for (let i = 0; i < 12; i++) {
+            setTimeout(() => {
+                createConfettiPiece(container, colors);
+            }, i * 50);
         }
-    }, 2000);
+    }, 1500);
+}
+
+/**
+ * Helper to create individual confetti piece
+ */
+function createConfettiPiece(container, colors) {
+    const confetti = document.createElement('div');
+    confetti.className = 'confetti-piece';
+    confetti.style.left = Math.random() * 100 + '%';
+    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.animationDelay = Math.random() * 0.5 + 's';
+    confetti.style.animationDuration = (Math.random() * 2 + 3) + 's';
+    
+    // Random shapes
+    if (Math.random() > 0.5) {
+        confetti.style.borderRadius = '50%';
+    }
+    
+    container.appendChild(confetti);
+    
+    setTimeout(() => confetti.remove(), 5000);
 }
 
 // ============================================
-// FIREWORKS ANIMATION (Canvas)
+// SPARKLES ANIMATION
 // ============================================
 
 /**
- * Create fireworks on canvas
+ * Create twinkling sparkles
+ */
+function createSparkles() {
+    const container = document.getElementById('sparklesContainer');
+    if (!container) return;
+
+    setInterval(() => {
+        for (let i = 0; i < 3; i++) {
+            setTimeout(() => {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 0.5 + 's';
+                
+                container.appendChild(sparkle);
+                
+                setTimeout(() => sparkle.remove(), 2000);
+            }, i * 200);
+        }
+    }, 600);
+}
+
+// ============================================
+// FIREWORKS (CANVAS)
+// ============================================
+
+/**
+ * Create fireworks display on canvas
  */
 function startFireworks() {
     const canvas = document.getElementById('fireworksCanvas');
+    if (!canvas) return;
+    
     const ctx = canvas.getContext('2d');
 
     // Set canvas size
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    // Resize canvas on window resize
+    // Handle window resize
     window.addEventListener('resize', () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     });
 
-    // Firework particle class
-    class Particle {
+    // Particle class for fireworks
+    class FireworkParticle {
         constructor(x, y, color) {
             this.x = x;
             this.y = y;
             this.color = color;
             this.velocity = {
-                x: (Math.random() - 0.5) * 8,
-                y: (Math.random() - 0.5) * 8
+                x: (Math.random() - 0.5) * 10,
+                y: (Math.random() - 0.5) * 10
             };
             this.alpha = 1;
             this.decay = 0.015;
+            this.size = Math.random() * 3 + 2;
         }
 
         draw() {
@@ -232,13 +304,19 @@ function startFireworks() {
             ctx.globalAlpha = this.alpha;
             ctx.fillStyle = this.color;
             ctx.beginPath();
-            ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
             ctx.fill();
+            
+            // Add glow effect
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = this.color;
+            ctx.fill();
+            
             ctx.restore();
         }
 
         update() {
-            this.velocity.y += 0.1; // gravity
+            this.velocity.y += 0.12; // gravity
             this.x += this.velocity.x;
             this.y += this.velocity.y;
             this.alpha -= this.decay;
@@ -248,25 +326,31 @@ function startFireworks() {
     let particles = [];
 
     /**
-     * Create a firework explosion at given coordinates
+     * Create a firework explosion
      */
     function createFirework(x, y) {
-        const colors = ['#ff6b9d', '#ff8fb3', '#ffc4d6', '#FFD700', '#ff1493', '#FFF'];
-        const particleCount = 50;
+        const colors = [
+            '#ff6b9d', '#ff8fb3', '#ffc4d6', 
+            '#FFD700', '#ff1493', '#FFF', 
+            '#ff69b4', '#ffc0cb'
+        ];
+        const particleCount = 60;
 
         for (let i = 0; i < particleCount; i++) {
             const color = colors[Math.floor(Math.random() * colors.length)];
-            particles.push(new Particle(x, y, color));
+            particles.push(new FireworkParticle(x, y, color));
         }
     }
 
     /**
-     * Animation loop for fireworks
+     * Animation loop
      */
     function animate() {
-        ctx.fillStyle = 'rgba(255, 158, 184, 0.1)';
+        // Subtle fade instead of full clear
+        ctx.fillStyle = 'rgba(255, 158, 184, 0.08)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+        // Update and draw particles
         particles.forEach((particle, index) => {
             if (particle.alpha <= 0) {
                 particles.splice(index, 1);
@@ -282,17 +366,17 @@ function startFireworks() {
     // Launch fireworks at intervals
     setInterval(() => {
         const x = Math.random() * canvas.width;
-        const y = Math.random() * canvas.height * 0.5;
+        const y = Math.random() * canvas.height * 0.6;
         createFirework(x, y);
-    }, 800);
+    }, 900);
 
-    // Initial burst of fireworks
-    for (let i = 0; i < 5; i++) {
+    // Initial burst
+    for (let i = 0; i < 7; i++) {
         setTimeout(() => {
             const x = Math.random() * canvas.width;
             const y = Math.random() * canvas.height * 0.5;
             createFirework(x, y);
-        }, i * 300);
+        }, i * 250);
     }
 
     // Start animation
@@ -300,13 +384,18 @@ function startFireworks() {
 }
 
 // ============================================
-// INITIALIZE
+// INITIALIZATION
 // ============================================
 
-// Show first page on load
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Valentine\'s Day website loaded! 💖');
+    console.log('💖 Valentine\'s website loaded and ready!');
     
-    // Make sure page 1 is active
-    document.getElementById('page1').classList.add('active');
+    // Ensure page 1 starts active
+    const page1 = document.getElementById('page1');
+    if (page1) {
+        page1.classList.add('active');
+    }
+
+    // Initialize slideshow
+    showSlide(slideIndex);
 });

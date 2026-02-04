@@ -3,97 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Will You Be My Valentine? 💖</title>
+    <title>the moment you've been waiting for</title>
     
-    <!-- Google Fonts - Romantic & Readable -->
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <!-- Google Fonts - Romantic & Cozy -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
     <!-- ============================================ -->
-    <!-- PAGE 1: INTRO -->
+    <!-- PAGE 1: INTRO (REWRITTEN & BEAUTIFIED) -->
     <!-- ============================================ -->
     <div id="page1" class="page active">
         <div class="content">
-            <p class="intro-text">
-                so, I have been working on this for a while now, and you know how I am im extra and you don't really know what I do, so this is to show you how I use my coding skills to make something useful (im a nerd LOL you knew this)
-            </p>
-            <button class="next-btn" onclick="goToPage(2)">Next 💕</button>
+            <div class="text-container">
+                <p class="intro-line">
+                    Okay… so I've been working on this for a little while now.
+                </p>
+                
+                <p class="intro-line">
+                    You know how I am — I'm <em>extra</em>, I overdo things, and half the time you don't even know what skills I have or what work I do or what coding I do or the skills that I have when it comes to coding! LOL.
+                </p>
+                
+                <p class="intro-line">
+                    But this… this is my way of showing you how I use my coding skills to turn feelings into something <span class="highlight">real</span>.
+                </p>
+                
+                <p class="intro-line">
+                    It's nerdy. It's a little dramatic.
+                </p>
+                
+                <p class="intro-line special">
+                    And yes… I know you already expected this from me 😅
+                </p>
+            </div>
+            
+            <button class="next-btn" onclick="goToPage(2)">
+                Next 💕
+            </button>
         </div>
     </div>
 
     <!-- ============================================ -->
-    <!-- PAGE 2: MEMORIES SLIDESHOW -->
+    <!-- PAGE 2: MEMORIES SLIDESHOW (ARTSY VERSION) -->
     <!-- ============================================ -->
     <div id="page2" class="page">
         <div class="content">
-            <h2 class="memories-title">lets take a look back at our</h2>
+            <h2 class="memories-title">
+                let's take a little walk through our favorite memories 💕
+            </h2>
             
-            <div class="slideshow-container">
-                <!-- Slide 1 -->
-                <div class="slide fade">
-                    <div class="image-placeholder">
-                        <span class="placeholder-text">📸 Photo 1</span>
-                        <!-- Replace this div with: <img src="your-image-1.jpg" alt="Memory 1"> -->
+            <div class="slideshow-wrapper">
+                <div class="slideshow-container">
+                    <!-- Slide 1 -->
+                    <div class="slide fade-slide">
+                        <div class="slide-inner">
+                            <div class="image-placeholder">
+                                <span class="placeholder-icon">📸</span>
+                                <span class="placeholder-text">Memory 1</span>
+                                <!-- Replace with: <img src="photo1.jpg" alt="Memory 1"> -->
+                            </div>
+                            <div class="slide-overlay"></div>
+                        </div>
                     </div>
+
+                    <!-- Slide 2 -->
+                    <div class="slide fade-slide">
+                        <div class="slide-inner">
+                            <div class="image-placeholder">
+                                <span class="placeholder-icon">📸</span>
+                                <span class="placeholder-text">Memory 2</span>
+                                <!-- Replace with: <img src="photo2.jpg" alt="Memory 2"> -->
+                            </div>
+                            <div class="slide-overlay"></div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="slide fade-slide">
+                        <div class="slide-inner">
+                            <div class="image-placeholder">
+                                <span class="placeholder-icon">📸</span>
+                                <span class="placeholder-text">Memory 3</span>
+                                <!-- Replace with: <img src="photo3.jpg" alt="Memory 3"> -->
+                            </div>
+                            <div class="slide-overlay"></div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 4 -->
+                    <div class="slide fade-slide">
+                        <div class="slide-inner">
+                            <div class="image-placeholder">
+                                <span class="placeholder-icon">📸</span>
+                                <span class="placeholder-text">Memory 4</span>
+                                <!-- Replace with: <img src="photo4.jpg" alt="Memory 4"> -->
+                            </div>
+                            <div class="slide-overlay"></div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 5 -->
+                    <div class="slide fade-slide">
+                        <div class="slide-inner">
+                            <div class="image-placeholder">
+                                <span class="placeholder-icon">📸</span>
+                                <span class="placeholder-text">Memory 5</span>
+                                <!-- Replace with: <img src="photo5.jpg" alt="Memory 5"> -->
+                            </div>
+                            <div class="slide-overlay"></div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 6 -->
+                    <div class="slide fade-slide">
+                        <div class="slide-inner">
+                            <div class="image-placeholder">
+                                <span class="placeholder-icon">📸</span>
+                                <span class="placeholder-text">Memory 6</span>
+                                <!-- Replace with: <img src="photo6.jpg" alt="Memory 6"> -->
+                            </div>
+                            <div class="slide-overlay"></div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 7 -->
+                    <div class="slide fade-slide">
+                        <div class="slide-inner">
+                            <div class="image-placeholder">
+                                <span class="placeholder-icon">📸</span>
+                                <span class="placeholder-text">Memory 7</span>
+                                <!-- Replace with: <img src="photo7.jpg" alt="Memory 7"> -->
+                            </div>
+                            <div class="slide-overlay"></div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation arrows -->
+                    <a class="arrow prev" onclick="changeSlide(-1)">❮</a>
+                    <a class="arrow next-arrow" onclick="changeSlide(1)">❯</a>
                 </div>
 
-                <!-- Slide 2 -->
-                <div class="slide fade">
-                    <div class="image-placeholder">
-                        <span class="placeholder-text">📸 Photo 2</span>
-                        <!-- Replace this div with: <img src="your-image-2.jpg" alt="Memory 2"> -->
-                    </div>
+                <!-- Floating hearts decoration -->
+                <div class="floating-hearts">
+                    <span class="heart">💕</span>
+                    <span class="heart">💖</span>
+                    <span class="heart">💗</span>
                 </div>
-
-                <!-- Slide 3 -->
-                <div class="slide fade">
-                    <div class="image-placeholder">
-                        <span class="placeholder-text">📸 Photo 3</span>
-                        <!-- Replace this div with: <img src="your-image-3.jpg" alt="Memory 3"> -->
-                    </div>
-                </div>
-
-                <!-- Slide 4 -->
-                <div class="slide fade">
-                    <div class="image-placeholder">
-                        <span class="placeholder-text">📸 Photo 4</span>
-                        <!-- Replace this div with: <img src="your-image-4.jpg" alt="Memory 4"> -->
-                    </div>
-                </div>
-
-                <!-- Slide 5 -->
-                <div class="slide fade">
-                    <div class="image-placeholder">
-                        <span class="placeholder-text">📸 Photo 5</span>
-                        <!-- Replace this div with: <img src="your-image-5.jpg" alt="Memory 5"> -->
-                    </div>
-                </div>
-
-                <!-- Slide 6 -->
-                <div class="slide fade">
-                    <div class="image-placeholder">
-                        <span class="placeholder-text">📸 Photo 6</span>
-                        <!-- Replace this div with: <img src="your-image-6.jpg" alt="Memory 6"> -->
-                    </div>
-                </div>
-
-                <!-- Slide 7 -->
-                <div class="slide fade">
-                    <div class="image-placeholder">
-                        <span class="placeholder-text">📸 Photo 7</span>
-                        <!-- Replace this div with: <img src="your-image-7.jpg" alt="Memory 7"> -->
-                    </div>
-                </div>
-
-                <!-- Navigation arrows -->
-                <a class="prev" onclick="changeSlide(-1)">❮</a>
-                <a class="next" onclick="changeSlide(1)">❯</a>
             </div>
 
-            <!-- Dots for navigation -->
+            <!-- Navigation dots -->
             <div class="dots-container">
                 <span class="dot" onclick="currentSlide(1)"></span>
                 <span class="dot" onclick="currentSlide(2)"></span>
@@ -104,19 +166,46 @@
                 <span class="dot" onclick="currentSlide(7)"></span>
             </div>
 
-            <button class="next-btn" onclick="goToPage(3)">Next 💕</button>
+            <button class="next-btn" onclick="goToPage(3)">
+                Next 💕
+            </button>
         </div>
     </div>
 
     <!-- ============================================ -->
-    <!-- PAGE 3: LOVE MESSAGE -->
+    <!-- PAGE 3: LOVE MESSAGE (REWRITTEN & POLISHED) -->
     <!-- ============================================ -->
     <div id="page3" class="page">
         <div class="content">
-            <p class="love-message">
-                through thick and thin, I was certain that you were the one for me I put a lot of effort into something this small so I hope you liked it ik its simple and not much but man , I can not tell you how crazy difficult this was lol I love you so much, and I know we got aggravated at the small things but that shows that we care, expect your gift soon (if I haven't given it already) ... a lil hint? it'll be comfy ;)
-            </p>
-            <button class="next-btn" onclick="goToPage(4)">Next 💕</button>
+            <div class="love-card">
+                <p class="love-paragraph">
+                    Through everything — the good days, the stressful days, the tiny arguments over nothing — I've always been sure of one thing.
+                </p>
+                
+                <p class="love-paragraph emphasis">
+                    You're my person.
+                </p>
+                
+                <p class="love-paragraph">
+                    I put way too much effort into something this small, but honestly… that's kind of how I love. It wasn't easy. It took way longer than I'd ever admit. And yes — it was ridiculously difficult.
+                </p>
+                
+                <p class="love-paragraph">
+                    But you're worth every second.
+                </p>
+                
+                <p class="love-paragraph">
+                    I love you more than I'm ever able to put into words. And even when we get annoyed over the little things, it only reminds me how much we care.
+                </p>
+                
+                <p class="love-paragraph final">
+                    Expect your gift soon (if you haven't already gotten it)… here's a tiny hint: <span class="hint">it'll be comfy</span> 😉
+                </p>
+            </div>
+            
+            <button class="next-btn" onclick="goToPage(4)">
+                Next 💕
+            </button>
         </div>
     </div>
 
@@ -125,33 +214,46 @@
     <!-- ============================================ -->
     <div id="page4" class="page">
         <div class="content">
-            <h1 class="question-title">do you want to be my valentine?</h1>
+            <h1 class="question-title">
+                will you be my valentine?
+            </h1>
             
-            <div class="buttons-container">
-                <button class="yes-btn" onclick="handleYes()">Yes 💖</button>
-                <button class="no-btn" id="noBtn" onmouseenter="handleNoHover()">No</button>
+            <div class="buttons-wrapper">
+                <div class="buttons-container">
+                    <button class="yes-btn" onclick="handleYes()">
+                        Yes 💖
+                    </button>
+                    <button class="no-btn" id="noBtn" onmouseenter="handleNoHover()">
+                        No
+                    </button>
+                </div>
             </div>
 
-            <!-- Message that appears when hovering over No -->
+            <!-- Funny message when hovering over No -->
             <p class="no-message" id="noMessage"></p>
         </div>
     </div>
 
     <!-- ============================================ -->
-    <!-- CELEBRATION SCREEN (Hidden initially) -->
+    <!-- CELEBRATION SCREEN -->
     <!-- ============================================ -->
     <div id="celebration" class="celebration-screen">
         <div class="celebration-content">
-            <h1 class="yay-text">YAY! 💖✨</h1>
+            <h1 class="yay-text">She said YES! 💖✨</h1>
             
             <!-- Giving flowers GIF -->
-            <img 
-                src="https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-hug.gif" 
-                alt="Giving flowers" 
-                class="celebration-gif"
-            >
+            <div class="gif-container">
+                <img 
+                    src="https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-hug.gif" 
+                    alt="Giving flowers" 
+                    class="celebration-gif"
+                >
+            </div>
             
-            <p class="celebration-message">I knew you'd say yes! 💕</p>
+            <p class="celebration-message">
+                I knew you'd say yes! 💕<br>
+                You just made me the happiest person alive
+            </p>
         </div>
 
         <!-- Fireworks canvas -->
@@ -159,6 +261,9 @@
 
         <!-- Confetti container -->
         <div id="confettiContainer"></div>
+
+        <!-- Sparkles container -->
+        <div id="sparklesContainer"></div>
     </div>
 
     <script src="script.js"></script>
