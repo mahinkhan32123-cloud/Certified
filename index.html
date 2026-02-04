@@ -1,144 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>Valentine 💖</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine? 💖</title>
+    
+    <!-- Google Fonts - Romantic & Readable -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<audio id="bgMusic"></audio>
-
-<!-- =====================
-     STAGE 1 — SONG SELECT
-===================== -->
-<section class="stage" id="songSelection">
-    <div class="container">
-        <h1 class="romantic-title">Choose a song 💕</h1>
-        <div class="song-options">
-            <div class="song-card" data-song="with-you">
-                <div class="song-icon">🎶</div>
-                <p>With You</p>
-            </div>
-            <div class="song-card" data-song="sure-thing">
-                <div class="song-icon">💿</div>
-                <p>Sure Thing</p>
-            </div>
-            <div class="song-card" data-song="let-me-love-you">
-                <div class="song-icon">🎧</div>
-                <p>Let Me Love You</p>
-            </div>
+    <!-- ============================================ -->
+    <!-- PAGE 1: INTRO -->
+    <!-- ============================================ -->
+    <div id="page1" class="page active">
+        <div class="content">
+            <p class="intro-text">
+                so, I have been working on this for a while now, and you know how I am im extra and you don't really know what I do, so this is to show you how I use my coding skills to make something useful (im a nerd LOL you knew this)
+            </p>
+            <button class="next-btn" onclick="goToPage(2)">Next 💕</button>
         </div>
     </div>
-</section>
 
-<!-- =====================
-     STAGE 2 — VINYL
-===================== -->
-<section class="stage" id="songTransition">
-    <div class="music-player-animation">
-        <div class="vinyl-record">
-            <div class="vinyl-center"></div>
-        </div>
-        <div class="music-notes">
-            <span>🎵</span><span>🎶</span><span>🎵</span>
-        </div>
-    </div>
-</section>
-
-<!-- =====================
-     STAGE 3 — ENVELOPE INTRO
-===================== -->
-<section class="stage" id="envelopeIntro">
-    <div class="container">
-        <button class="next-btn" id="nextToEnvelope">Open something special 💌</button>
-    </div>
-</section>
-
-<!-- =====================
-     STAGE 4 — ENVELOPE
-===================== -->
-<section class="stage" id="envelopeStage">
-    <div class="container">
-        <div class="envelope" id="envelope">
-            <div class="envelope-flap"></div>
-            <div class="envelope-body"></div>
-            <div class="heart-seal" id="heartSeal">❤️</div>
-
-            <div class="letter">
-                <div class="letter-content">
-                    <p class="greeting">My Love,</p>
-                    <p>
-                        This is just a little reminder that you mean the world to me.
-                        Every smile, every moment, every heartbeat with you is special.
-                    </p>
-                    <p class="signature">Forever yours 💖</p>
-                    <button class="next-btn" id="nextToDrumroll">Continue</button>
+    <!-- ============================================ -->
+    <!-- PAGE 2: MEMORIES SLIDESHOW -->
+    <!-- ============================================ -->
+    <div id="page2" class="page">
+        <div class="content">
+            <h2 class="memories-title">lets take a look back at our</h2>
+            
+            <div class="slideshow-container">
+                <!-- Slide 1 -->
+                <div class="slide fade">
+                    <div class="image-placeholder">
+                        <span class="placeholder-text">📸 Photo 1</span>
+                        <!-- Replace this div with: <img src="your-image-1.jpg" alt="Memory 1"> -->
+                    </div>
                 </div>
+
+                <!-- Slide 2 -->
+                <div class="slide fade">
+                    <div class="image-placeholder">
+                        <span class="placeholder-text">📸 Photo 2</span>
+                        <!-- Replace this div with: <img src="your-image-2.jpg" alt="Memory 2"> -->
+                    </div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="slide fade">
+                    <div class="image-placeholder">
+                        <span class="placeholder-text">📸 Photo 3</span>
+                        <!-- Replace this div with: <img src="your-image-3.jpg" alt="Memory 3"> -->
+                    </div>
+                </div>
+
+                <!-- Slide 4 -->
+                <div class="slide fade">
+                    <div class="image-placeholder">
+                        <span class="placeholder-text">📸 Photo 4</span>
+                        <!-- Replace this div with: <img src="your-image-4.jpg" alt="Memory 4"> -->
+                    </div>
+                </div>
+
+                <!-- Slide 5 -->
+                <div class="slide fade">
+                    <div class="image-placeholder">
+                        <span class="placeholder-text">📸 Photo 5</span>
+                        <!-- Replace this div with: <img src="your-image-5.jpg" alt="Memory 5"> -->
+                    </div>
+                </div>
+
+                <!-- Slide 6 -->
+                <div class="slide fade">
+                    <div class="image-placeholder">
+                        <span class="placeholder-text">📸 Photo 6</span>
+                        <!-- Replace this div with: <img src="your-image-6.jpg" alt="Memory 6"> -->
+                    </div>
+                </div>
+
+                <!-- Slide 7 -->
+                <div class="slide fade">
+                    <div class="image-placeholder">
+                        <span class="placeholder-text">📸 Photo 7</span>
+                        <!-- Replace this div with: <img src="your-image-7.jpg" alt="Memory 7"> -->
+                    </div>
+                </div>
+
+                <!-- Navigation arrows -->
+                <a class="prev" onclick="changeSlide(-1)">❮</a>
+                <a class="next" onclick="changeSlide(1)">❯</a>
             </div>
+
+            <!-- Dots for navigation -->
+            <div class="dots-container">
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+                <span class="dot" onclick="currentSlide(4)"></span>
+                <span class="dot" onclick="currentSlide(5)"></span>
+                <span class="dot" onclick="currentSlide(6)"></span>
+                <span class="dot" onclick="currentSlide(7)"></span>
+            </div>
+
+            <button class="next-btn" onclick="goToPage(3)">Next 💕</button>
         </div>
-        <p class="envelope-instruction">Tap the heart 💗</p>
     </div>
-</section>
 
-<!-- =====================
-     STAGE 5 — DRUMROLL
-===================== -->
-<section class="stage" id="drumrollStage">
-    <div class="container">
-        <h1 class="drumroll-text">Drumroll please…</h1>
-        <div class="drum">🥁</div>
-    </div>
-</section>
-
-<!-- =====================
-     STAGE 6 — QUESTION
-===================== -->
-<section class="stage" id="questionStage">
-    <div class="container">
-        <h1 class="question-title">Will you be my Valentine? 💘</h1>
-        <div class="button-container">
-            <button class="answer-btn yes-btn" id="yesBtn">YES 💖</button>
-            <button class="answer-btn no-btn" id="noBtn">No</button>
+    <!-- ============================================ -->
+    <!-- PAGE 3: LOVE MESSAGE -->
+    <!-- ============================================ -->
+    <div id="page3" class="page">
+        <div class="content">
+            <p class="love-message">
+                through thick and thin, I was certain that you were the one for me I put a lot of effort into something this small so I hope you liked it ik its simple and not much but man , I can not tell you how crazy difficult this was lol I love you so much, and I know we got aggravated at the small things but that shows that we care, expect your gift soon (if I haven't given it already) ... a lil hint? it'll be comfy ;)
+            </p>
+            <button class="next-btn" onclick="goToPage(4)">Next 💕</button>
         </div>
-        <p class="no-message" id="noMessage"></p>
     </div>
-</section>
 
-<!-- =====================
-     STAGE 7 — CELEBRATION
-===================== -->
-<section class="stage" id="celebrationStage">
-    <div class="container">
-        <h1 class="celebration-title">YAYYYY!!! 🎉</h1>
-        <p class="celebration-subtitle">Happy Valentine’s Day 💕</p>
-        <img class="woohoo-gif" src="https://media.giphy.com/media/26xBwdIuRJiAIqHwA/giphy.gif" />
+    <!-- ============================================ -->
+    <!-- PAGE 4: THE QUESTION -->
+    <!-- ============================================ -->
+    <div id="page4" class="page">
+        <div class="content">
+            <h1 class="question-title">do you want to be my valentine?</h1>
+            
+            <div class="buttons-container">
+                <button class="yes-btn" onclick="handleYes()">Yes 💖</button>
+                <button class="no-btn" id="noBtn" onmouseenter="handleNoHover()">No</button>
+            </div>
+
+            <!-- Message that appears when hovering over No -->
+            <p class="no-message" id="noMessage"></p>
+        </div>
     </div>
-    <div id="confettiContainer"></div>
-    <div id="heartsContainer"></div>
-    <div id="fireworksContainer"></div>
-</section>
 
-<!-- =====================
-     DEBUG NEXT BUTTON
-===================== -->
-<button id="debugNextBtn" style="
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 99999;
-    padding: 14px 26px;
-    font-size: 18px;
-    border-radius: 30px;
-    border: none;
-    background: #c2185b;
-    color: white;
-    cursor: pointer;
-">
-    NEXT →
-</button>
+    <!-- ============================================ -->
+    <!-- CELEBRATION SCREEN (Hidden initially) -->
+    <!-- ============================================ -->
+    <div id="celebration" class="celebration-screen">
+        <div class="celebration-content">
+            <h1 class="yay-text">YAY! 💖✨</h1>
+            
+            <!-- Giving flowers GIF -->
+            <img 
+                src="https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-hug.gif" 
+                alt="Giving flowers" 
+                class="celebration-gif"
+            >
+            
+            <p class="celebration-message">I knew you'd say yes! 💕</p>
+        </div>
 
-<script src="script.js"></script>
+        <!-- Fireworks canvas -->
+        <canvas id="fireworksCanvas"></canvas>
+
+        <!-- Confetti container -->
+        <div id="confettiContainer"></div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
