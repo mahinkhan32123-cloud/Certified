@@ -13,12 +13,25 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Audio element for background music -->
+    <audio id="bgMusic" loop>
+        <!-- Add your music file here -->
+        <!-- <source src="your-music.mp3" type="audio/mpeg"> -->
+    </audio>
 
     <!-- ============================================ -->
     <!-- PAGE 1: INTRO (REWRITTEN & BEAUTIFIED) -->
     <!-- ============================================ -->
     <div id="page1" class="page active">
         <div class="content">
+            <!-- Music Play Button -->
+            <div class="music-control" id="musicControl">
+                <button class="play-music-btn" id="playMusicBtn">
+                    <span class="music-icon">🎵</span>
+                    <span class="music-text">press play before we begin 💗</span>
+                </button>
+            </div>
+
             <div class="text-container">
                 <p class="intro-line">
                     So… hey. 💕
@@ -196,7 +209,7 @@
             
             <div class="buttons-wrapper">
                 <div class="buttons-container">
-                    <button class="yes-btn" onclick="handleYes()">
+                    <button class="yes-btn" id="yesBtn" onmouseenter="handleYesHover()" onclick="handleYes()">
                         Yes 💖
                     </button>
                     <button class="no-btn" id="noBtn" onmouseenter="handleNoHover()">
@@ -204,6 +217,9 @@
                     </button>
                 </div>
             </div>
+
+            <!-- Hint message when hovering Yes before No -->
+            <p class="hint-message" id="hintMessage"></p>
 
             <!-- Funny message when hovering over No -->
             <p class="no-message" id="noMessage"></p>

@@ -4,6 +4,46 @@
 /* ============================================ */
 
 // ============================================
+// BACKGROUND MUSIC CONTROL
+// ============================================
+
+let musicPlaying = false;
+
+/**
+ * Initialize music control button
+ */
+function initMusicControl() {
+    const playBtn = document.getElementById('playMusicBtn');
+    const bgMusic = document.getElementById('bgMusic');
+    
+    if (!playBtn || !bgMusic) return;
+    
+    playBtn.addEventListener('click', () => {
+        if (!musicPlaying) {
+            // Try to play music
+            bgMusic.volume = 0.3; // Gentle volume
+            bgMusic.play()
+                .then(() => {
+                    musicPlaying = true;
+                    playBtn.classList.add('playing');
+                    playBtn.querySelector('.music-text').textContent = 'playing ♡';
+                    console.log('Music started playing');
+                })
+                .catch(err => {
+                    console.log('Music play failed:', err);
+                    playBtn.querySelector('.music-text').textContent = 'no music available 💔';
+                });
+        } else {
+            // Pause music
+            bgMusic.pause();
+            musicPlaying = false;
+            playBtn.classList.remove('playing');
+            playBtn.querySelector('.music-text').textContent = 'press play before we begin 💗';
+        }
+    });
+}
+
+// ============================================
 // PAGE NAVIGATION
 // ============================================
 
@@ -130,8 +170,14 @@ function initSlideshow() {
 // }
 
 // ============================================
-// NO BUTTON - PLAYFUL DODGING
+// YES/NO BUTTON - PLAYFUL INTERACTION
 // ============================================
+
+let hasHoveredNo = false;
+const yesBtn = document.getElementById('yesBtn');
+const noBtn = document.getElementById('noBtn');
+const hintMessage = document.getElementById('hintMessage');
+const noMessage = document.getElementById('noMessage');
 
 const noMessages = [
     "NO?!",
@@ -150,34 +196,60 @@ let noButtonScale = 1;
 let noHoverCount = 0;
 
 /**
+ * Handle hovering over YES button before NO is hovered
+ */
+function handleYesHover() {
+    if (!hasHoveredNo && yesBtn && hintMessage) {
+        // Show hint message
+        hintMessage.textContent = "WAITTT! look how funny I am — look what happens when you click no LOL";
+        
+        // Make Yes button look disabled
+        yesBtn.classList.add('disabled');
+        
+        // Clear hint after a moment
+        setTimeout(() => {
+            hintMessage.textContent = '';
+        }, 3000);
+    }
+}
+
+/**
  * Handle hovering over the No button
- * Makes it dodge and shrink playfully
+ * Unlocks Yes button and makes No dodge
  */
 function handleNoHover() {
-    const noBtn = document.getElementById('noBtn');
-    const noMessage = document.getElementById('noMessage');
-    
     if (!noBtn || !noMessage) return;
 
-    noHoverCount++;
+    // First time hovering No - unlock Yes button
+    if (!hasHoveredNo) {
+        hasHoveredNo = true;
+        console.log('NO button hovered - YES is now unlocked!');
+        
+        // Remove disabled state from Yes button
+        if (yesBtn) {
+            yesBtn.classList.remove('disabled');
+        }
+        
+        // Clear hint message
+        if (hintMessage) {
+            hintMessage.textContent = '';
+        }
+    }
 
-    // Shrink progressively (but not too small)
+    // Do the chaotic dodging behavior
+    noHoverCount++;
     noButtonScale = Math.max(0.35, noButtonScale - 0.12);
 
-    // Calculate random movement (larger movements as user tries more)
     const moveRange = 200 + (noHoverCount * 20);
     const randomX = (Math.random() - 0.5) * moveRange;
     const randomY = (Math.random() - 0.5) * (moveRange * 0.7);
 
-    // Apply transformation with smooth easing
     noBtn.style.transform = `translate(${randomX}px, ${randomY}px) scale(${noButtonScale}) rotate(${Math.random() * 20 - 10}deg)`;
     noBtn.style.transition = 'transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
 
-    // Show random funny message
     const randomMsg = noMessages[Math.floor(Math.random() * noMessages.length)];
     noMessage.textContent = randomMsg;
 
-    // Clear message after delay
     setTimeout(() => {
         noMessage.textContent = '';
     }, 1800);
@@ -189,9 +261,20 @@ function handleNoHover() {
 
 /**
  * Handle Yes button click
- * Triggers full celebration sequence
+ * Only triggers if NO was hovered first
  */
 function handleYes() {
+    if (!hasHoveredNo) {
+        // Not allowed yet - show hint
+        if (hintMessage) {
+            hintMessage.textContent = "WAITTT! look how funny I am — look what happens when you click no LOL";
+            setTimeout(() => {
+                hintMessage.textContent = '';
+            }, 3000);
+        }
+        return;
+    }
+    
     console.log('She said YES! 💖');
     
     const celebration = document.getElementById('celebration');
@@ -199,7 +282,6 @@ function handleYes() {
         celebration.classList.add('active');
     }
 
-    // Start all celebration effects
     setTimeout(() => {
         createConfetti();
         startFireworks();
@@ -419,6 +501,9 @@ function startFireworks() {
 document.addEventListener('DOMContentLoaded', () => {
     console.log('💖 Valentine\'s website loaded and ready!');
     
+    // Initialize music control
+    initMusicControl();
+    
     // Ensure page 1 starts active
     const page1 = document.getElementById('page1');
     if (page1) {
@@ -433,5 +518,11 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < slides.length; i++) {
             slides[i].style.display = 'none';
         }
+    }
+    
+    // Initialize Yes button as disabled
+    const yesButton = document.getElementById('yesBtn');
+    if (yesButton) {
+        yesButton.classList.add('disabled');
     }
 });

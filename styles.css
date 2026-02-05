@@ -96,6 +96,57 @@ body::before {
 /* ============================================ */
 /* PAGE 1: INTRO (BEAUTIFIED) */
 /* ============================================ */
+.music-control {
+    margin-bottom: 30px;
+    flex-shrink: 0;
+}
+
+.play-music-btn {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 15px 35px;
+    background: linear-gradient(135deg, #ff8fb3 0%, #ffc4d6 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(255, 143, 179, 0.3);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 auto;
+}
+
+.play-music-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(255, 143, 179, 0.4);
+}
+
+.play-music-btn.playing {
+    background: linear-gradient(135deg, #a8e6cf 0%, #dcedc1 100%);
+}
+
+.music-icon {
+    font-size: 24px;
+    animation: musicPulse 2s ease-in-out infinite;
+}
+
+@keyframes musicPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.play-music-btn.playing .music-icon {
+    animation: musicSpin 3s linear infinite;
+}
+
+@keyframes musicSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
 .text-container {
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(10px);
@@ -508,6 +559,18 @@ body::before {
     box-shadow: 0 18px 50px rgba(255, 107, 157, 0.6);
 }
 
+.yes-btn.disabled {
+    transform: scale(0.9);
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: linear-gradient(135deg, #d4d4d4 0%, #b5b5b5 100%);
+}
+
+.yes-btn.disabled:hover {
+    transform: scale(0.85);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
 .no-btn {
     font-family: 'Poppins', sans-serif;
     font-size: 32px;
@@ -521,6 +584,17 @@ body::before {
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
     transition: all 0.25s ease;
     position: relative;
+}
+
+.hint-message {
+    font-size: 24px;
+    color: #ff6b9d;
+    font-weight: 600;
+    min-height: 35px;
+    margin-bottom: 10px;
+    animation: messagePopIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
 }
 
 .no-message {
