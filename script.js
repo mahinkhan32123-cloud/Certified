@@ -27,10 +27,10 @@ function goToPage(pageNumber) {
 
     // Special actions for specific pages
     if (pageNumber === 2) {
-        // Start slideshow on page 2
+        // Initialize and start slideshow on page 2
         setTimeout(() => {
-            showSlide(slideIndex);
-        }, 100);
+            initSlideshow();
+        }, 200);
     }
 }
 
@@ -39,6 +39,7 @@ function goToPage(pageNumber) {
 // ============================================
 
 let slideIndex = 1;
+let slideshowInitialized = false;
 
 /**
  * Display the current slide with Ken Burns effect
@@ -48,15 +49,25 @@ function showSlide(n) {
     const slides = document.getElementsByClassName('slide');
     const dots = document.getElementsByClassName('dot');
 
-    if (slides.length === 0) return;
+    if (slides.length === 0) {
+        console.log('No slides found');
+        return;
+    }
 
     // Wrap around if needed
-    if (n > slides.length) { slideIndex = 1; }
-    if (n < 1) { slideIndex = slides.length; }
+    if (n > slides.length) { 
+        slideIndex = 1; 
+    }
+    if (n < 1) { 
+        slideIndex = slides.length; 
+    }
+
+    console.log(`Showing slide ${slideIndex} of ${slides.length}`);
 
     // Hide all slides
     for (let i = 0; i < slides.length; i++) {
         slides[i].classList.remove('active-slide');
+        slides[i].style.display = 'none';
     }
 
     // Deactivate all dots
@@ -65,7 +76,10 @@ function showSlide(n) {
     }
 
     // Show current slide with animation
-    slides[slideIndex - 1].classList.add('active-slide');
+    if (slides[slideIndex - 1]) {
+        slides[slideIndex - 1].style.display = 'block';
+        slides[slideIndex - 1].classList.add('active-slide');
+    }
     
     // Activate current dot
     if (dots[slideIndex - 1]) {
@@ -91,14 +105,29 @@ function currentSlide(n) {
     showSlide(slideIndex);
 }
 
+/**
+ * Initialize slideshow when page 2 becomes active
+ */
+function initSlideshow() {
+    if (!slideshowInitialized) {
+        console.log('Initializing slideshow');
+        slideshowInitialized = true;
+        slideIndex = 1;
+        showSlide(slideIndex);
+    }
+}
+
 // Optional: Auto-play slideshow (uncomment to enable)
 // let autoPlayInterval;
 // function startAutoPlay() {
+//     if (autoPlayInterval) clearInterval(autoPlayInterval);
 //     autoPlayInterval = setInterval(() => {
 //         changeSlide(1);
 //     }, 5000);
 // }
-// setTimeout(startAutoPlay, 2000);
+// function stopAutoPlay() {
+//     if (autoPlayInterval) clearInterval(autoPlayInterval);
+// }
 
 // ============================================
 // NO BUTTON - PLAYFUL DODGING
@@ -396,6 +425,13 @@ document.addEventListener('DOMContentLoaded', () => {
         page1.classList.add('active');
     }
 
-    // Initialize slideshow
-    showSlide(slideIndex);
+    // Pre-initialize slideshow structure
+    const slides = document.getElementsByClassName('slide');
+    if (slides.length > 0) {
+        console.log(`Found ${slides.length} slides`);
+        // Hide all slides initially
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].style.display = 'none';
+        }
+    }
 });
