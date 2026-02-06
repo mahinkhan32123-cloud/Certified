@@ -15,8 +15,7 @@
 <body>
     <!-- Audio element for background music -->
     <audio id="bgMusic" loop>
-        <!-- Add your music file here -->
-        <!-- <source src="your-music.mp3" type="audio/mpeg"> -->
+        <source src="ssstik.io_1770348466574.mp3" type="audio/mpeg">
     </audio>
 
     <!-- ============================================ -->
@@ -28,8 +27,9 @@
             <div class="music-control" id="musicControl">
                 <button class="play-music-btn" id="playMusicBtn">
                     <span class="music-icon">🎵</span>
-                    <span class="music-text">press play before we begin 💗</span>
+                    <span class="music-text">hey, to start… click me 💕</span>
                 </button>
+                <p class="volume-reminder" id="volumeReminder"></p>
             </div>
 
             <div class="text-container">
@@ -54,7 +54,7 @@
                 </p>
             </div>
             
-            <button class="next-btn" onclick="goToPage(2)">
+            <button class="next-btn" id="nextBtn1" onclick="goToPage(2)" disabled>
                 Next 💕
             </button>
         </div>

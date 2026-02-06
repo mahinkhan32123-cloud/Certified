@@ -147,6 +147,26 @@ body::before {
     to { transform: rotate(360deg); }
 }
 
+.volume-reminder {
+    font-size: 18px;
+    color: #ff6b9d;
+    font-weight: 500;
+    margin-top: 15px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    font-style: italic;
+}
+
+.volume-reminder.show {
+    opacity: 1;
+    animation: gentleBounce 2s ease-in-out infinite;
+}
+
+@keyframes gentleBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
 .text-container {
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(10px);
@@ -204,6 +224,18 @@ body::before {
     overflow: hidden;
     flex-shrink: 0;
     margin-top: 15px;
+}
+
+.next-btn:disabled {
+    background: linear-gradient(135deg, #d4d4d4 0%, #b5b5b5 100%);
+    cursor: not-allowed;
+    opacity: 0.5;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.next-btn:disabled:hover {
+    transform: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .next-btn::before {

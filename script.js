@@ -15,30 +15,58 @@ let musicPlaying = false;
 function initMusicControl() {
     const playBtn = document.getElementById('playMusicBtn');
     const bgMusic = document.getElementById('bgMusic');
+    const nextBtn = document.getElementById('nextBtn1');
+    const volumeReminder = document.getElementById('volumeReminder');
     
     if (!playBtn || !bgMusic) return;
     
     playBtn.addEventListener('click', () => {
         if (!musicPlaying) {
             // Try to play music
-            bgMusic.volume = 0.3; // Gentle volume
+            bgMusic.volume = 0.4; // Good volume level
             bgMusic.play()
                 .then(() => {
                     musicPlaying = true;
                     playBtn.classList.add('playing');
                     playBtn.querySelector('.music-text').textContent = 'playing ♡';
                     console.log('Music started playing');
+                    
+                    // Enable the Next button
+                    if (nextBtn) {
+                        nextBtn.disabled = false;
+                    }
+                    
+                    // Show cute volume reminder
+                    if (volumeReminder) {
+                        volumeReminder.textContent = 'psst… turn the volume up a bit 🔊💕';
+                        volumeReminder.classList.add('show');
+                        
+                        // Hide reminder after 5 seconds
+                        setTimeout(() => {
+                            volumeReminder.classList.remove('show');
+                        }, 5000);
+                    }
                 })
                 .catch(err => {
                     console.log('Music play failed:', err);
-                    playBtn.querySelector('.music-text').textContent = 'no music available 💔';
+                    playBtn.querySelector('.music-text').textContent = 'music not available 💔';
+                    
+                    // Still enable Next button even if music fails
+                    if (nextBtn) {
+                        nextBtn.disabled = false;
+                    }
                 });
         } else {
             // Pause music
             bgMusic.pause();
             musicPlaying = false;
             playBtn.classList.remove('playing');
-            playBtn.querySelector('.music-text').textContent = 'press play before we begin 💗';
+            playBtn.querySelector('.music-text').textContent = 'hey, to start… click me 💕';
+            
+            // Hide volume reminder
+            if (volumeReminder) {
+                volumeReminder.classList.remove('show');
+            }
         }
     });
 }
